@@ -69,6 +69,12 @@ Pro/2, Seedream, Recraft, GPT-Image, Grok, Reve, Kandinsky, Wan 2.1-2.7, LTX-2.3
 Veo, Sora, Seedance, Luma, Runway, MiniMax, PixVerse, Vidu, Pika, Stable Audio, ACE-Step, ElevenLabs,
 ChatterBox, Hunyuan3D, Tripo, Rodin, Meshy. Anything else falls back to the template library.
 
+<div align="center">
+
+<img src="docs/assets/models_by_modality.png" width="760" alt="Per-model prompt recipes by modality: 20 image, 16 video, 4 audio, 4 3D, 44 total, split local/open-weight vs API">
+
+</div>
+
 ## Prerequisites
 
 - [Claude Code](https://claude.com/claude-code) CLI (`claude` on PATH)
