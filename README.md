@@ -88,81 +88,62 @@ template-only): **[docs/MODEL_INDEX.md](docs/MODEL_INDEX.md)**.
 `✅ recipe` = a dedicated, up-to-date prompting guide in [MODELS.md](skills/comfyui/MODELS.md). `🔧 tool` = an
 enhancement/utility note (settings, not prompts). **Updated: 2026-06-19 23:08.**
 
-**Image — text-to-image and edit (local / open-weight)**
+One table, columns aligned to the widest row (the video models).
 
-| Model | Prompt recipe | Runs |
-|---|:---:|---|
-| FLUX.1 / FLUX.2 / Kontext | ✅ | local + API |
-| Z-Image-Turbo | ✅ | local |
-| Qwen-Image / Edit | ✅ | local |
-| SDXL · SD 1.5 · SD 3.5 | ✅ | local |
-| HiDream-I1 | ✅ | local |
-| BRIA 3.x | ✅ | local |
-| OmniGen v1/v2 | ✅ | local |
-| Chroma | ✅ | local |
-| Krea 1 | ✅ | local |
-| ERNIE-Image | ✅ | local |
-| Capybara (image+video) | ✅ | local |
-| Bernini-R (relight) | ✅ | local |
-| Anima (anime) | ✅ | local |
-| NewBie (anime, XML) | ✅ | local |
-| PixelDiT | ✅ | local |
-| Ovis-Image (text) | ✅ | local |
-| Lens / Lens Turbo | ✅ | local |
-| Quiver (text→SVG) | ✅ | API |
-
-**Image — API / closed**
-
-| Model | Prompt recipe | Runs |
-|---|:---:|---|
-| Ideogram 2/3 | ✅ | API |
-| Nano Banana Pro / 2 | ✅ | API |
-| Seedream 4/5 | ✅ | API |
-| Recraft V3 | ✅ | API |
-| GPT-Image | ✅ | API |
-| Grok Image | ✅ | API |
-| Reve | ✅ | API |
-| Kandinsky 3.x | ✅ | local + API |
-| FireRed / LongCat / ChronoEdit (edit) | ✅ | local |
-
-**Video**
-
-| Model | Prompt recipe | Runs |
-|---|:---:|---|
-| Wan 2.1–2.7 (+VACE/Animate/ATI) | ✅ | local + API |
-| LTX-2.3 / LTX-2 Pro | ✅ | local |
-| Hunyuan Video | ✅ | local |
-| SVD (image-to-video) | ✅ | local |
-| HuMo (lip-sync) | ✅ | local |
-| SCAIL-2 (character) | ✅ | local |
-| HappyHorse 1.0 | ✅ | API |
-| Kling (1.6–3.0, O1/O3) | ✅ | API |
-| Veo 3/3.1 | ✅ | API |
-| Sora 2 | ✅ | API |
-| Seedance 1.0/1.5/2.0 | ✅ | API |
-| Luma Ray · Runway Gen-4/4.5 | ✅ | API |
-| MiniMax/Hailuo · PixVerse · Vidu · Pika | ✅ | API |
-
-**Audio and 3D**
-
-| Model | Prompt recipe | Runs |
-|---|:---:|---|
-| Stable Audio · ACE-Step · ChatterBox | ✅ | local |
-| ElevenLabs · Sonilo | ✅ | API |
-| Hunyuan3D | ✅ | local |
-| Tripo · Rodin · Meshy | ✅ | API |
-
-**Enhancement and utility (🔧 settings, not prompts)**
-
-| Tool | Type |
-|---|---|
-| Real-ESRGAN · SUPIR · SeedVR2 · FlashVSR · Topaz · Magnific | upscale / restore |
-| FILM · RIFE | frame interpolation |
-| SAM3 · BiRefNet | segmentation / matting |
-| Depth Anything v2/v3 · MoGe | depth / geometry |
-| DWPose · Mediapipe | pose / landmarks |
-| IP-Adapter · LivePortrait | conditioning / portrait |
-| VOID | video object removal |
+| Modality | Model / tool | Prompt recipe | Runs |
+|---|---|:---:|---|
+| Image | FLUX.1 / FLUX.2 / Kontext | ✅ | local + API |
+| Image | Z-Image-Turbo | ✅ | local |
+| Image | Qwen-Image / Edit | ✅ | local |
+| Image | SDXL · SD 1.5 · SD 3.5 | ✅ | local |
+| Image | HiDream-I1 | ✅ | local |
+| Image | BRIA 3.x | ✅ | local |
+| Image | OmniGen v1/v2 | ✅ | local |
+| Image | Chroma | ✅ | local |
+| Image | Krea 1 | ✅ | local |
+| Image | ERNIE-Image | ✅ | local |
+| Image | Capybara (image+video) | ✅ | local |
+| Image | Bernini-R (relight) | ✅ | local |
+| Image | Anima (anime) | ✅ | local |
+| Image | NewBie (anime, XML prompts) | ✅ | local |
+| Image | PixelDiT | ✅ | local |
+| Image | Ovis-Image (text rendering) | ✅ | local |
+| Image | Lens / Lens Turbo | ✅ | local |
+| Image | Quiver (text to SVG) | ✅ | API |
+| Image | Ideogram 2/3 | ✅ | API |
+| Image | Nano Banana Pro / 2 | ✅ | API |
+| Image | Seedream 4/5 | ✅ | API |
+| Image | Recraft V3 | ✅ | API |
+| Image | GPT-Image | ✅ | API |
+| Image | Grok Image | ✅ | API |
+| Image | Reve | ✅ | API |
+| Image | Kandinsky 3.x | ✅ | local + API |
+| Image edit | FireRed / LongCat / ChronoEdit | ✅ | local |
+| Video | Wan 2.1-2.7 (+VACE/Animate/ATI) | ✅ | local + API |
+| Video | LTX-2.3 / LTX-2 Pro | ✅ | local |
+| Video | Hunyuan Video | ✅ | local |
+| Video | SVD (image-to-video) | ✅ | local |
+| Video | HuMo (lip-sync) | ✅ | local |
+| Video | SCAIL-2 (character) | ✅ | local |
+| Video | HappyHorse 1.0 | ✅ | API |
+| Video | Kling (1.6-3.0, O1/O3) | ✅ | API |
+| Video | Veo 3/3.1 | ✅ | API |
+| Video | Sora 2 | ✅ | API |
+| Video | Seedance 1.0/1.5/2.0 | ✅ | API |
+| Video | Luma Ray · Runway Gen-4/4.5 | ✅ | API |
+| Video | MiniMax/Hailuo · PixVerse · Vidu · Pika | ✅ | API |
+| Audio | Stable Audio · ACE-Step · ChatterBox | ✅ | local |
+| Audio | ElevenLabs · Sonilo | ✅ | API |
+| 3D | Hunyuan3D | ✅ | local |
+| 3D | Tripo · Rodin · Meshy | ✅ | API |
+| Enhance / utility | Real-ESRGAN, SUPIR, SeedVR2, FlashVSR (upscale/restore) | 🔧 settings | local |
+| Enhance / utility | Topaz, Magnific (upscale) | 🔧 settings | API |
+| Enhance / utility | FILM, RIFE (frame interpolation) | 🔧 settings | local |
+| Enhance / utility | SAM3, BiRefNet (segmentation/matting) | 🔧 settings | local |
+| Enhance / utility | Depth Anything v2/v3, MoGe (depth/geometry) | 🔧 settings | local |
+| Enhance / utility | DWPose, Mediapipe (pose/landmarks) | 🔧 settings | local |
+| Enhance / utility | IP-Adapter, LivePortrait (conditioning/portrait) | 🔧 settings | local |
+| Enhance / utility | VOID (video object removal) | 🔧 settings | local |
 
 Niche models still without a recipe (very new, thin docs) run from their template and borrow the closest family's
 approach; see [docs/MODEL_INDEX.md](docs/MODEL_INDEX.md) for the full per-variant breakdown.
