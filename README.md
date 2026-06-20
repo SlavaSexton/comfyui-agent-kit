@@ -216,6 +216,7 @@ comfyui-agent-kit/
 │   └── qwen/     install.ps1/.sh    -> ~/.qwen/extensions/comfyui (qwen-extension.json + QWEN.md)
 ├── docs/AGENTS.md                   per-agent matrix (how each connects) + GLM note
 ├── docs/MODEL_INDEX.md              every model in the library and what the kit has for it
+├── docs/EXAMPLE_WORKFLOWS.md        notable shared workflows (model shootouts, restoration) + fetch helper
 ├── docs/BOOTSTRAP.md / LAYERS.md / NODES.md
 ├── ATTRIBUTION.md                   credits for fetched third-party pieces
 └── LICENSE                          MIT (this kit's original files)
