@@ -40,6 +40,9 @@ agents gets the same stack, wired to *your* hardware. GLM (z.ai) run through Cla
   (FILM, RIFE), segmentation / depth / pose (SAM3, BiRefNet, Depth Anything), plus restoration chains.
 - **534-template library** as the source of truth, plus **fetch any shared workflow by hash** and a **model
   shootout** (run a prompt through many models small, pick the winner, then scale up).
+- **Assembles new workflows, not just runs presets** — decomposes a task into stages, mixes templates and
+  blueprint subgraphs, and wires the nodes correctly (output-to-input by type, with converters where needed),
+  validated against `/object_info` before running.
 - **GUI bridge** — the agent writes graphs straight into your ComfyUI canvas for you to open and tweak.
 - **Stays current on its own** — `check_updates.py` diffs the template repo + reads the blog RSS; an optional
   weekly task adds recipes for new models and pushes them. ([docs/UPDATING.md](docs/UPDATING.md))

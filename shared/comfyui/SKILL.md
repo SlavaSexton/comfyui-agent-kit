@@ -88,6 +88,39 @@ the clone, then rerun the generator.
 scheduler, denoise]; EmptySD3LatentImage = [width, height, batch]. Model filenames must match installed files
 exactly. Validate node types/inputs against `/object_info/<NodeType>` before writing a graph.
 
+## Compose a NEW workflow from pieces (assemble + wire it correctly)
+
+When no single template fits, BUILD one by chaining pieces. The skill is for assembling, not only running.
+
+**1. Decompose the task into stages**, one brick per stage, e.g. text-to-image -> upscale -> image-to-video ->
+add audio. Pick a template or a `blueprints/` subgraph for each stage (match via `_quick_index.json` / blueprint
+names), and read each one to see its real input and output nodes.
+
+**2. Know how nodes connect (the key mechanic).**
+- **API format:** every input is EITHER a literal value OR a reference to another node's output, written as a
+  2-item list `["<sourceNodeId>", <outputSlotIndex>]`. To run stage B after stage A, set B's input to
+  `["<A_id>", <slot>]`, where `<slot>` is the index of A's matching output. Example: feed a decode's IMAGE into an
+  upscaler -> `"image": ["8", 0]` (node 8, output 0).
+- **GUI format:** connections live in the top-level `links` array; each link is
+  `[link_id, src_node, src_slot, dst_node, dst_slot, type]`, and each node's `inputs[].link` / `outputs[].links`
+  carry those link ids. Write THIS to show the graph in the canvas (the bridge); write the API form to run.
+
+**3. Match types, or convert.** Every output and input has a TYPE: `IMAGE`, `LATENT`, `MODEL`, `CLIP`, `VAE`,
+`CONDITIONING`, `AUDIO`, `MASK`, `CONTROL_NET`, ... You may ONLY connect matching types. Read each node's input +
+output types from `/object_info/<NodeType>` (`input.required` / `output` / `output_name`). If a seam's types
+differ, insert a converter: `VAEEncode` (IMAGE -> LATENT), `VAEDecode` (LATENT -> IMAGE), `CLIPTextEncode`
+(text -> CONDITIONING), `ImageScale` / an upscaler for size. Never wire an IMAGE into a LATENT input.
+
+**4. Merge graphs cleanly.** Splicing two templates: renumber one graph's node ids so they do not collide; SHARE
+the loaders (one `CheckpointLoader` / `UNETLoader` / `VAELoader` / `CLIPLoader` feeding both stages, do not
+duplicate the same model); then wire the seam (stage A's final output -> stage B's first input). Keep each model's
+own VAE / encoder with it (a Wan VAE is not an SDXL VAE; LTX bundles its VAE in the checkpoint).
+
+**5. Validate before running.** Check: every `class_type` exists in `/object_info`; every input is a literal or a
+`[node, slot]` ref to an existing node; every seam's types match; model filenames exist locally. Then run SMALL /
+low-res FIRST to confirm the wiring, before the full render. Emit both formats: GUI to show in the canvas, API to
+run. When unsure of a node's exact inputs/outputs, query `/object_info/<NodeType>` rather than guessing.
+
 ## Shared workflows + model shootout (pick the best model for a look)
 
 Beyond the named template library, ComfyHub hosts thousands of community-shared workflows at
