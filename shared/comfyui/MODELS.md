@@ -295,12 +295,27 @@ Qwen-Image-Edit, OmniGen (above), Seedream Edit, and Nano Banana edit, which are
 - **Source:** node template `wan_2-7.md` ; fal.ai / Replicate / WaveSpeedAI / Alibaba Cloud DashScope.
 
 ### LTX-2.3 (Lightricks)
-- **Prompt style:** cinematography description with integrated sound design; present-progressive verbs, chronological flow, plain color terms.
-- **Structure:** mandatory tags `[VISUAL]:` (subject, action, environment, camera, lighting, style), `[SPEECH]:` (exact quoted dialogue + voice, or "none"), `[SOUNDS]:` (specific SFX/ambient, or "none"). I2V: one-line subject grounding then what moves.
-- **Strengths:** native synced audio, multilingual (9), clearer in-video text, smooth I2V, 9:16; numerical precision helps.
-- **Avoid:** tag dumps, intensified adjectives, negative phrasing, conflicting camera moves, preambles. Negatives only on Dev (CFG>1); Distilled (CFG=1) ignores them.
-- **Settings:** width/height divisible by 32; frame count 8k+1 (9, 17, ... 121, 193, 257); fps up to 50; up to ~10s; stage-1 ~512x768, two-stage 2x upsample; Dev ~30-40 steps CFG ~3.0 STG ~1.0; Distilled ~8 steps CFG 1.
-- **Source:** docs.comfy.org/tutorials/video/ltx/ltx-2-3 ; huggingface.co/Lightricks/LTX-2.3 ; node template `ltx_2-3.md`.
+- **Prompt style (official guide):** ONE flowing cinematography paragraph, not tag dumps. Order: shot/framing ->
+  scene (lighting, color, texture, atmosphere) -> action (present-tense verbs) -> character (age, clothing,
+  features) -> camera move(s) -> audio. Match prompt length to clip length (a 10-word prompt for a 10s clip
+  underperforms; longer beats shorter). Dialogue in quotation marks, short phrases with acting beats between them;
+  describe performance physically ("pauses, looks aside"), not emotionally ("sad"). Lens/optics terms land
+  ("macro lens", "shallow depth of field", "golden hour", "handheld tracking").
+- **I2V:** prompt the MOTION / transition only, do not re-describe what is already in the image. Audio-to-video:
+  the audio anchors timing, the prompt describes the visual interpretation.
+- **Strengths:** native synced audio (more impactful in 2.3), multilingual dialogue (9 langs), smooth I2V, 9:16.
+- **Avoid:** internal emotions, readable text/logos (unreliable), chaotic physics, overloaded or self-contradicting
+  scenes, numerical over-specification. Negatives: the official guide does not cover them, but templates expose a
+  negative conditioning input (works on Dev/CFG>1; Distilled at CFG=1 ignores it).
+- **Settings:** width/height divisible by 32; frame count 8k+1 (9, 17, ... 121, 193, 257); fps up to 50; up to
+  ~10s; two-stage 2x upsample (official spatial x2/x1.5 + temporal x2 upscalers pair with the base); Dev ~30-40
+  steps CFG ~3.0 STG ~1.0; Distilled (8-step, CFG 1) for speed.
+- **Run it (ComfyUI):** base t2v/i2v/flf2v/ia2v run on NATIVE ComfyUI core (no extra nodes, just keep ComfyUI
+  updated). The IC-LoRA / id-LoRA / lipdub / control workflows REQUIRE the `ComfyUI-LTXVideo` node pack (Manager:
+  search "LTXVideo") and its `LTXICLoRALoaderModelOnly`; a generic LoRA loader silently will NOT apply IC-LoRA
+  conditioning. Most useful official IC-LoRA: **Ingredients** (cross-clip character/prop consistency; two-part
+  prompt "Reference sheet: ... / Generated video: ...", strength ~1.4) in `models/loras`.
+- **Source:** https://ltx.io/blog/ltx-2-3-prompt-guide (official prompt guide) ; docs.comfy.org/tutorials/video/ltx/ltx-2-3 ; huggingface.co/Lightricks/LTX-2.3 ; github.com/Lightricks/ComfyUI-LTXVideo.
 
 ### LTX-2 Pro (Lightricks)
 - **Prompt style:** single flowing paragraph (4-8 sentences), not tag lists (the model resists keyword dumps); a shot list a camera operator could execute.
