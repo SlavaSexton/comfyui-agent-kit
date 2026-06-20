@@ -217,6 +217,7 @@ comfyui-agent-kit/
 ├── docs/AGENTS.md                   per-agent matrix (how each connects) + GLM note
 ├── docs/MODEL_INDEX.md              every model in the library and what the kit has for it
 ├── docs/EXAMPLE_WORKFLOWS.md        notable shared workflows (model shootouts, restoration) + fetch helper
+├── docs/UPDATING.md                 stay current: check_updates.py (templates diff + blog RSS) + the loop
 ├── docs/BOOTSTRAP.md / LAYERS.md / NODES.md
 ├── ATTRIBUTION.md                   credits for fetched third-party pieces
 └── LICENSE                          MIT (this kit's original files)

@@ -105,6 +105,17 @@ Seedream) and saves each output side by side, so you pick the best look before c
 small / low-res first, compare, then scale up the winner. This pairs with the per-model recipes below and the
 hardware-aware fit check.
 
+## Staying current (new models and workflows)
+
+ComfyUI ships new models constantly, and they land in the template library first. To see what is new: `git pull`
+the templates clone and regenerate the quick index (`gen_quick_index.py`), then DIFF the model list (names not seen
+before = new models / new templates). Also read the announcements RSS at `https://blog.comfy.org/feed`. The kit
+ships `shared/tools/check_updates.py`, which does all of this in one command (pull + diff + RSS). When a genuinely
+new generative model appears without a recipe, research its OFFICIAL prompting (maker docs / model card /
+docs.comfy.org) and add it to `MODELS.md` in the same format; a new utility/upscaler goes to the Enhancement
+section. Do NOT scrape LinkedIn (auth-gated, anti-scraping, ToS); the blog RSS and the templates repo carry the
+same news, machine-readable. Full loop: the kit's `docs/UPDATING.md`.
+
 ## Per-model prompting (the mega-brain) — READ before prompting a named model
 
 Every generative model has its own dialect. SDXL wants comma tags, FLUX wants natural-language sentences, video
