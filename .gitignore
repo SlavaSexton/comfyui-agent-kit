@@ -5,6 +5,7 @@ __pycache__/
 # Fetched at install time — never commit (huge / third-party)
 /templates/
 /workflow_templates/
+comfyui-agent-kit-data/
 comfyui-claude-kit-data/
 
 # OS / editor
@@ -15,5 +16,5 @@ Thumbs.db
 .vscode/
 
 # Generated outputs
-skills/comfyui/workflows/*.json
-!skills/comfyui/workflows/.gitkeep
+shared/comfyui/workflows/*.json
+!shared/comfyui/workflows/.gitkeep

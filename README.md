@@ -1,26 +1,28 @@
 <div align="center">
 
-<img src="docs/assets/cover.png" width="880" alt="ComfyUI Skill for Claude Code, by AI VFX NEWS">
+<img src="docs/assets/cover.png" width="880" alt="ComfyUI skill for AI coding agents, by AI VFX NEWS">
 
-# comfyui-claude-kit
+# comfyui-agent-kit
 
-**The signature ComfyUI skill for Claude Code, by [AI VFX NEWS](https://t.me/AI_VFX_NEWS).**
+**The signature ComfyUI skill for AI coding agents: Claude Code, Codex, Gemini CLI, and Qwen Code. By [AI VFX NEWS](https://t.me/AI_VFX_NEWS).**
 
-Make Claude Code drive a local **ComfyUI** at full power, generate images, video, and audio, build and run
-workflows, and **show the graph live in your own ComfyUI canvas**, then hand the whole setup to someone else
+Make your AI coding agent drive a local **ComfyUI** at full power, generate images, video, and audio, build and
+run workflows, and **show the graph live in your own ComfyUI canvas**, then hand the whole setup to someone else
 with one command.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-FFD27D.svg)
 ![ComfyUI](https://img.shields.io/badge/ComfyUI-driven-5BAEE3.svg)
-![Claude Code](https://img.shields.io/badge/Claude_Code-skill-9aa3b2.svg)
+![Agents](https://img.shields.io/badge/Claude_·_Codex_·_Gemini_·_Qwen-9aa3b2.svg)
 ![Platforms](https://img.shields.io/badge/Windows_·_Linux_·_macOS-supported-9aa3b2.svg)
 
 </div>
 
 ---
 
-This is the portable, machine-independent version of a working ComfyUI + Claude setup. Clone it, run the
-installer, and your Claude Code gets the same stack, wired to *your* hardware.
+This is the portable, machine-independent, **multi-agent** version of a working ComfyUI setup. One shared core
+(the knowledge + the MCP driver) plus a thin adapter per agent. Clone it, run the installer, and each of your
+agents gets the same stack, wired to *your* hardware. GLM (z.ai) run through Claude Code is covered by the
+`claude` adapter. See **[docs/AGENTS.md](docs/AGENTS.md)** for how each agent connects.
 
 ## The four-layer stack
 
@@ -32,21 +34,21 @@ installer, and your Claude Code gets the same stack, wired to *your* hardware.
 
 | Layer | What | Installed as |
 |------:|------|--------------|
-| 1 | **Knowledge + client** the operating manual and a zero-dependency HTTP client | `~/.claude/skills/comfyui/` |
-| 2 | **MCP driver** ~90 structured tools so Claude operates ComfyUI directly | `comfyui-mcp` (npm) + MCP registration |
-| 3 | **In-graph Claude nodes** Claude as a step inside a workflow (prompt enrichment, vision QA) | ComfyUI `custom_nodes` |
-| 4 | **Node-building skills** for writing/modifying custom nodes (V3 API) | `~/.claude/skills/comfyui-node-*` |
+| 1 | **Knowledge + client** the operating manual and a zero-dependency HTTP client | the agent's skill / extension dir |
+| 2 | **MCP driver** ~90 structured tools so the agent operates ComfyUI directly | `comfyui-mcp` (npm) + per-agent MCP registration |
+| 3 | **In-graph Claude nodes** an LLM as a step inside a workflow (prompt enrichment, vision QA) | ComfyUI `custom_nodes` |
+| 4 | **Node-building skills** for writing/modifying custom nodes (V3 API) | the agent's skill dir (Claude/Codex) |
 | + | **Template library** the official 500+ workflow templates, the source of truth | sparse git clone + quick index |
 
-Plus a **GUI bridge**: Claude writes graphs to `<ComfyUI>/user/default/workflows/`, you open them in the
+Plus a **GUI bridge**: the agent writes graphs to `<ComfyUI>/user/default/workflows/`, you open them in the
 built-in Workflows sidebar and tweak them. No extra "agent panel" node required.
 
-See [docs/LAYERS.md](docs/LAYERS.md) for each layer in detail.
+See [docs/LAYERS.md](docs/LAYERS.md) for each layer, and [docs/AGENTS.md](docs/AGENTS.md) for the per-agent matrix.
 
 ## The template library is the source of truth
 
 The kit clones the official [Comfy-Org/workflow_templates](https://github.com/Comfy-Org/workflow_templates) and
-builds a compact lookup index so Claude can match any request to the right template. 534 templates span every
+builds a compact lookup index so the agent can match any request to the right template. 534 templates span every
 task, image, video, 3D, audio, utilities:
 
 <div align="center">
@@ -62,7 +64,7 @@ sentences, video models want camera and motion direction, audio models want genr
 negative-prompt support varies wildly. The kit ships **[`MODELS.md`](skills/comfyui/MODELS.md)**, a per-model
 prompting reference distilled from **official sources** (each maker's docs and model cards, docs.comfy.org, and
 the per-model templates from the `anthropic-claude` node). When you name a model in a request or a workflow,
-Claude reads that model's entry first and prompts it correctly.
+the agent reads that model's entry first and prompts it correctly.
 
 Covered today (65 models with recipes): FLUX.1/.2 + Kontext, Z-Image, Qwen-Image/Edit, SDXL, SD1.5/3.5, HiDream,
 Ideogram, Nano Banana Pro/2, Seedream, Recraft, GPT-Image, Grok, Reve, Kandinsky, BRIA, OmniGen, Chroma, Krea,
@@ -150,7 +152,9 @@ approach; see [docs/MODEL_INDEX.md](docs/MODEL_INDEX.md) for the full per-varian
 
 ## Prerequisites
 
-- [Claude Code](https://claude.com/claude-code) CLI (`claude` on PATH)
+- One or more agent CLIs on PATH: [Claude Code](https://claude.com/claude-code) (`claude`),
+  [Codex](https://developers.openai.com/codex) (`codex`), [Gemini CLI](https://github.com/google-gemini/gemini-cli)
+  (`gemini`), [Qwen Code](https://github.com/QwenLM/qwen-code) (`qwen`)
 - [Node.js](https://nodejs.org) (`node` + `npm`)
 - [git](https://git-scm.com), [Python 3](https://python.org)
 - A local **ComfyUI** install (Desktop or source), [comfy.org](https://www.comfy.org/)
@@ -160,53 +164,59 @@ approach; see [docs/MODEL_INDEX.md](docs/MODEL_INDEX.md) for the full per-varian
 Windows (PowerShell):
 
 ```powershell
-git clone https://github.com/SlavaSexton/comfyui-claude-kit.git
-cd comfyui-claude-kit
-./install.ps1 -ComfyUIPath "E:\path\to\ComfyUI"   # -ComfyUIPath is optional
+git clone https://github.com/SlavaSexton/comfyui-agent-kit.git
+cd comfyui-agent-kit
+./install.ps1 -ComfyUIPath "E:\path\to\ComfyUI"   # installs for every agent CLI found on PATH
 ```
 
 Linux / macOS:
 
 ```bash
-git clone https://github.com/SlavaSexton/comfyui-claude-kit.git
-cd comfyui-claude-kit
-./install.sh --comfyui-path /path/to/ComfyUI       # --comfyui-path is optional
+git clone https://github.com/SlavaSexton/comfyui-agent-kit.git
+cd comfyui-agent-kit
+./install.sh --comfyui-path /path/to/ComfyUI       # installs for every agent CLI found on PATH
 ```
 
-The installer is **idempotent**, re-run it any time. Flags: `-SkipTemplates` / `--skip-templates` (skip the
-~900MB template clone), `-SkipNodes` / `--skip-nodes` (skip the in-graph Claude nodes). If you omit the ComfyUI
-path, it prints ComfyUI Manager instructions for the nodes instead of cloning them.
+The installer runs the shared machine setup once (MCP package, templates, in-graph nodes), then **auto-detects**
+which of `claude` / `codex` / `gemini` / `qwen` are installed and wires each one. It is **idempotent**, re-run it
+any time. Limit the targets with `-Agents claude,gemini` / `--agents claude,gemini`. Flags: `-SkipTemplates` /
+`--skip-templates` (skip the ~900MB template clone), `-SkipNodes` / `--skip-nodes`. Per-agent details and the GLM
+note are in **[docs/AGENTS.md](docs/AGENTS.md)**.
 
 ## First run on a new machine
 
-After install, start ComfyUI, then in a Claude Code session tell Claude to run the **bootstrap** once
-([docs/BOOTSTRAP.md](docs/BOOTSTRAP.md)): it detects your GPUs, paths, and installed models via the MCP
-`health_check` and fills the machine-specific block in the skill, then does a smoke-test generation. After that,
-just ask for media, the skill auto-activates on ComfyUI keywords.
+After install, start ComfyUI, then in an agent session tell it to run the **bootstrap** once
+([docs/BOOTSTRAP.md](docs/BOOTSTRAP.md)): it detects your GPUs, VRAM, RAM, free disk, paths, and installed models
+via the MCP `health_check`, fills the machine-specific block in the skill, and does a smoke-test generation. After
+that, just ask for media. On Claude/Codex the skill auto-activates on ComfyUI keywords; on Gemini/Qwen the
+knowledge is loaded as the extension's context.
 
-## Optional: in-graph Claude key
+## Optional: in-graph LLM key
 
-Only needed if you want a workflow to enrich prompts **without** Claude in the loop (e.g. an unattended pipeline):
+Only needed if you want a workflow to enrich prompts **without** the agent in the loop (e.g. an unattended pipeline):
 
 ```powershell
 setx CLAUDE_API_KEY "sk-ant-..."   # then restart ComfyUI
 ```
 
-See [docs/NODES.md](docs/NODES.md). When you are driving, Claude writes prompts directly, better and free.
+See [docs/NODES.md](docs/NODES.md). When you are driving, the agent writes prompts directly, better and free.
 
 ## Layout
 
 ```
-comfyui-claude-kit/
-├── install.ps1 / install.sh         one-command wiring (idempotent)
-├── skills/comfyui/                  SKILL.md + comfy_client.py  (Layer 1, ours)
-├── tools/gen_quick_index.py         rebuild the template lookup index
-├── snippets/claude_md_activation.md auto-activation block appended to CLAUDE.md
-├── skills/comfyui/MODELS.md         per-model prompting recipes (65 models) + enhancement/utility
+comfyui-agent-kit/
+├── install.ps1 / install.sh         top-level: shared setup + auto-detect agents + run adapters
+├── shared/
+│   ├── comfyui/                     SKILL.md + MODELS.md + comfy_client.py  (one source of truth)
+│   └── tools/gen_quick_index.py     rebuild the template lookup index
+├── agents/
+│   ├── claude/   install.ps1/.sh    -> ~/.claude/skills/comfyui + claude mcp add + CLAUDE.md
+│   ├── codex/    install.ps1/.sh    -> ~/.agents/skills/comfyui + ~/.codex/config.toml
+│   ├── gemini/   install.ps1/.sh    -> ~/.gemini/extensions/comfyui (gemini-extension.json + GEMINI.md)
+│   └── qwen/     install.ps1/.sh    -> ~/.qwen/extensions/comfyui (qwen-extension.json + QWEN.md)
+├── docs/AGENTS.md                   per-agent matrix (how each connects) + GLM note
 ├── docs/MODEL_INDEX.md              every model in the library and what the kit has for it
-├── docs/BOOTSTRAP.md                run once on a new machine
-├── docs/LAYERS.md                   the four layers explained
-├── docs/NODES.md                    the three Claude nodes, billing + purpose
+├── docs/BOOTSTRAP.md / LAYERS.md / NODES.md
 ├── ATTRIBUTION.md                   credits for fetched third-party pieces
 └── LICENSE                          MIT (this kit's original files)
 ```
@@ -225,7 +235,7 @@ lifting is theirs. Huge thanks to:
 - **[ComfyUI](https://github.com/comfyanonymous/ComfyUI)** by comfyanonymous / Comfy-Org, the engine everything
   runs on.
 - **[comfyui-mcp](https://github.com/artokun/comfyui-mcp)** by [artokun](https://github.com/artokun), the MCP
-  driver (Layer 2) that lets Claude operate ComfyUI with structured tools.
+  driver (Layer 2) that lets the agent operate ComfyUI with structured tools.
 - **[comfyui-custom-node-skills](https://github.com/jtydhr88/comfyui-custom-node-skills)** by
   [jtydhr88 / Terry Jia](https://github.com/jtydhr88), the node-building skills (Layer 4).
 - **[workflow_templates](https://github.com/Comfy-Org/workflow_templates)** by Comfy-Org, the template library
