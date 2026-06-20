@@ -88,6 +88,23 @@ the clone, then rerun the generator.
 scheduler, denoise]; EmptySD3LatentImage = [width, height, batch]. Model filenames must match installed files
 exactly. Validate node types/inputs against `/object_info/<NodeType>` before writing a graph.
 
+## Shared workflows + model shootout (pick the best model for a look)
+
+Beyond the named template library, ComfyHub hosts thousands of community-shared workflows at
+`comfy.org/workflows/<hash>`. Any ComfyHub share downloads as plain JSON from a predictable URL:
+`https://comfy.org/workflows/download/<hash>.json`. So you can grab any shared workflow on demand, then read or run
+it. Helper: `python shared/tools/fetch_workflow.py <hash> <outdir>` (stdlib). The `<hash>` is the id in the share
+URL. Note: `cloud.comfy.org/?share=<hash>` links are Comfy Cloud only and are NOT downloadable this way (open in
+Comfy Cloud and export from the canvas).
+
+**Model shootout (which model is best for THIS prompt):** the template library already ships a comparison grid,
+`templates-all_in_one-image_edit_models` ("1 input and multiple editing model comparison"): it fans one input image
+through 7 image-edit models at once (Flux.2 Dev/Klein, GPT-Image-1.5, Grok, Nano Banana Pro, Qwen-Image-Edit,
+Seedream) and saves each output side by side, so you pick the best look before committing. For video, the community
+"Adjustment Frame" share (hash `7dca0438edf4`) compares video backends (Grok/Kling/Veo/Seedance/Wan2.2/LTX-2). Run
+small / low-res first, compare, then scale up the winner. This pairs with the per-model recipes below and the
+hardware-aware fit check.
+
 ## Per-model prompting (the mega-brain) — READ before prompting a named model
 
 Every generative model has its own dialect. SDXL wants comma tags, FLUX wants natural-language sentences, video
