@@ -23,6 +23,8 @@ this block with the real values. Do not assume another machine matches the examp
   `/object_info/CheckpointLoaderSimple`, `/object_info/CLIPLoader`, `/object_info/VAELoader`.
 - **Shared models dir / extra_model_paths**: `<detect from startup log or extra_model_paths.yaml>`.
 - **GUI workflows folder** (the bridge, see below): `<ComfyUI>/user/default/workflows/`.
+- **Launch command** (to auto-start the server headlessly when :8188 is down): `<detect, e.g. python main.py in
+  the ComfyUI dir; for Desktop the venv python + main.py + --base-directory/--extra-model-paths-config>`.
 
 > Example from the kit author's machine (yours WILL differ): ComfyUI Desktop, core `E:\ComfyUI\ComfyUI\ComfyUI`,
 > 2x RTX 3090 (24GB each), models `z_image_turbo_bf16`, `ideogram4_fp8_scaled`, VAE `ae`/`flux2-vae`,
@@ -306,14 +308,39 @@ Do NOT call the MCP `restart_comfyui` / `start_comfyui` / `stop_comfyui` against
 The MCP relaunch assumes a CLI launch (`python main.py`) and fails with `spawn ComfyUI\main.py ENOENT`: it KILLS
 the server but cannot bring it back, because Desktop is an Electron app that launches the server with its own
 args (port, `extra_model_paths` to the shared models dir). A manual `python main.py` relaunch also misses that
-config, and the GUI Electron app cannot be launched from a non-interactive shell. Result: ComfyUI stays down
-until the OWNER reopens the app. So: to load newly installed custom nodes, ask the OWNER to relaunch Comfy
-Desktop. For a CLI/source ComfyUI the MCP restart is fine.
+config (fixable: pass `--base-directory` / `--extra-model-paths-config`, see "Start ComfyUI yourself" below), and
+the Electron GUI WINDOW cannot be launched from a non-interactive shell (but you do not need the GUI, only the
+server). So: do not use the MCP restart on Desktop; start the server yourself, and to load newly installed custom
+nodes ask the OWNER to reopen the app. For a CLI/source ComfyUI the MCP restart is fine.
+
+## Start ComfyUI yourself when it is down (auto-start the server)
+
+For GENERATION you need the ComfyUI SERVER (the API on :8188), NOT the GUI window. When it is down, start the
+server yourself in the BACKGROUND instead of only asking the owner to open the app. You need the recorded launch
+command (captured in the BOOTSTRAP machine block), then start it and wait for :8188 to answer.
+
+- **Source / CLI install:** from the ComfyUI dir, run `python main.py` as a background process. It binds :8188 (a
+  console server, not a GUI, so a background shell launches it fine). Add `--listen` / `--port` only if asked.
+- **Comfy Desktop (Electron):** start the bundled SERVER headlessly, not the Electron window. Run the Desktop's
+  venv python on `main.py` from the core ComfyUI dir, and make it see the shared models: a raw `python main.py`
+  may load the wrong (empty) model dir, so pass `--base-directory <Desktop base>` or `--extra-model-paths-config
+  <the Desktop's extra_model_paths.yaml>` so the shared models resolve. Capture the exact WORKING command once per
+  machine in the BOOTSTRAP machine block (test it: launch, then confirm `/object_info/UNETLoader` lists the real
+  models). The GUI is only needed if the owner wants to SEE or tweak the canvas.
+- **Do NOT** use the MCP `restart_comfyui` / `start_comfyui` on a Desktop install (see the gotcha above); use your
+  own recorded command.
+- **If the app's processes already exist but :8188 is down**, it may be mid-startup (first-launch model load) or
+  stuck. Poll a bit; if it stays dead, ask the owner to reopen the app rather than starting a SECOND server (two
+  servers cannot share :8188).
+
+After launching, poll `GET /system_stats` until it answers (first start can take 10-30s for model load), then
+proceed, and tell the owner you started the server.
 
 ## Procedure (do this each time)
 
-1. `health_check` (MCP) or `comfy_client.alive()`; if down, ask the owner to start ComfyUI (Desktop = open the
-   app; source = run its launcher). If this is a fresh machine, do the BOOTSTRAP first.
+1. `health_check` (MCP) or `comfy_client.alive()`; if down, START the server yourself with the recorded launch
+   command (see "Start ComfyUI yourself"), wait for :8188, and proceed. Ask the owner to open the app only if no
+   launch command is recorded, the launch fails, or they want the GUI. Fresh machine -> do the BOOTSTRAP first.
 2. Pick or load the right template from the templates clone (match by model/tags via `_quick_index.json`). If
    none fits, build the graph and validate node types against `/object_info`.
 3. Check VRAM via `/system_stats`; coordinate with any other GPU workload if low.
