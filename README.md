@@ -45,7 +45,13 @@ agents gets the same stack, wired to *your* hardware. GLM (z.ai) run through Cla
 - **Assembles new workflows from parts:** decomposes a task into stages, mixes templates and blueprint subgraphs,
   and wires the nodes correctly (output-to-input by type, with converters where needed), validated against
   `/object_info` before running. Not a preset runner.
-- **GUI bridge:** the agent writes graphs straight into your ComfyUI canvas for you to open and tweak.
+- **Starts ComfyUI for you:** when the server is down, the agent launches it headless in the background and
+  generates (no need to open the app first); to peek, you open `http://127.0.0.1:8188` in a browser. For an
+  unattended pipeline the start policy is configurable per project (env vars or a `.comfyui-agent.json`), so it
+  never blocks on a prompt.
+- **GUI bridge + persistence:** the agent writes graphs into your ComfyUI canvas, and SAVES every workflow it
+  builds or runs to ComfyUI's workflows folder, so you can open it later from the Workflows sidebar (an API
+  generation alone leaves no trace on the canvas).
 - **Stays current on its own:** `check_updates.py` diffs the template repo and reads the blog RSS; an optional
   weekly task adds recipes for new models and pushes them. ([docs/UPDATING.md](docs/UPDATING.md))
 - **Portable and idempotent:** one installer, auto-detects your agents, re-runnable. MIT, no vendored third-party
