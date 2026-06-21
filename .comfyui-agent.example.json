@@ -1,0 +1,14 @@
+{
+  "_comment": "Per-project ComfyUI start policy for comfyui-agent-kit. Copy to '.comfyui-agent.json' at your project root and commit it. The agent reads it so a pipeline never blocks on a question. Env vars (COMFY_HOST / COMFYUI_START_POLICY / COMFYUI_LAUNCH_CMD) override this file.",
+
+  "host": "127.0.0.1:8188",
+
+  "startPolicy": "autostart",
+  "_startPolicy_options": "connect = use a running server, fail clearly if down | autostart = start the headless server if down | ask = prompt the owner (interactive only)",
+
+  "launchCmd": "PYTHONUTF8=1 PYTHONIOENCODING=utf-8 \"<comfyui>/.venv/Scripts/python.exe\" \"<comfyui>/main.py\" --extra-model-paths-config \"<desktop shared_model_paths.yaml>\"",
+  "_launchCmd_note": "Used only when startPolicy=autostart and the server is down. Run in the background. On Windows set PYTHONUTF8=1 or the server can crash on emoji log output under a non-UTF-8 codepage. For a source install this is just 'python main.py' in the ComfyUI dir.",
+
+  "workflowsDir": "<comfyui>/user/default/workflows",
+  "_workflowsDir_note": "Where built/run workflows are saved (the bridge) so they persist and the owner can open them later from the Workflows sidebar."
+}

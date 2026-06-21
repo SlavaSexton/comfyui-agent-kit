@@ -356,6 +356,23 @@ a server runs) and do NOT start another. If it is down, ASK once: "open ComfyUI 
 start the server headless (you peek at `http://127.0.0.1:8188` in a browser)?" Follow their choice; if they say
 "just auto-start it", remember that preference and skip the question next time.
 
+**Configuring the start policy (projects + pipelines).** Asking only works interactively. For an unattended
+pipeline the choice must be set ahead of time so the agent never blocks. Resolve it in this order, first found
+wins:
+1. **Env vars** (highest, for CI / per-run): `COMFY_HOST` (where the server is); `COMFYUI_START_POLICY` =
+   `connect` (use a running server, fail clearly if down) | `autostart` (start the headless server if down) |
+   `ask` (interactive); `COMFYUI_LAUNCH_CMD` (the headless launch command used by `autostart`).
+2. **Project config:** a `.comfyui-agent.json` at the project root, e.g.
+   `{ "host": "127.0.0.1:8188", "startPolicy": "autostart", "launchCmd": "..." }`. Committed with the project so
+   the pipeline is reproducible per project.
+3. **Machine default:** the launch command + host in this skill's machine block.
+4. **Fallback:** interactive -> ASK; non-interactive with nothing configured -> use `connect` and fail with a
+   clear message (do NOT silently launch a server in CI without being told to).
+
+So an interactive owner gets asked; a pipeline sets `COMFYUI_START_POLICY=autostart` + `COMFYUI_LAUNCH_CMD` (or a
+`.comfyui-agent.json`) once and runs hands-off. `comfy_client` already reads `COMFY_HOST`. The persistence rule
+below applies identically in both cases.
+
 **Persistence (ALWAYS, the important one).** Whenever you build or run a workflow for the owner, SAVE it as a
 GUI-format `.json` in `<ComfyUI>/user/default/workflows/` with a clear, dated name (e.g.
 `2026-06-21_zimage_hero.json`). That file is permanent in the user dir, so the owner can open it from the Workflows

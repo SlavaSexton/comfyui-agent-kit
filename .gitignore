@@ -18,3 +18,6 @@ Thumbs.db
 # Generated outputs
 shared/comfyui/workflows/*.json
 !shared/comfyui/workflows/.gitkeep
+
+# Project start-policy config (downstream projects commit their own; the example ships)
+.comfyui-agent.json
