@@ -1,4 +1,4 @@
-# Model index — every model in the library and what the kit has for it
+# Model index: every model in the library and what the kit has for it
 
 The template library names **147 distinct models** across 534 templates. This index shows, for each, what the kit
 provides: a full prompt recipe in [`MODELS.md`](../skills/comfyui/MODELS.md), an enhancement/utility note, or

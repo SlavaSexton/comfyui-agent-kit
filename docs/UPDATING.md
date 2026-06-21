@@ -1,14 +1,14 @@
-# Updating — staying current with ComfyUI
+# Updating: staying current with ComfyUI
 
 New models and workflows appear constantly. The kit stays current by polling the **machine-readable** sources,
 not LinkedIn (auth-gated, anti-scraping, against ToS; the same announcements are on the blog RSS below).
 
 ## Sources we watch
 
-- **Comfy-Org/workflow_templates** (the cloned template library) — the canonical "what's new" feed. Every new
+- **Comfy-Org/workflow_templates** (the cloned template library), the canonical "what's new" feed. Every new
   model / workflow Comfy ships lands here first. `git pull` + regenerate the quick index, and you have the new
   templates instantly.
-- **blog.comfy.org/feed** — RSS of announcements (day-0 model support, "wrapped" recaps, releases). Verified
+- **blog.comfy.org/feed**: RSS of announcements (day-0 model support, "wrapped" recaps, releases). Verified
   working (`https://blog.comfy.org/feed`).
 - *(optional)* GitHub release feeds for ComfyUI core and node packs: `<repo>/releases.atom`.
 

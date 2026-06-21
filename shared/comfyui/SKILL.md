@@ -5,12 +5,12 @@ metadata:
   type: reference
 ---
 
-# ComfyUI — driving the local install
+# ComfyUI: driving the local install
 
 Use this whenever the task involves generating or rendering images, video, or audio with ComfyUI, or
 building/running a ComfyUI workflow. Read it first, then act.
 
-## Your machine (FILL THIS IN on first run — see docs/BOOTSTRAP.md)
+## Your machine (FILL THIS IN on first run: see docs/BOOTSTRAP.md)
 
 The facts below are placeholders. On the first ComfyUI task on a new machine, run the bootstrap once:
 call the MCP `health_check` (or `comfy_client.alive()` + `GET /system_stats` + `/object_info`) and rewrite
@@ -30,12 +30,12 @@ this block with the real values. Do not assume another machine matches the examp
 
 ## The four layers (what this kit installs)
 
-1. **Knowledge + client** — this SKILL.md and `comfy_client.py` (stdlib, no deps).
-2. **MCP driver** — `comfyui-mcp` (artokun, MIT): ~90 structured tools so Claude operates ComfyUI directly
+1. **Knowledge + client**: this SKILL.md and `comfy_client.py` (stdlib, no deps).
+2. **MCP driver**: `comfyui-mcp` (artokun, MIT): ~90 structured tools so Claude operates ComfyUI directly
    (generate, build/edit/validate graphs, model download, queue, VRAM, diagnostics, restart). Prefer its tools
    over hand-POSTing `/prompt` when present.
-3. **In-graph Claude nodes** — Claude as a step INSIDE a workflow (prompt enrichment, vision QA on the output).
-4. **Node-building skills** — `comfyui-node-*` (V3 API) for when we write or modify a custom node.
+3. **In-graph Claude nodes**: Claude as a step INSIDE a workflow (prompt enrichment, vision QA on the output).
+4. **Node-building skills**: `comfyui-node-*` (V3 API) for when we write or modify a custom node.
 
 `docs/LAYERS.md` explains each; `install.ps1` / `install.sh` wires them up.
 
@@ -149,7 +149,7 @@ docs.comfy.org) and add it to `MODELS.md` in the same format; a new utility/upsc
 section. Do NOT scrape LinkedIn (auth-gated, anti-scraping, ToS); the blog RSS and the templates repo carry the
 same news, machine-readable. Full loop: the kit's `docs/UPDATING.md`.
 
-## Per-model prompting (the mega-brain) — READ before prompting a named model
+## Per-model prompting (the mega-brain): READ before prompting a named model
 
 Every generative model has its own dialect. SDXL wants comma tags, FLUX wants natural-language sentences, video
 models want camera + motion direction, audio models want genre/tempo/instruments, and negative-prompt support
@@ -175,16 +175,16 @@ Mediapipe) and video object-removal (VOID). For any model not detailed there, th
 is the fallback, and the
 matching official doc link is the source.
 
-## In-graph Claude nodes (Layer 3) — pick the right one
+## In-graph Claude nodes (Layer 3): pick the right one
 
 Three Claude nodes can exist after install; they differ by billing and purpose (see `docs/NODES.md`):
-- **`AnthropicClaudeNode`** (category `LLM/Anthropic`, community, your own key) — 40+ templates that rewrite a
+- **`AnthropicClaudeNode`** (category `LLM/Anthropic`, community, your own key), 40+ templates that rewrite a
   prompt for a specific model (`Ideogram 3`, `LTX 2.3 / LTX 2 Pro`, `Wan 2.1 & 2.2`, `FLUX`, `Nano Banana`,
   `Veo 3`, `Sora 2`, ...). Vision + extended thinking. Needs `CLAUDE_API_KEY` env. The workhorse for autonomous
   in-graph prompt enrichment.
-- **`ClaudeNode`** (category `partner/text/Anthropic`, official Comfy-Org) — billed via Comfy.org credits, no
+- **`ClaudeNode`** (category `partner/text/Anthropic`, official Comfy-Org), billed via Comfy.org credits, no
   own key. Models up to the latest Opus. Fallback path.
-- **`ClaudeCustomPrompt`** (Claude Prompt Generator) — simple, api_key as a string input.
+- **`ClaudeCustomPrompt`** (Claude Prompt Generator), simple, api_key as a string input.
 
 You only NEED a Claude node when a graph must enrich prompts WITHOUT Claude in the loop (e.g. an unattended
 auto-hero pipeline). When you are already driving, write the prompt yourself, it is better and free.

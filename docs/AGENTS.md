@@ -1,4 +1,4 @@
-# Agents — how each one connects
+# Agents: how each one connects
 
 The hard part (driving ComfyUI) is the **same MCP server** for every agent: `comfyui-mcp`. What differs per agent
 is (a) where the knowledge file lives and its format, and (b) how the MCP is registered. This kit ships one shared
@@ -35,7 +35,7 @@ The common path is **stock Claude Code** pointed at z.ai's Anthropic-compatible 
 ```
 
 Because that is unmodified Claude Code, it reads the **same `~/.claude/skills/`** this kit installs. So **the
-`claude` adapter already covers GLM** — install it for `claude` and run GLM through Claude Code; nothing GLM-specific
+`claude` adapter already covers GLM**: install it for `claude` and run GLM through Claude Code; nothing GLM-specific
 to build. (If instead you run GLM via Cline / OpenCode / Roo with z.ai's OpenAI-compatible endpoint
 `https://api.z.ai/api/coding/paas/v4`, register `comfyui-mcp` in that tool's own MCP settings; the knowledge in
 `shared/comfyui/SKILL.md` still applies as that tool's instructions file.)

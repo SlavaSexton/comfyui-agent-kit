@@ -28,27 +28,27 @@ agents gets the same stack, wired to *your* hardware. GLM (z.ai) run through Cla
 
 ## What it can do
 
-- **Drive ComfyUI from four agents** — Claude Code, Codex, Gemini CLI, Qwen Code — off one shared core. GLM via
+- **Drive ComfyUI from four agents** (Claude Code, Codex, Gemini CLI, Qwen Code) off one shared core. GLM via
   Claude Code is covered too. ([docs/AGENTS.md](docs/AGENTS.md))
-- **~90-tool MCP driver** — the agent operates ComfyUI directly: generate, build / edit / validate graphs, queue,
+- **~90-tool MCP driver.** The agent operates ComfyUI directly: generate, build / edit / validate graphs, queue,
   download models, manage VRAM, read logs, diagnose.
-- **Per-model "mega-brain"** — 65 prompt recipes distilled from **official sources** (image, video, audio, 3D);
+- **Per-model "mega-brain":** 65 prompt recipes distilled from **official sources** (image, video, audio, 3D);
   the agent auto-pulls the right recipe when you name a model, so it prompts each one in its own dialect.
-- **Knows where each model runs** — a [full index](docs/MODEL_INDEX.md) of all 147 library models (recipe /
+- **Knows where each model runs:** a [full index](docs/MODEL_INDEX.md) of all 147 library models (recipe /
   utility / template-only), local vs API.
-- **Hardware-aware model selection** — detects your VRAM, RAM, and free disk, then recommends the variant that
+- **Hardware-aware model selection:** detects your VRAM, RAM, and free disk, then recommends the variant that
   fits (fp8 / offload / multi-GPU / quant) and refuses a download that won't fit, before wasting the bandwidth.
-- **17 enhancement and utility tools** — upscale / restore (Real-ESRGAN, SUPIR, SeedVR2), frame interpolation
+- **17 enhancement and utility tools:** upscale / restore (Real-ESRGAN, SUPIR, SeedVR2), frame interpolation
   (FILM, RIFE), segmentation / depth / pose (SAM3, BiRefNet, Depth Anything), plus restoration chains.
 - **534-template library** as the source of truth, plus **fetch any shared workflow by hash** and a **model
   shootout** (run a prompt through many models small, pick the winner, then scale up).
-- **Assembles new workflows, not just runs presets** — decomposes a task into stages, mixes templates and
-  blueprint subgraphs, and wires the nodes correctly (output-to-input by type, with converters where needed),
-  validated against `/object_info` before running.
-- **GUI bridge** — the agent writes graphs straight into your ComfyUI canvas for you to open and tweak.
-- **Stays current on its own** — `check_updates.py` diffs the template repo + reads the blog RSS; an optional
+- **Assembles new workflows from parts:** decomposes a task into stages, mixes templates and blueprint subgraphs,
+  and wires the nodes correctly (output-to-input by type, with converters where needed), validated against
+  `/object_info` before running. Not a preset runner.
+- **GUI bridge:** the agent writes graphs straight into your ComfyUI canvas for you to open and tweak.
+- **Stays current on its own:** `check_updates.py` diffs the template repo and reads the blog RSS; an optional
   weekly task adds recipes for new models and pushes them. ([docs/UPDATING.md](docs/UPDATING.md))
-- **Portable + idempotent** — one installer, auto-detects your agents, re-runnable. MIT, no vendored third-party
+- **Portable and idempotent:** one installer, auto-detects your agents, re-runnable. MIT, no vendored third-party
   code (everything heavy is fetched at install).
 
 ## The four-layer stack
@@ -109,10 +109,10 @@ object removal (VOID). Anything else falls back to the template library.
 
 </div>
 
-**Full model index** — every model in the library and exactly what the kit has for it (recipe / utility /
+**Full model index**: every model in the library and exactly what the kit has for it (recipe / utility /
 template-only): **[docs/MODEL_INDEX.md](docs/MODEL_INDEX.md)**.
 
-### Coverage table — every model and whether a prompt recipe is ready
+### Coverage table: every model and whether a prompt recipe is ready
 
 `✅ recipe` = a dedicated, up-to-date prompting guide in [MODELS.md](skills/comfyui/MODELS.md). `🔧 tool` = an
 enhancement/utility note (settings, not prompts). **Updated: 2026-06-19 23:08.**

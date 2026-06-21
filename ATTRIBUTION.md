@@ -1,7 +1,7 @@
 # Attribution
 
 This kit's original files (the `comfyui` skill, `comfy_client.py`, the installers, `gen_quick_index.py`, the
-docs, and the activation snippet) are MIT-licensed — see `LICENSE`.
+docs, and the activation snippet) are MIT-licensed, see `LICENSE`.
 
 The installer **fetches** the following third-party components from their own repositories at install time.
 They are NOT redistributed in this repo; each keeps its own license. Credit to their authors:

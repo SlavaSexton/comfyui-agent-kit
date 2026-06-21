@@ -9,8 +9,8 @@ Keywords: "comfyui", "comfy", "generate image", "generate photo", "generate vide
    the GUI bridge, and VRAM coordination).
 
 ComfyUI driver layers, all installed by the kit:
-- MCP tools `mcp__comfyui__*` (Layer 2) — prefer these to operate ComfyUI directly.
-- `comfyui-node-*` skills (Layer 4) — pull only when writing/modifying a custom node.
+- MCP tools `mcp__comfyui__*` (Layer 2), prefer these to operate ComfyUI directly.
+- `comfyui-node-*` skills (Layer 4), pull only when writing/modifying a custom node.
 - Workflow templates (source of truth): __TEMPLATES_DIR__/templates (index: _quick_index.json).
 - GUI bridge to show graphs to the user: <ComfyUI>/user/default/workflows/.
 

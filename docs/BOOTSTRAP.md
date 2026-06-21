@@ -1,4 +1,4 @@
-# BOOTSTRAP — run once on a new machine
+# BOOTSTRAP: run once on a new machine
 
 After `install.ps1` / `install.sh` finishes and ComfyUI is running, have Claude do this ONE time. It detects
 the real machine and rewrites the placeholder "Your machine" block in `~/.claude/skills/comfyui/SKILL.md` so
