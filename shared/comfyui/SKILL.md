@@ -338,6 +338,12 @@ command (captured in the BOOTSTRAP machine block), then start it and wait for :8
   stuck. Poll a bit; if it stays dead, ask the owner to reopen the app rather than starting a SECOND server (two
   servers cannot share :8188).
 
+- **Showing the owner the running server:** the headless server already serves the full ComfyUI web UI at
+  `http://127.0.0.1:8188`. To let the owner SEE the canvas or what you built, tell them to open that URL in a
+  BROWSER (same UI as the Desktop window), NOT to click the Comfy Desktop shortcut: the shortcut launches a SECOND
+  server on :8188 and conflicts. Closing the browser tab leaves your server running. If they want the full Desktop
+  app instead, STOP your server first, then they open the app and you reconnect to the app's server.
+
 After launching, poll `GET /system_stats` until it answers (first start can take 10-30s for model load), then
 proceed, and tell the owner you started the server.
 
