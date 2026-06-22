@@ -281,6 +281,20 @@ lifting is theirs. Huge thanks to:
   **[comfyui_claude_prompt_generator](https://github.com/PauldeLavallaz/comfyui_claude_prompt_generator)** by
   [PauldeLavallaz](https://github.com/PauldeLavallaz), the in-graph Claude nodes (Layer 3).
 
+v1.1.0 builds on more excellent work. Thanks also to:
+
+- **[Prompt Relay](https://github.com/GordonChen19/Prompt-Relay)** by Gordon Chen, Ziqi Huang, and Ziwei Liu
+  (S-Lab, NTU), the training-free temporal prompt-routing method (arXiv 2604.10030).
+- **[ComfyUI-PromptRelay](https://github.com/kijai/ComfyUI-PromptRelay)** and
+  **[ComfyUI-SUPIR](https://github.com/kijai/ComfyUI-SUPIR)** by [kijai](https://github.com/kijai), the ComfyUI
+  ports this kit recommends and drives.
+- **[LTX Director 2.0](https://github.com/WhatDreamsCost/WhatDreamsCost-ComfyUI)** by WhatDreamsCost, the LTX-2.3
+  timeline-editor node.
+- **[Z-Image-Turbo Fun-ControlNet-Union](https://huggingface.co/alibaba-pai/Z-Image-Turbo-Fun-Controlnet-Union-2.1)**
+  by alibaba-pai (PAI), plus the **LTX-2.3** model and **HDR IC-LoRA** by [Lightricks](https://huggingface.co/Lightricks).
+- **[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)** by Xintao Wang and the BasicSR team, and **SUPIR** by
+  the XPixel Group (Fanghua Yu et al.), the upscale and restore models. Note: the SUPIR weights are non-commercial.
+
 Full per-component licensing is in [ATTRIBUTION.md](ATTRIBUTION.md). If anything here misattributes your work,
 open an issue and it will be fixed.
 

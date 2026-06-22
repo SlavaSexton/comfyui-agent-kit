@@ -612,7 +612,8 @@ upscale on a hero, frame interpolation on a clip, a depth map to drive ControlNe
 - **SUPIR** (diffusion restore/upscale): SDXL-based, regenerates plausible high-frequency detail, optional caption.
   Use on heavily degraded/low-res photos where ESRGAN stays soft; heavier/slower, a quality pass not a bulk step.
   Settings: scale_by, ~30-45 steps, cfg, denoise, s_churn/s_noise; v0Q (quality) vs v0F (light degradation,
-  faithful); ~10GB (512->1024) to 24GB (~3072px), FP8 + VAE tiling cuts VRAM. Source: github.com/kijai/ComfyUI-SUPIR.
+  faithful); ~10GB (512->1024) to 24GB (~3072px), FP8 + VAE tiling cuts VRAM. LICENSE: the SUPIR weights are
+  NON-COMMERCIAL (XPixel Group); do not use in a commercial pipeline. Source: github.com/kijai/ComfyUI-SUPIR.
 - **SeedVR2** (video/image upscale+restore): one-step diffusion with temporal consistency (frames denoised
   together). Target the short edge (default 1080); 3B (fast) vs 7B (quality); FP16/FP8/GGUF; batch follows the
   4n+1 rule (1,5,9,13,21...); ~8GB to 24GB+. Source: github.com/numz/ComfyUI-SeedVR2_VideoUpscaler.

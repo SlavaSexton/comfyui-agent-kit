@@ -20,6 +20,24 @@ They are NOT redistributed in this repo; each keeps its own license. Credit to t
 If you redistribute a build that bundles any of these, comply with that component's license. The kit keeps them
 as fetch-at-install precisely so this repo stays clean and license-clear.
 
+## Optional components (you install these yourself for specific features)
+
+These are NOT fetched by the installer and NOT redistributed here. The kit documents how to use them and
+recommends them for specific capabilities (multi-shot video, restoration, upscaling); you install them yourself
+when you want those features. Credit and licenses:
+
+| Component | Author / Org | Source | License |
+|-----------|--------------|--------|---------|
+| `ComfyUI-PromptRelay` (Prompt Relay nodes, LTX-2.3 / Wan) | kijai | https://github.com/kijai/ComfyUI-PromptRelay | no license file |
+| `ComfyUI-SUPIR` (SUPIR restore nodes) | kijai / XPixel Group | https://github.com/kijai/ComfyUI-SUPIR | NON-COMMERCIAL (XPixel) |
+| `WhatDreamsCost-ComfyUI` (LTX Director 2.0) | WhatDreamsCost | https://github.com/WhatDreamsCost/WhatDreamsCost-ComfyUI | GPL-3.0 |
+| Real-ESRGAN (upscale models) | Xintao Wang / BasicSR | https://github.com/xinntao/Real-ESRGAN | BSD-3-Clause |
+
+The research method **Prompt Relay** (Gordon Chen, Ziqi Huang, Ziwei Liu; S-Lab, NTU; arXiv 2604.10030) and the
+model weights it leans on (alibaba-pai Z-Image ControlNet, Apache-2.0; Lightricks LTX-2.3 and the gated HDR
+IC-LoRA, license:other) are credited inline at each `MODELS.md` entry's `Source:` line. **SUPIR is
+non-commercial**: do not use it in a commercial pipeline.
+
 ## MODELS.md provenance
 
 `skills/comfyui/MODELS.md` is original writing by this kit, distilled from official sources: each model maker's

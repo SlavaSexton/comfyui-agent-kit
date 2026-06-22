@@ -14,7 +14,11 @@ vx.y.z`), which can become a GitHub Release.
 
 ## [Unreleased]
 
-Nothing yet.
+### Added
+- **Credits for the v1.1.0 sources.** Named Prompt Relay (Gordon Chen, Ziqi Huang, Ziwei Liu), kijai's
+  ComfyUI-PromptRelay and ComfyUI-SUPIR, WhatDreamsCost LTX Director 2.0, alibaba-pai Z-Image ControlNet,
+  Lightricks LTX-2.3 / HDR, and Real-ESRGAN in the README "Credits and thanks", plus a new ATTRIBUTION.md
+  "Optional components" table with licenses. Flagged that SUPIR's weights are non-commercial.
 
 ## [1.1.0] - 2026-06-22
 
