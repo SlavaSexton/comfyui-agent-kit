@@ -32,6 +32,12 @@ when you want those features. Credit and licenses:
 | `ComfyUI-SUPIR` (SUPIR restore nodes) | kijai / XPixel Group | https://github.com/kijai/ComfyUI-SUPIR | NON-COMMERCIAL (XPixel) |
 | `WhatDreamsCost-ComfyUI` (LTX Director 2.0) | WhatDreamsCost | https://github.com/WhatDreamsCost/WhatDreamsCost-ComfyUI | GPL-3.0 |
 | Real-ESRGAN (upscale models) | Xintao Wang / BasicSR | https://github.com/xinntao/Real-ESRGAN | BSD-3-Clause |
+| KJNodes (LTX-2.3 NAG / GGUF / chunk-FF / multi-guide) | kijai | https://github.com/kijai/ComfyUI-KJNodes | see repo |
+| ComfyUI-CacheDiT (LTX-2 inference caching) | Jasonzzt | https://github.com/Jasonzzt/ComfyUI-CacheDiT | see repo |
+| ComfyUI-MelBandRoFormer (audio stem separation) | community | Comfy Registry: ComfyUI-MelBandRoFormer | see repo |
+| ComfyUI-Frame-Interpolation (FILM / RIFE) | Fannovel16 | https://github.com/Fannovel16/ComfyUI-Frame-Interpolation | see repo |
+| comfyui-inpaint-cropandstitch (Flux.2 masked inpaint) | community | Comfy Registry: comfyui-inpaint-cropandstitch | see repo |
+| GAP LTX 2.3 Motion (lipsync / storyboard) | GeekatplayStudio | https://github.com/GeekatplayStudio/LTX-2-3-LipSync | MIT |
 
 The research method **Prompt Relay** (Gordon Chen, Ziqi Huang, Ziwei Liu; S-Lab, NTU; arXiv 2604.10030) and the
 model weights it leans on (alibaba-pai Z-Image ControlNet, Apache-2.0; Lightricks LTX-2.3 and the gated HDR

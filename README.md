@@ -295,6 +295,16 @@ v1.1.0 builds on more excellent work. Thanks also to:
 - **[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)** by Xintao Wang and the BasicSR team, and **SUPIR** by
   the XPixel Group (Fanghua Yu et al.), the upscale and restore models. Note: the SUPIR weights are non-commercial.
 
+Field techniques distilled from production users (the REDACTED community) lean on:
+
+- **[KJNodes](https://github.com/kijai/ComfyUI-KJNodes)** by [kijai](https://github.com/kijai) (LTX-2.3 NAG, GGUF
+  loading, chunked feed-forward, multi-guide), **[ComfyUI-CacheDiT](https://github.com/Jasonzzt/ComfyUI-CacheDiT)** by
+  Jasonzzt (inference caching), **ComfyUI-MelBandRoFormer** (audio stem separation),
+  **[ComfyUI-Frame-Interpolation](https://github.com/Fannovel16/ComfyUI-Frame-Interpolation)** by Fannovel16 (FILM),
+  **comfyui-inpaint-cropandstitch** (Flux.2 masked inpaint), and
+  **[GAP LTX 2.3 Motion](https://github.com/GeekatplayStudio/LTX-2-3-LipSync)** by GeekatplayStudio
+  (lipsync / storyboard / long audio).
+
 Full per-component licensing is in [ATTRIBUTION.md](ATTRIBUTION.md). If anything here misattributes your work,
 open an issue and it will be fixed.
 

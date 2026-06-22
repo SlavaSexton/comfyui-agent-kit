@@ -61,6 +61,10 @@ FLUX prose will not help SDXL).
 - **Strengths:** photorealism, text rendering, hex color, product shots, native multilingual; multi-reference compositing (pro up to 8, flex ~10, dev ~6) with identity/style/pose typing.
 - **Avoid:** negative prompts NOT supported.
 - **Settings:** API for pro/max/flex; FLUX.2 [dev] open-weight runs locally (guidance/steps per the dev workflow).
+- **Field recipes (community):** **Klein masked inpaint + dual reference** (Flux.2 [Klein]): `InpaintStitchImproved`
+  (comfyui-inpaint-cropandstitch) + a mask + two reference images, one prompt-driven and one ref+mask driven, for
+  controlled edits. **1-click multi-angle character turnarounds:** a prompt-batcher fans one character into several camera
+  angles for consistency. Community workflows, not official BFL recipes.
 - **Source:** docs.bfl.ml/guides/prompting_guide_flux2 ; github.com/black-forest-labs/skills.
 
 ### FLUX.1 Kontext (image edit)
@@ -346,6 +350,21 @@ Qwen-Image-Edit, OmniGen (above), Seedream Edit, and Nano Banana edit, which are
   `LTXDirector`/`LTXDirectorGuide` + 2-stage `LTXVLatentUpsampler` + audio). Both REQUIRE current
   `ComfyUI-LTXVideo` + `ComfyUI-KJNodes`, and Prompt Relay monkeypatches cross-attention (version-sensitive).
   Source: gordonchen19.github.io/Prompt-Relay ; github.com/kijai/ComfyUI-PromptRelay ; github.com/WhatDreamsCost/WhatDreamsCost-ComfyUI.
+- **Field techniques (community, surfaced from production users; NOT in the official LTXVideo pack unless noted):**
+  - **External-audio sync (official nodes, field wiring):** drive video from an external audio track (image + audio ->
+    motion/lip-synced clip) with `LTXVAudioVAEEncode/Decode`, `LTXVConcatAVLatent` / `LTXVSeparateAVLatent`,
+    `LTXVEmptyLatentAudio`, `LoadAudio`, `TrimAudioDuration` (all official ComfyUI-LTXVideo). Tip: run the source through
+    `ComfyUI-MelBandRoFormer` (stem separation) first to feed clean vocals.
+  - **Fit the 22B on a 24GB card: GGUF.** `GGUFLoaderKJ` (KJNodes) loads a GGUF-quantized LTX-2.3, shrinking the ~25GB
+    fp8 transformer to fit one 24GB GPU (the exact wall this kit hit sizing a 22B run). VRAM win for a small quality cost.
+  - **Speed / quality / long clips (KJNodes + CacheDiT):** `CacheDiT_LTX2_Optimizer` (Jasonzzt/ComfyUI-CacheDiT) caches
+    diffusion steps to accelerate inference; `LTX2_NAG` (KJNodes) adds Normalized Attention Guidance as a quality/adherence
+    lever; `LTXVChunkFeedForward` (KJNodes) chunks the feed-forward to cut memory on long clips; `LTXVAddGuideMulti`
+    (KJNodes) drives multi-keyframe (first / middle / last and more) guided motion.
+  - **Lipsync + storyboard + long audio: GAP LTX 2.3 Motion** (`github.com/GeekatplayStudio/LTX-2-3-LipSync`, MIT) adds
+    nodes for audio-segment render loops, storyboard scheduling, and motion transfer for long-form audio-driven video.
+    CAVEAT: users report the storyboard variant's custom-audio path can produce noise, so test the audio leg on a short
+    clip first. Status: community-endorsed (reactions + replies in the field), NOT independently benchmarked by this kit.
 - **Source:** https://ltx.io/blog/ltx-2-3-prompt-guide (official prompt guide) ; docs.comfy.org/tutorials/video/ltx/ltx-2-3 ; huggingface.co/Lightricks/LTX-2.3 ; github.com/Lightricks/ComfyUI-LTXVideo.
 
 ### LTX-2 Pro (Lightricks)
