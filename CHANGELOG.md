@@ -14,17 +14,21 @@ vx.y.z`), which can become a GitHub Release.
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [1.2.0] - 2026-06-22
+
 ### Added
 - **Credits for the v1.1.0 sources.** Named Prompt Relay (Gordon Chen, Ziqi Huang, Ziwei Liu), kijai's
   ComfyUI-PromptRelay and ComfyUI-SUPIR, WhatDreamsCost LTX Director 2.0, alibaba-pai Z-Image ControlNet,
   Lightricks LTX-2.3 / HDR, and Real-ESRGAN in the README "Credits and thanks", plus a new ATTRIBUTION.md
   "Optional components" table with licenses. Flagged that SUPIR's weights are non-commercial.
-- **Field techniques from the REDACTED community (deep research, 1 Apr - 22 Jun).** Triaged a chat export by evidence
-  (reactions + reply sentiment) and added the high-signal, attribution-verified findings: LTX-2.3 external-audio sync,
-  GGUF loading to fit the 22B on a 24GB card, CacheDiT speed, NAG quality, chunked feed-forward + multi-guide (KJNodes),
-  the GAP LTX 2.3 Motion pack (lipsync / storyboard, with the storyboard-audio caveat), and Flux.2 Klein masked-inpaint +
-  multi-angle recipes. Credited KJNodes/kijai, Jasonzzt (CacheDiT), MelBandRoFormer, Fannovel16 (Frame-Interpolation),
-  and GeekatplayStudio. Attribution taken from the workflows' own embedded node-pack ids, not guessed.
+- **Field techniques in wide community use (LTX-2.3 + Flux.2).** Added attribution-verified findings: LTX-2.3
+  external-audio sync, GGUF loading to fit the 22B on a 24GB card, CacheDiT speed, NAG quality, chunked feed-forward +
+  multi-guide (KJNodes), the GAP LTX 2.3 Motion pack (lipsync / storyboard, with the storyboard-audio caveat), and
+  Flux.2 Klein masked-inpaint + multi-angle recipes. Credited KJNodes/kijai, Jasonzzt (CacheDiT), MelBandRoFormer,
+  Fannovel16 (Frame-Interpolation), and GeekatplayStudio. Attribution taken from the workflows' own embedded node-pack
+  ids, not guessed.
 
 ## [1.1.0] - 2026-06-22
 

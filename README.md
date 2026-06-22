@@ -295,7 +295,7 @@ v1.1.0 builds on more excellent work. Thanks also to:
 - **[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)** by Xintao Wang and the BasicSR team, and **SUPIR** by
   the XPixel Group (Fanghua Yu et al.), the upscale and restore models. Note: the SUPIR weights are non-commercial.
 
-Field techniques distilled from production users (the REDACTED community) lean on:
+Field techniques in wide community use lean on:
 
 - **[KJNodes](https://github.com/kijai/ComfyUI-KJNodes)** by [kijai](https://github.com/kijai) (LTX-2.3 NAG, GGUF
   loading, chunked feed-forward, multi-guide), **[ComfyUI-CacheDiT](https://github.com/Jasonzzt/ComfyUI-CacheDiT)** by

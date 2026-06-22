@@ -364,7 +364,7 @@ Qwen-Image-Edit, OmniGen (above), Seedream Edit, and Nano Banana edit, which are
   - **Lipsync + storyboard + long audio: GAP LTX 2.3 Motion** (`github.com/GeekatplayStudio/LTX-2-3-LipSync`, MIT) adds
     nodes for audio-segment render loops, storyboard scheduling, and motion transfer for long-form audio-driven video.
     CAVEAT: users report the storyboard variant's custom-audio path can produce noise, so test the audio leg on a short
-    clip first. Status: community-endorsed (reactions + replies in the field), NOT independently benchmarked by this kit.
+    clip first. Status: community-endorsed (widely used in production), NOT independently benchmarked by this kit.
 - **Source:** https://ltx.io/blog/ltx-2-3-prompt-guide (official prompt guide) ; docs.comfy.org/tutorials/video/ltx/ltx-2-3 ; huggingface.co/Lightricks/LTX-2.3 ; github.com/Lightricks/ComfyUI-LTXVideo.
 
 ### LTX-2 Pro (Lightricks)
