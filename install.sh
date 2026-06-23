@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# comfyui-agent-kit installer. Runs shared setup once, then installs the comfyui skill + MCP for each selected
+# ComfyUI-Agent-Kit installer. Runs shared setup once, then installs the comfyui skill + MCP for each selected
 # agent (claude, codex, gemini, qwen). Idempotent.
 #   ./install.sh [--agents claude,gemini] [--comfyui-path PATH] [--templates-dir PATH] [--skip-templates] [--skip-nodes]
 set -euo pipefail
@@ -14,7 +14,7 @@ while [ $# -gt 0 ]; do case "$1" in
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 have(){ command -v "$1" >/dev/null 2>&1; }
 
-echo; echo "=== comfyui-agent-kit installer ==="
+echo; echo "=== ComfyUI-Agent-Kit installer ==="
 
 # 1. shared machine setup
 args=(--templates-dir "$TEMPLATES_DIR"); [ -n "$COMFYUI_PATH" ] && args+=(--comfyui-path "$COMFYUI_PATH")

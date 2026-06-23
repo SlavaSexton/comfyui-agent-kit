@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  comfyui-agent-kit installer. Runs the shared machine setup once, then installs the comfyui skill + MCP for each
+  ComfyUI-Agent-Kit installer. Runs the shared machine setup once, then installs the comfyui skill + MCP for each
   selected agent (Claude Code, Codex, Gemini CLI, Qwen Code). Idempotent.
 .PARAMETER Agents
   Comma list: claude,codex,gemini,qwen. Default "auto" = install for whichever CLIs are found on PATH.
@@ -21,7 +21,7 @@ $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
 function Have($c){ return [bool](Get-Command $c -ErrorAction SilentlyContinue) }
 
-Write-Host "`n=== comfyui-agent-kit installer ===" -ForegroundColor White
+Write-Host "`n=== ComfyUI-Agent-Kit installer ===" -ForegroundColor White
 
 # 1. shared machine setup (MCP package, templates, ComfyUI nodes)
 & "$Root\shared\install_shared.ps1" -ComfyUIPath $ComfyUIPath -TemplatesDir $TemplatesDir `

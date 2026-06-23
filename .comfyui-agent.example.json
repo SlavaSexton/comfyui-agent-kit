@@ -1,5 +1,5 @@
 {
-  "_comment": "Per-project ComfyUI start policy for comfyui-agent-kit. Copy to '.comfyui-agent.json' at your project root and commit it. The agent reads it so a pipeline never blocks on a question. Env vars (COMFY_HOST / COMFYUI_START_POLICY / COMFYUI_LAUNCH_CMD) override this file.",
+  "_comment": "Per-project ComfyUI start policy for ComfyUI-Agent-Kit. Copy to '.comfyui-agent.json' at your project root and commit it. The agent reads it so a pipeline never blocks on a question. Env vars (COMFY_HOST / COMFYUI_START_POLICY / COMFYUI_LAUNCH_CMD) override this file.",
 
   "host": "127.0.0.1:8188",
 

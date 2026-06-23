@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to **comfyui-agent-kit** are recorded here. The format follows
+All notable changes to **ComfyUI-Agent-Kit** are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow
 [Semantic Versioning](https://semver.org/). Dates are YYYY-MM-DD. The raw, per-commit history lives in git;
 this file is the curated summary.
@@ -28,7 +28,7 @@ vx.y.z`), which can become a GitHub Release.
 - **Coverage charts refreshed to a uniform 2560x1440.** The four `docs/assets` images now share one resolution
   (matching the cover) so the README rows stay aligned. `models_by_modality` updated to 66 with the corrected
   modality and local/API split.
-- **Repo renamed to `ComfyUI-Agent-Kit` (capitals).** Capitalized the README title, clone URLs, and the
+- **Repo renamed to `ComfyUI-Agent-Kit` (capitals).** Capitalized the README title, clone URLs, the installer banners, the changelog header, and the
   directory-tree label so they match the renamed repo; the old lowercase URL still redirects. The cover image
   chip now reads "66 model recipes" (was 65).
 
