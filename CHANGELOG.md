@@ -14,6 +14,10 @@ vx.y.z`), which can become a GitHub Release.
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [1.3.0] - 2026-06-23
+
 ### Added
 - **Krea 2 (open weights) recipe.** Added a Krea 2 entry: RAW (52 steps, CFG 3.5, for LoRA training) and Turbo
   (8 steps, CFG 0, up to 2K, for inference), built on a Qwen3-VL-4B text encoder + the Qwen-Image VAE. Day-0 native
