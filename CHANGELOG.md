@@ -14,6 +14,10 @@ vx.y.z`), which can become a GitHub Release.
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [1.3.1] - 2026-06-23
+
 ### Changed
 - **Krea 2 recipe: added a worked example.** Folded a representative prompt from the official `krea-ai/krea-2`
   prompt guide (`docs/prompting.md`) into the recipe so the "long, detailed, natural language" structure is concrete,
