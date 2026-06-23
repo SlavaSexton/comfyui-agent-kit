@@ -10,7 +10,7 @@ template-only coverage (runnable via a template, no dedicated recipe yet).
 | 🔧 **Utility** | enhancement / utility tool, has a "when to use + settings" note (not prompt-driven) |
 | 📋 **Template only** | runnable via a workflow template, no dedicated recipe yet (niche / thin official docs) |
 
-**Totals:** ✅ 65 recipe families (covering ~117 model-name variants) · 🔧 18 utility tools · 📋 a few obscure
+**Totals:** ✅ 66 recipe families (covering ~119 model-name variants) · 🔧 18 utility tools · 📋 a few obscure
 template-only · plus text encoders / inference providers that are not generative models.
 
 **Updated: 2026-06-19 23:08.** Every ✅ entry has a current prompting recipe in

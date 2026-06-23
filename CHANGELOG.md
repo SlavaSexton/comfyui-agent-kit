@@ -15,6 +15,11 @@ vx.y.z`), which can become a GitHub Release.
 ## [Unreleased]
 
 ### Added
+- **Krea 2 (open weights) recipe.** Added a Krea 2 entry: RAW (52 steps, CFG 3.5, for LoRA training) and Turbo
+  (8 steps, CFG 0, up to 2K, for inference), built on a Qwen3-VL-4B text encoder + the Qwen-Image VAE. Day-0 native
+  ComfyUI via the official `image_krea2_turbo_t2i` template (Comfy-Org repackaged weights + four style LoRAs).
+  Recipe families 65 -> 66. Noted the Krea 2 Community License (commercial use needs an Enterprise License). Sources:
+  krea-ai/krea-2, Comfy-Org/Krea-2.
 - **Reference source: Comfy-Org Creative Campus.** Pointed the SKILL.md shared-workflows section at
   `Comfy-Org/creative-campus`, the official Comfy Education Initiative case-study workflows from award-winning
   artists (e.g. Xindi Zhang's Student Academy Award film) to open and study. Link-and-study only (no license file).

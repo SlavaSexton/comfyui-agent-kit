@@ -24,6 +24,7 @@ FLUX prose will not help SDXL).
 | OmniGen v1/v2 | instruction + inline image tags | v2 yes |
 | Chroma | natural language | supported |
 | Krea 1 (FLUX Krea) | natural language, no weights | no (guidance-distilled) |
+| Krea 2 (RAW + Turbo) | natural language, quote text | RAW yes (CFG 3.5), Turbo no (CFG 0) |
 | ERNIE-Image | instruction + prompt enhancer | not documented |
 | FireRed / LongCat / ChronoEdit (edit) | instruction (quote literal text) | mostly empty/unset |
 | SVD (video) | NONE, image + motion params | no |
@@ -236,6 +237,29 @@ FLUX prose will not help SDXL).
 - **Avoid:** filler ("beautiful", "amazing"); ignores `(best quality:1.3)` / `[[masterpiece]]` brackets/colons; guidance-distilled so no true CFG/negative (like FLUX.1 [dev]).
 - **Settings:** guidance_scale 4.5 (official example); 1024x1024; FLUX.1 [dev] pipeline.
 - **Source:** huggingface.co/black-forest-labs/FLUX.1-Krea-dev ; docs.krea.ai.
+
+### Krea 2 (Krea AI, open weights)
+- **Prompt style:** natural language; long detailed prompts give the best results, but minimal prompts also work;
+  put words in quotes for text rendering. Built-in prompt enhancement is on by default in the ComfyUI template (swap
+  it for OpenAI / Gemini nodes, or use the repo's `expansion.txt` as an LLM system prompt).
+- **Two models that pair:** **RAW** (base, undistilled, diverse and malleable) is for fine-tuning and LoRA training;
+  **Turbo** (8-step distilled) is for fast inference. Train LoRAs on RAW, then apply them on Turbo (compatible).
+- **Strengths:** from-scratch MMDiT; the most aesthetic open-weight image model and the #1 text-to-image model from
+  an independent lab (Artificial Analysis); 2K-native on Turbo, strong text rendering. Architecture rides the Qwen
+  stack: a Qwen3-VL-4B text encoder + the Qwen-Image VAE.
+- **Settings:** RAW = full sampler, 52 steps, CFG 3.5, up to 1K. Turbo = 8 steps, CFG 0.0 (disabled), mu 1.15 (the
+  flow shift), 1K to 2K (2048x2048).
+- **Run it (ComfyUI, day-0 native, no custom nodes):** official template `image_krea2_turbo_t2i` in the Comfy-Org
+  template library. Comfy-Org repackaged the weights at `huggingface.co/Comfy-Org/Krea-2`:
+  `diffusion_models/krea2_turbo_fp8_scaled` (plus BF16 / NVFP4 variants), `text_encoders/qwen3vl_4b_fp8_scaled`,
+  `vae/qwen_image_vae`. Four official style LoRAs (`Comfy-Org/Krea-2/loras`) with auto-applied trigger words:
+  `krea2_coolblue` (teal watercolor, 0.8), `krea2_darkbrush` (monochrome ink wash, 1.0), `krea2_plasmoid` (ethereal
+  shimmering light, 0.8), `krea2_warmpastel` (muted minimalist sketch, 0.8).
+- **License:** the code is Apache-2.0; the WEIGHTS use the Krea 2 Community License: commercial use needs a separate
+  Enterprise License (community use is non-commercial), with acceptable-use / content-filter obligations.
+- **Source:** github.com/krea-ai/krea-2 ; huggingface.co/Comfy-Org/Krea-2 (ComfyUI repackaged) ;
+  huggingface.co/krea/Krea-2-Raw + huggingface.co/krea/Krea-2-Turbo ;
+  blog.comfy.org/p/krea-2-open-source-models-are-now ; krea.ai/blog/krea-2-technical-report.
 
 ### ERNIE-Image (Baidu)
 - **Prompt style:** instruction / natural-language; built-in 3B Prompt Enhancer expands terse inputs.
