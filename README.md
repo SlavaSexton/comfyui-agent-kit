@@ -2,7 +2,7 @@
 
 <img src="docs/assets/cover.png" width="880" alt="ComfyUI skill for AI coding agents, by AI VFX NEWS">
 
-# comfyui-agent-kit
+# ComfyUI-Agent-Kit
 
 **The signature ComfyUI skill for AI coding agents: Claude Code, Codex, Gemini CLI, and Qwen Code.**
 
@@ -197,16 +197,16 @@ approach; see [docs/MODEL_INDEX.md](docs/MODEL_INDEX.md) for the full per-varian
 Windows (PowerShell):
 
 ```powershell
-git clone https://github.com/SlavaSexton/comfyui-agent-kit.git
-cd comfyui-agent-kit
+git clone https://github.com/SlavaSexton/ComfyUI-Agent-Kit.git
+cd ComfyUI-Agent-Kit
 ./install.ps1 -ComfyUIPath "E:\path\to\ComfyUI"   # installs for every agent CLI found on PATH
 ```
 
 Linux / macOS:
 
 ```bash
-git clone https://github.com/SlavaSexton/comfyui-agent-kit.git
-cd comfyui-agent-kit
+git clone https://github.com/SlavaSexton/ComfyUI-Agent-Kit.git
+cd ComfyUI-Agent-Kit
 ./install.sh --comfyui-path /path/to/ComfyUI       # installs for every agent CLI found on PATH
 ```
 
@@ -237,7 +237,7 @@ See [docs/NODES.md](docs/NODES.md). When you are driving, the agent writes promp
 ## Layout
 
 ```
-comfyui-agent-kit/
+ComfyUI-Agent-Kit/
 ├── install.ps1 / install.sh         top-level: shared setup + auto-detect agents + run adapters
 ├── shared/
 │   ├── comfyui/                     SKILL.md + MODELS.md + comfy_client.py  (one source of truth)
