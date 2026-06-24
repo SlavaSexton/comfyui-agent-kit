@@ -19,6 +19,8 @@ Sources: github.com/comfyanonymous/ComfyUI ; docs.comfy.org/development/comfyui-
 
 ## Real limits and gotchas (and the workaround)
 
+Live status of these (newly fixed / newly appeared) is tracked weekly in [`KNOWN_ISSUES.md`](KNOWN_ISSUES.md).
+
 - **Big graphs lag the canvas, not the backend.** litegraph renders the whole canvas on Canvas2D; 80+ node packs can drop to single-digit fps while the backend is fine. Workaround: collapse stages into subgraphs, mute/collapse groups, lower link-render quality in settings. (gh issues 7322, 4017)
 - **Dynamic VRAM fixed OOMs but added regressions.** On some setups it reloads the whole model every generation (full unload then reload), is slower per-image on 4090/5090, or forces multi-GPU onto one card. Workaround: `--disable-dynamic-vram`. (Comfy-Org/ComfyUI discussion 12699 ; desktop issue 1741)
 - **`--lowvram` / `--novram` still OOM at slightly higher res** because offload granularity does not cover peak activations. Workaround: tiled VAE decode, lower res, `--cache-none`.

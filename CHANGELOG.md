@@ -40,6 +40,14 @@ vx.y.z`), which can become a GitHub Release.
   that the official template library ships image BiRefNet bg-removal + SAM3 segmentation but NO free local temporal
   video matte (the video-matte templates are paid Bria API), and flags licenses (RMBG-2.0 CC-BY-NC, MatAnyone NTU
   research-only, RVM GPL). Each model verified against its real page.
+- **Living bug log `docs/KNOWN_ISSUES.md` + weekly bug tracking.** A sourced table of ComfyUI's open bugs (with
+  workarounds), security notes, and a "Recently fixed" section, so the kit knows what is broken before building a
+  workflow. The `comfyui-weekly-update` task now also reads ComfyUI + frontend release notes and the issue tracker
+  each week and updates this log (moves fixed items, adds new bugs, bumps the date). SKILL.md and ADVANCED.md point
+  to it.
+- **Node I/O cheat-sheet in SKILL.md.** The common nodes' exact input/output types (CheckpointLoader, LoraLoader,
+  CLIPTextEncode, KSampler, VAEDecode/Encode, ControlNet apply, etc.) so graphs are wired with valid connections
+  (no feeding text into a LoRA input or a MODEL into a text box); anything unfamiliar is still read from `/object_info`.
 
 ## [1.3.1] - 2026-06-23
 

@@ -113,6 +113,17 @@ output types from `/object_info/<NodeType>` (`input.required` / `output` / `outp
 differ, insert a converter: `VAEEncode` (IMAGE -> LATENT), `VAEDecode` (LATENT -> IMAGE), `CLIPTextEncode`
 (text -> CONDITIONING), `ImageScale` / an upscaler for size. Never wire an IMAGE into a LATENT input.
 
+**Common node I/O (memorize these; for anything else read `/object_info/<NodeType>`).** A node's WIDGETS are values you set; its INPUT SLOTS must receive the matching TYPE from another node's OUTPUT. You cannot feed text into a LoRA input, or a MODEL into a text box.
+- `CheckpointLoaderSimple` -> out: MODEL, CLIP, VAE. (Flux/newer split loaders: `UNETLoader` -> MODEL ; `DualCLIPLoader`/`CLIPLoader` -> CLIP ; `VAELoader` -> VAE.)
+- `LoraLoader`: in MODEL + CLIP (+ name/strength widgets) -> out MODEL, CLIP. A LoRA is applied ONTO the MODEL+CLIP stream, never wired as text.
+- `CLIPTextEncode`: in CLIP + text widget -> out CONDITIONING. Your prompt becomes CONDITIONING here; downstream nodes want CONDITIONING, not raw text.
+- `EmptyLatentImage` / `EmptySD3LatentImage`: widgets only -> out LATENT.
+- `KSampler` / `KSamplerAdvanced`: in MODEL + positive CONDITIONING + negative CONDITIONING + LATENT (+ seed/steps/cfg/sampler/scheduler/denoise widgets) -> out LATENT.
+- `VAEDecode`: in LATENT + VAE -> out IMAGE. `VAEEncode`: in IMAGE + VAE -> out LATENT.
+- `ControlNetLoader` -> CONTROL_NET ; `ControlNetApplyAdvanced`: in CONDITIONING + CONTROL_NET + IMAGE -> out CONDITIONING.
+- `LoadImage` -> IMAGE, MASK ; `SaveImage` / `PreviewImage`: in IMAGE.
+Basic txt2img stream: loader -> (LoraLoader) -> CLIPTextEncode x2 (pos/neg) -> KSampler (+ EmptyLatentImage) -> VAEDecode -> SaveImage. Before building, also check `KNOWN_ISSUES.md` (next to this file or `docs/KNOWN_ISSUES.md`) and ADVANCED.md for current bugs and workarounds, so you do not wire around a known-broken path.
+
 **4. Merge graphs cleanly.** Splicing two templates: renumber one graph's node ids so they do not collide; SHARE
 the loaders (one `CheckpointLoader` / `UNETLoader` / `VAELoader` / `CLIPLoader` feeding both stages, do not
 duplicate the same model); then wire the seam (stage A's final output -> stage B's first input). Keep each model's
