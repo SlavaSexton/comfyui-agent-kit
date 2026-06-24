@@ -304,6 +304,9 @@ Field techniques in wide community use lean on:
   **comfyui-inpaint-cropandstitch** (Flux.2 masked inpaint), and
   **[GAP LTX 2.3 Motion](https://github.com/GeekatplayStudio/LTX-2-3-LipSync)** by GeekatplayStudio
   (lipsync / storyboard / long audio).
+- **[ComfyUI-Flux2Klein-Enhancer](https://github.com/capitan01R/ComfyUI-Flux2Klein-Enhancer)** by capitan01R, the
+  training-free multi-reference identity-transfer node suite for FLUX.2 Klein. Note: PolyForm Noncommercial license
+  (commercial use needs a separate license).
 
 Full per-component licensing is in [ATTRIBUTION.md](ATTRIBUTION.md). If anything here misattributes your work,
 open an issue and it will be fixed.

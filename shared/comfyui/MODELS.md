@@ -65,8 +65,17 @@ FLUX prose will not help SDXL).
 - **Field recipes (community):** **Klein masked inpaint + dual reference** (Flux.2 [Klein]): `InpaintStitchImproved`
   (comfyui-inpaint-cropandstitch) + a mask + two reference images, one prompt-driven and one ref+mask driven, for
   controlled edits. **1-click multi-angle character turnarounds:** a prompt-batcher fans one character into several camera
-  angles for consistency. Community workflows, not official BFL recipes.
-- **Source:** docs.bfl.ml/guides/prompting_guide_flux2 ; github.com/black-forest-labs/skills.
+  angles for consistency. **Multi-reference identity lock, training-free** (Flux.2 [Klein] 9B): the
+  `ComfyUI-Flux2Klein-Enhancer` suite (capitan01R, ~510 stars as of 2026-06) does identity-preserving multi-subject
+  edits with NO LoRA training. Core node **Identity Feature Transfer Final** patches Klein attention output
+  (`set_model_attn1_output_patch`) to transfer features from up to 8 VAE-encoded reference latents (fed via **Multi
+  ReferenceLatent**), with per-reference masks (`subject_mask_1..8`), similarity matching, and confidence-gated
+  transfer across Klein's 8 double + 24 single blocks, presets HARD/MID/SOFT_LOCK. Companions: **Color Anchor**
+  (post-CFG channel-mean color match), **Sectioned Encoder + Detail Controller** (FRONT/MID/END prompt-section
+  weights), **Ref / Mask Ref Controllers**, and an experimental resolution-aware Euler sampler. No extra Python deps.
+  **License: PolyForm Noncommercial 1.0.0 (personal/research free; commercial use needs a separate license).**
+  Community workflows, not official BFL recipes.
+- **Source:** docs.bfl.ml/guides/prompting_guide_flux2 ; github.com/black-forest-labs/skills ; github.com/capitan01R/ComfyUI-Flux2Klein-Enhancer (Klein enhancer suite, PolyForm NC).
 
 ### FLUX.1 Kontext (image edit)
 - **Prompt style:** natural-language instructions (tell it what to change, like instructing a person).

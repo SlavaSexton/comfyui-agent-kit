@@ -38,11 +38,14 @@ when you want those features. Credit and licenses:
 | ComfyUI-Frame-Interpolation (FILM / RIFE) | Fannovel16 | https://github.com/Fannovel16/ComfyUI-Frame-Interpolation | see repo |
 | comfyui-inpaint-cropandstitch (Flux.2 masked inpaint) | community | Comfy Registry: comfyui-inpaint-cropandstitch | see repo |
 | GAP LTX 2.3 Motion (lipsync / storyboard) | GeekatplayStudio | https://github.com/GeekatplayStudio/LTX-2-3-LipSync | MIT |
+| ComfyUI-Flux2Klein-Enhancer (Flux.2 Klein identity-transfer suite) | capitan01R | https://github.com/capitan01R/ComfyUI-Flux2Klein-Enhancer | PolyForm Noncommercial 1.0.0 |
 
 The research method **Prompt Relay** (Gordon Chen, Ziqi Huang, Ziwei Liu; S-Lab, NTU; arXiv 2604.10030) and the
 model weights it leans on (alibaba-pai Z-Image ControlNet, Apache-2.0; Lightricks LTX-2.3 and the gated HDR
 IC-LoRA, license:other) are credited inline at each `MODELS.md` entry's `Source:` line. **SUPIR is
-non-commercial**: do not use it in a commercial pipeline.
+non-commercial**: do not use it in a commercial pipeline. The **ComfyUI-Flux2Klein-Enhancer** suite (capitan01R) is
+**PolyForm Noncommercial 1.0.0**: free for personal, research, and nonprofit use; commercial use needs a separate
+license from the author.
 
 ## MODELS.md provenance
 

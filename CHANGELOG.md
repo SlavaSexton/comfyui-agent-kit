@@ -14,7 +14,12 @@ vx.y.z`), which can become a GitHub Release.
 
 ## [Unreleased]
 
-Nothing yet.
+### Added
+- **Flux.2 Klein identity-transfer suite (community field recipe).** Documented `capitan01R/ComfyUI-Flux2Klein-Enhancer`
+  in the FLUX.2 entry: training-free multi-reference identity-preserving editing for FLUX.2 Klein 9B via the Identity
+  Feature Transfer Final node (attention-output patch, up to 8 reference latents + per-subject masks, HARD/MID/SOFT_LOCK
+  presets), plus Color Anchor, Sectioned Encoder, and reference controllers. Credited capitan01R in README and
+  ATTRIBUTION and flagged the PolyForm Noncommercial 1.0.0 license.
 
 ## [1.3.1] - 2026-06-23
 
