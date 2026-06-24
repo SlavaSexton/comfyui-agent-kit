@@ -20,6 +20,9 @@ vx.y.z`), which can become a GitHub Release.
   cinematic language, and the shipped ComfyUI nodes (`HappyHorseTextToVideoApi` / `ImageToVideoApi` /
   `ReferenceVideoApi`) plus the official `api_happyhorse1_1_{t2v,i2v,r2v}` templates. Verified against the
   templates and blog.comfy.org/p/happyhorse-11-is-now-available-in.
+- **Seedance 2.0 now does 4K.** Added 4K to the Seedance recipe (smoother gradients, richer tones, detail that
+  holds through motion and into post) plus the shipped official ComfyUI templates and modes: T2V, R2V, and
+  first/last-frame (FLF2V), each with a `_real_human` variant. Verified against the `api_seedance2_0_*` templates.
 
 ## [1.4.0] - 2026-06-24
 

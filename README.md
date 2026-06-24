@@ -164,7 +164,7 @@ One table, columns aligned to the widest row (the video models).
 | Video | Kling (1.6-3.0, O1/O3) | ✅ | API |
 | Video | Veo 3/3.1 | ✅ | API |
 | Video | Sora 2 | ✅ | API |
-| Video | Seedance 1.0/1.5/2.0 | ✅ | API |
+| Video | Seedance 1.0/1.5/2.0 (4K) | ✅ | API |
 | Video | Luma Ray · Runway Gen-4/4.5 | ✅ | API |
 | Video | MiniMax/Hailuo · PixVerse · Vidu · Pika | ✅ | API |
 | Audio | Stable Audio · ACE-Step · ChatterBox | ✅ | local |

@@ -466,8 +466,9 @@ Qwen-Image-Edit, OmniGen (above), Seedream Edit, and Nano Banana edit, which are
 - **Structure:** Subject -> Action (one verb/shot + speed + endpoint) -> Camera (shot size, then one move + angle + lens) -> Style -> Constraints; multi-shot via cut words ("Cut to / Camera switching"); 2.0 refs `@Image1 as the main character`.
 - **Strengths:** camera-language response (surround, aerial, zoom, pan, follow, handheld); multi-shot consistency; 2.0 native audio with phoneme-level lip-sync (8+ langs), camera-motion replication, beat-synced editing.
 - **Avoid:** stacking motion verbs, vague mood as camera direction; on-screen text and fast hands glitch; set "not fixed camera" when moving. Constraints (3-5 bans) substitute for a negative field.
-- **Settings:** 480/720/1080p, 24fps; 2-12s (1.0) / 4-15s or auto (2.0); 2.0 inputs up to 9 images / 3 videos / 3 audio.
-- **Source:** docs.byteplus.com (Seedance 1.0 / 2.0) ; node templates `seedance_*.md`.
+- **Settings:** 480/720/1080p, **2.0 now up to 4K** (smoother gradients, richer tones, detail that holds through motion and into post; the templates default to 720p, raise the resolution field for 4K), 24fps; 2-12s (1.0) / 4-15s or auto (2.0); 2.0 inputs up to 9 images / 3 videos / 3 audio (`model.reference_images.image_1..9`, `reference_videos.video_*`, `reference_audios.audio_*`).
+- **2.0 official ComfyUI templates / modes:** T2V, reference-to-video (R2V), first-last-frame (FLF2V), each with a `_real_human` variant tuned for realistic people; `api_seedance2_0_{t2v,r2v,flf2v}(_real_human).json` (Comfy-Org/workflow_templates), plus community storyboard-to-video / character-swap / LLM-prompt-helper.
+- **Source:** docs.byteplus.com (Seedance 1.0 / 2.0) ; Comfy-Org/workflow_templates `api_seedance2_0_*` ; ComfyUI "Seedance 2.0 4K is live" announce (2026-06).
 
 ### Luma Ray 2 / Ray 3 (Dream Machine)
 - **Prompt style:** keep camera OUT of the prompt (set via API "Concepts"); content-only.
