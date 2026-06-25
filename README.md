@@ -307,6 +307,8 @@ Field techniques in wide community use lean on:
 - **[ComfyUI-Flux2Klein-Enhancer](https://github.com/capitan01R/ComfyUI-Flux2Klein-Enhancer)** by capitan01R, the
   training-free multi-reference identity-transfer node suite for FLUX.2 Klein. Note: PolyForm Noncommercial license
   (commercial use needs a separate license).
+- **[Smart Image Crop and Stitch](https://github.com/HallettVisual/ComfyUI-Smart-Image-Crop-and-Stitch)** by
+  HallettVisual, an auto-sized crop/stitch node pair for high-res inpainting and detail edits (Apache-2.0).
 
 Full per-component licensing is in [ATTRIBUTION.md](ATTRIBUTION.md). If anything here misattributes your work,
 open an issue and it will be fixed.

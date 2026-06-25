@@ -14,6 +14,13 @@ vx.y.z`), which can become a GitHub Release.
 
 ## [Unreleased]
 
+### Added
+- **Crop-and-stitch inpainting technique + HallettVisual Smart Image Crop and Stitch.** New ADVANCED.md section on
+  detailed inpainting of a high-res image: crop the masked region, size it to the model's native resolution, generate,
+  stitch back. Documents the established `comfyui-inpaint-cropandstitch` and the auto-sizing alternative
+  `SmartImageCrop` / `SmartImageStitcher` (HallettVisual, Apache-2.0, ships a Flux Klein workflow), flagged as new.
+  Credited in ATTRIBUTION + README. Verified against the repo and its shipped workflow.
+
 ### Changed
 - **HappyHorse recipe upgraded 1.0 -> 1.1 (synchronized audio).** Native in-pass audio (dialogue / SFX / music),
   up to 9 reference images with no cross-contamination, long-context prompts (2,500+ chars, 6-8 scenes), full

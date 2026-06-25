@@ -105,6 +105,17 @@ Pulling a clean alpha with hair/fur edges and fractional (semi-transparent) pixe
 
 Sources: github.com/ZhengPeng7/BiRefNet ; huggingface.co/docs/transformers/model_doc/vitmatte ; github.com/vivoCameraResearch/SDMatte ; github.com/pq-yang/MatAnyone2 ; github.com/PeterL1n/RobustVideoMatting ; github.com/Code2Collapse/ComfyUI-CustomNodePacks ; github.com/Comfy-Org/workflow_templates.
 
+## Detailed inpainting on a high-res image (crop and stitch)
+
+Inpainting or detail-fixing a small region of a large image directly is wasteful and off-resolution: run the model on the full canvas and it is slow and OOM-prone; downsample the whole image and the result goes soft. The fix is **crop and stitch** - crop only the masked region, size that crop to the model's native resolution, generate, then composite it back into the full-res original. This is how you add a person, fix hands/faces, or do detailed edits without regenerating the whole image.
+
+- **Established:** `comfyui-inpaint-cropandstitch` (Comfy Registry) - the proven crop/stitch node pair, used in the Flux.2 masked-inpaint recipe here.
+- **Auto-sizing alternative (new):** **HallettVisual Smart Image Crop and Stitch** (Apache-2.0), nodes `SmartImageCrop` + `SmartImageStitcher`. It auto-sizes the crop to the model's native resolution AND your GPU limits (`force_divisibility` keeps it VAE/model-friendly), with no-mask modes (Bypass / Resize Full / Crop Full) and a stitcher that blends + color-matches on the way back, so the manual crop-sizing this pattern normally needs goes away. Ships a ready Flux Klein workflow. New as of mid-2026 and lightly battle-tested, so prefer the established node for production until it matures.
+- **Flow (either tool):** source `IMAGE` + `MASK` -> crop node -> process `crop_image` / `crop_mask` with your inpaint / detail / upscale graph -> stitcher node (+ the original image + the crop's stitch-info) -> final full-res image.
+- **Official workflow:** `Klein Smart Crop and Stitch Hallett.json` in the repo's `workflows/` (Flux Klein: UNETLoader + ReferenceLatent + SamplerCustomAdvanced feeding the two Smart nodes). Fetch the exact file rather than rebuilding it from memory.
+
+Sources: github.com/HallettVisual/ComfyUI-Smart-Image-Crop-and-Stitch ; Comfy Registry: comfyui-inpaint-cropandstitch.
+
 ## Tool reference (verified 2026-06, with license)
 
 | Tool | Repo / model | Use | License |

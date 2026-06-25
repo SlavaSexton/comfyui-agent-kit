@@ -37,6 +37,7 @@ when you want those features. Credit and licenses:
 | ComfyUI-MelBandRoFormer (audio stem separation) | community | Comfy Registry: ComfyUI-MelBandRoFormer | see repo |
 | ComfyUI-Frame-Interpolation (FILM / RIFE) | Fannovel16 | https://github.com/Fannovel16/ComfyUI-Frame-Interpolation | see repo |
 | comfyui-inpaint-cropandstitch (Flux.2 masked inpaint) | community | Comfy Registry: comfyui-inpaint-cropandstitch | see repo |
+| Smart Image Crop and Stitch (auto-sized high-res inpaint crop/stitch) | HallettVisual | https://github.com/HallettVisual/ComfyUI-Smart-Image-Crop-and-Stitch | Apache-2.0 |
 | GAP LTX 2.3 Motion (lipsync / storyboard) | GeekatplayStudio | https://github.com/GeekatplayStudio/LTX-2-3-LipSync | MIT |
 | ComfyUI-Flux2Klein-Enhancer (Flux.2 Klein identity-transfer suite) | capitan01R | https://github.com/capitan01R/ComfyUI-Flux2Klein-Enhancer | PolyForm Noncommercial 1.0.0 |
 
