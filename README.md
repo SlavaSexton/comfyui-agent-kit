@@ -121,7 +121,7 @@ template-only): **[docs/MODEL_INDEX.md](docs/MODEL_INDEX.md)**.
 ### Coverage table: every model and whether a prompt recipe is ready
 
 `✅ recipe` = a dedicated, up-to-date prompting guide in [MODELS.md](skills/comfyui/MODELS.md). `🔧 tool` = an
-enhancement/utility note (settings, not prompts). **Updated: 2026-06-23.**
+enhancement/utility note (settings, not prompts). **Updated: 2026-06-25.**
 
 One table, columns aligned to the widest row (the video models).
 

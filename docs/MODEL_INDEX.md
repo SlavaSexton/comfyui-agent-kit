@@ -13,7 +13,7 @@ template-only coverage (runnable via a template, no dedicated recipe yet).
 **Totals:** ✅ 66 recipe families (covering ~119 model-name variants) · 🔧 18 utility tools · 📋 a few obscure
 template-only · plus text encoders / inference providers that are not generative models.
 
-**Updated: 2026-06-23.** Every ✅ entry has a current prompting recipe in
+**Updated: 2026-06-25.** Every ✅ entry has a current prompting recipe in
 [`MODELS.md`](../skills/comfyui/MODELS.md); every 🔧 entry has a when-to-use + settings note.
 
 ---

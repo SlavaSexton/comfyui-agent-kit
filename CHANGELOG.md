@@ -14,6 +14,8 @@ vx.y.z`), which can become a GitHub Release.
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-06-25
+
 ### Added
 - **kijai ecosystem mega-brain (`docs/KIJAI.md`).** Deep-researched all 62 of kijai's ComfyUI repos (read live from
   github.com/kijai on 2026-06-24, dated) into a structured reference: a "pick a tool by task" table, a supersede map
