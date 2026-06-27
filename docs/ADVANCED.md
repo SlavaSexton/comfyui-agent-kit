@@ -50,12 +50,12 @@ The 2026 stack moved from SD-era flow hacks to native video models. Honest hiera
 - **Single-image decomposition (run per-frame, then fight flicker externally):**
   - **Marigold + IID** (`kijai/ComfyUI-Marigold`, Apache-2.0) - the practical route: depth, normals, and Intrinsic Image Decomposition into albedo + roughness + metallic (Appearance) or albedo + shading (Lighting).
   - **StableNormal + StableDelight** (`Stable-X`, via `kijai/ComfyUI-StableXWrapper`, Apache-2.0) - sharp/stable normals and specular removal (de-light toward true albedo).
-  - **StableMaterials** (`gvecchio/StableMaterials`, openrail, commercial-OK) - basecolor/normal/height/roughness/metallic, tileable, but it SYNTHESIZES a material rather than faithfully decomposing your exact frame.
+  - **StableMaterials** (`gvecchio/StableMaterials`, openrail, commercial-OK) - basecolor/normal/height/roughness/metallic, tileable, but it SYNTHESIZES a material rather than faithfully decomposing your exact frame. Load the pipeline with `trust_remote_code=True` (custom pipeline, won't run without it); recommended `guidance_scale=10.0`, `num_inference_steps=50` (or the LCM fast variant: load subfolder `unet_lcm` + swap in `LCMScheduler`, 4 steps); `inference: false` in the card means no hosted API, run it locally.
   - **DeepBump** (`HugoTini/DeepBump` via `comfy_mtb`, GPL-3.0) - normal + height only, filter-grade.
   - **QFX-PBRGenerator** / **TextureAlchemy** - full-channel packs, but their "intelligence" is mostly Marigold/Lotus underneath plus procedural tooling (tiling, channel-pack, AO/curvature).
   - **Higher fidelity but NON-COMMERCIAL:** **rgb2x / RGB-X** (`zheng95z/rgbx` + `toyxyz/ComfyUI_rgbx_Wrapper`; albedo/normal/roughness/metallic/irradiance; Adobe Research, noncommercial) and **Ubisoft CHORD** (`ubisoft/ComfyUI-Chord`; full basecolor/normal/height/roughness/metalness; Ubisoft research-only license).
 - **The only true temporal method:** **NVIDIA UniRelight** (`nv-tlabs/UniRelight`) denoises the whole clip jointly so attention enforces cross-frame consistency. But it is NVIDIA noncommercial, has NO ComfyUI node, and outputs albedo + relit video only (no metallic/roughness/height).
-- **3D route (real PBR, but UV/mesh space, not aligned per-frame passes):** **TRELLIS.2** (`microsoft/TRELLIS.2-4B`, MIT, commercial-OK) and **Hunyuan3D-2.1** emit basecolor/roughness/metallic on a generated mesh. Cleaner PBR, but it solves "make a 3D asset," not "decompose my footage."
+- **3D route (real PBR, but UV/mesh space, not aligned per-frame passes):** **TRELLIS.2** (`microsoft/TRELLIS.2-4B`, MIT, commercial-OK) and **Hunyuan3D-2.1** emit basecolor/roughness/metallic on a generated mesh. Cleaner PBR, but it solves "make a 3D asset," not "decompose my footage." CAVEATS for TRELLIS.2-4B: it is NOT a ComfyUI node and NOT a diffusers pipeline - it needs the `microsoft/TRELLIS.2` GitHub stack (the `trellis2` + `o_voxel` packages) installed; it is LINUX-ONLY, needs 24GB+ VRAM, and was tested on A100/H100 only (consumer RTX GPUs untested, CUDA 12.4 recommended). Image-to-3D (single image -> GLB mesh with PBR); resolution/speed tradeoff 512 cubed (~3s H100) / 1024 cubed (~17s) / 1536 cubed (~60s); base model with NO RLHF alignment (style varies with the training distribution), and raw meshes may have small holes needing post-process hole-fill.
 - **Realistic recipe for a sequence today:** decompose each frame with the Apache-2.0 stack (Marigold-IID for albedo/roughness/metallic, StableNormal for normals, StableDelight to kill specular), then add an explicit temporal pass (optical-flow warp + blend, the `pablodawson/Marigold-Video` technique) to suppress flicker. It reduces, not eliminates, flicker; metallic and height are the least reliable channels (single-photo material is physically ambiguous, so there is a real precision ceiling). For commercial cleanliness stay on Apache/openrail tools and avoid rgb2x / CHORD / UniRelight.
 
 ## Max detail, precision, and sequence-native VFX I/O
@@ -87,6 +87,8 @@ Pulling a clean alpha with hair/fur edges and fractional (semi-transparent) pixe
 **Honest limits:** true transparency (glass, smoke, veils) and fast motion-blur edges are where every one of these is weakest. MatAnyone CLAIMS them but it is research-grade and untested on arbitrary plates; thin flyaway wisps are the hardest case; per-frame models shimmer; trimap-free models bias interior alpha to opaque; 4K is checkpoint/tile dependent, not free; a bad coarse mask propagates as a bad matte. None replace hand roto on a hero transparency shot.
 
 **License map:** commercial-safe MIT - BiRefNet, ViTMatte, Matte-Anything, SDMatte, InSPyReNet, LayerStyle, SeC, the Code2Collapse pack. Flag: RMBG-2.0 (CC BY-NC, noncommercial), MatAnyone / MatAnyone2 (NTU S-Lab research-only), RVM and ComfyUI-RMBG (GPL-3.0 copyleft).
+
+**RMBG-2.0 load caveats:** the model is GATED on HF - accept the license + use a token to download (an unauthenticated `from_pretrained` returns 401), and loading requires `trust_remote_code=True` (omitting it fails with a load error). Both omissions cause silent failures when an agent tries to use it without the right credentials or load flag.
 
 | Matting tool | Repo / model | Use | License |
 |---|---|---|---|
@@ -121,7 +123,7 @@ Sources: github.com/HallettVisual/ComfyUI-Smart-Image-Crop-and-Stitch ; Comfy Re
 | Tool | Repo / model | Use | License |
 |---|---|---|---|
 | WanVideoWrapper | github.com/kijai/ComfyUI-WanVideoWrapper | Wan 2.x + context windows + FreeNoise | Apache-2.0 |
-| Wan VACE | huggingface.co/Wan-AI/Wan2.1-VACE-14B | control / vid2vid / inpaint, temporally stable | per HF page |
+| Wan VACE | huggingface.co/Wan-AI/Wan2.1-VACE-14B | control / vid2vid / inpaint, temporally stable | Apache-2.0 |
 | AnimateDiff-Evolved | github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved | SD1.5/SDXL long stable anim | Apache-2.0 |
 | comfyui_controlnet_aux | github.com/Fannovel16/comfyui_controlnet_aux | depth/pose/tile preprocessors for per-frame control | Apache-2.0 |
 | Frame-Interpolation | github.com/Fannovel16/ComfyUI-Frame-Interpolation | RIFE / FILM interpolation | MIT |
@@ -143,6 +145,8 @@ Sources: github.com/HallettVisual/ComfyUI-Smart-Image-Crop-and-Stitch ; Comfy Re
 | CoCoTools_IO | github.com/Conor-Collins/ComfyUI-CoCoTools_IO | EXR sequence/layer, OCIO color management | MIT |
 
 Flag the NONCOMMERCIAL ones (rgb2x, CHORD, UniRelight, the MultiDiffusion part of TiledDiffusion) before any commercial use; everything else above is permissive (Apache/MIT/openrail/GPL).
+
+**Wan2.1-VACE-14B (Apache-2.0) recipe:** three input modes - R2V (`src_ref_images`, no preprocessing), V2V (`src_video`, needs preprocessing for depth/pose), MV2V (masked video editing, needs preprocessing); V2V/MV2V run the `vace_preproccess.py` step, R2V skips it. Resolution targets: 480P (~81x480x832) and 720P (~81x720x1280) - the 14B supports both, the 1.3B is 480P only. CLI: `--task vace-14B` (or `vace-1.3B`) with `--src_ref_images` / `--src_video` / `--src_mask`; a negative prompt is recommended (same boilerplate as T2V/I2V). Full per-task parameter docs: github.com/ali-vilab/VACE/blob/main/UserGuide.md.
 
 ## Sources
 

@@ -35,7 +35,7 @@ FLUX prose will not help SDXL).
 | GPT-Image, Grok Image | structured brief / 5-part | exclusions slot, no negative field |
 | Reve, Kandinsky | natural language | Reve no / Kandinsky yes |
 | Wan 2.x / 2.5-2.7 | cinematic shot description | supported (best on 2.2+) |
-| LTX-2.3 / 2 Pro | tagged or flowing shot list + audio | Dev only (CFG>1), Distilled ignores |
+| LTX-2.3 / 2 Pro | one flowing paragraph, NOT tag dumps + audio | Dev only (CFG>1), Distilled ignores |
 | Hunyuan Video | detailed natural language + motion | leans on positive + prompt-rewrite |
 | Kling, Seedance, MiniMax | structured + camera direction | Kling yes / others use exclusions |
 | Veo, Sora | natural / storyboard, audio after visual | descriptive exclusions at end |
@@ -89,7 +89,7 @@ FLUX prose will not help SDXL).
 - **Prompt style:** natural-language descriptive, subject-first; no special token syntax. Optional LLM prompt-enhancement template in the repo.
 - **Strengths:** photorealism, accurate bilingual (EN/CN) text, strong instruction adherence, sub-second on 16GB VRAM.
 - **Avoid:** negative prompts not used (CFG-distilled); high CFG (4+) degrades results.
-- **Settings:** ~8-9 steps; CFG 0.0 per the official card (community ComfyUI guides ~1.5-2.0 if any); 1024x1024 best (2K direct can distort, upscale + second pass at ~0.3 denoise); community sampler euler_ancestral or dpmpp_sde, scheduler sgm_uniform.
+- **Settings:** 9 steps (8 DiT forwards) per the official card; CFG 0.0 per the official card (community ComfyUI guides ~1.5-2.0 if any); torch_dtype bfloat16 (official); 1024x1024 best (2K direct can distort, upscale + second pass at ~0.3 denoise); community sampler euler_ancestral or dpmpp_sde, scheduler sgm_uniform.
 - **Source:** huggingface.co/Tongyi-MAI/Z-Image-Turbo ; docs.comfy.org/tutorials/image/z-image/z-image-turbo.
 - **ControlNet (Fun-Controlnet-Union, alibaba-pai, Apache-2.0):** union ControlNet for Z-Image-Turbo; modes Canny / Depth / Pose / HED / MLSD (+ Scribble in the 2601 build, + Gray in 2602), plus an inpaint mode. Use the distilled `2.1-2602-8steps` variant at 8 steps (the non-distilled 2.0/2.1 lose Turbo's acceleration and then need more steps + cfg). Main knob `control_context_scale` 0.65-1.00 (higher = stronger control and better detail preservation); a detailed prompt helps stability. ComfyUI wiring: load the weights with `ModelPatchLoader`, apply with a DiffSynth ControlNet node (`QwenImageDiffsynthControlnet` in the reference graph; confirm the exact node/pack against `/object_info`). Source: huggingface.co/alibaba-pai/Z-Image-Turbo-Fun-Controlnet-Union-2.1 ; github.com/aigc-apps/VideoX-Fun.
 - **Upscale (two options, pick by need):** (1) hires-fix / controlnet-locked: resize up (lanczos 2x) then a Z-Image-Turbo img2img refine with the Union ControlNet locking composition. VERIFIED by testing: the ControlNet holds STRUCTURE (pose, framing, edges) but Z-Image still regenerates content, so at denoise ~0.4-0.7 a real person's face drifts to a similar-but-different identity (structure preserved, identity NOT). Keep denoise ~0.2 to stay faithful (little detail gain), or treat this mode as stylize/enhance, not identity-faithful SR. (2) real super-resolution: the companion `Z-Image-Turbo-Fun-Controlnet-Tile-2.1-2601-8steps` Tile model, trained to 2048x2048 for SR, 8 steps, tiled so structure holds WITHOUT reinterpreting; this is the faithful path. For an identity-locked face upscale, prefer a GAN (Real-ESRGAN) or the Tile model, optionally with a face-ID adapter (PuLID/InstantID). Cost / gotchas: needs the controlnet checkpoint(s) + custom nodes (DiffSynth ControlNet apply node, KJNodes `ImageResizeKJv2`, rgthree Power Lora Loader; core `Canny` or controlnet_aux for the control image); a single high-res pass with the FULL 6.7GB control model is VRAM-heavy and offloads (a ~2.7K refine OOM-crashed a running server on a 24GB card), so cap the target resolution or use the lite control model.
@@ -115,7 +115,7 @@ FLUX prose will not help SDXL).
 - **Structure:** subject + descriptors + style + quality/medium + lighting.
 - **Strengths:** 1024-native coherence, better hands/anatomy than SD1.5, huge LoRA/ControlNet ecosystem.
 - **Avoid:** negatives supported and effectively required (no built-in quality filter); never generate at 512x512.
-- **Settings:** 1024x1024 (or 832x1216, etc.); ~25-40 steps; CFG ~5-8 (~7); sampler DPM++ 2M / Euler a + Karras; optional base->refiner split. (Step/CFG are community-standard ComfyUI defaults, not a fixed official spec.)
+- **Settings:** 1024x1024 (or 832x1216, etc.); ~25-40 steps; CFG ~5-8 (~7); sampler DPM++ 2M / Euler a + Karras; optional base->refiner split at the official 80/20 ratio (`high_noise_frac=0.8`: `denoising_end=0.8` on base, `denoising_start=0.8` on refiner, n_steps=40, per the card example). (Step/CFG are community-standard ComfyUI defaults, not a fixed official spec.)
 - **Source:** huggingface.co/stabilityai/stable-diffusion-xl-base-1.0.
 
 ### Stable Diffusion 1.5
@@ -123,14 +123,15 @@ FLUX prose will not help SDXL).
 - **Structure:** subject tags -> descriptor tags -> style/quality tags.
 - **Strengths:** speed, low VRAM, massive community models/LoRAs/embeddings.
 - **Avoid:** negatives supported and heavily used ("blurry, lowres, bad anatomy, watermark"); don't generate far above 512 natively (use hi-res fix); weak hands/text.
-- **Settings:** 512x512 native, guidance 7.5, 50 PNDM/PLMS steps per the official card (community ~20-30 steps, CFG 7); samplers Euler a / DPM++ 2M Karras.
-- **Source:** huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5.
+- **Settings:** 512x512 native, guidance ~7 (community default; the official card prescribes NO single CFG, it only evaluates a 1.5-8.0 range), 50 PNDM/PLMS steps (community ~20-30 steps, CFG 7); samplers Euler a / DPM++ 2M Karras.
+- **Source:** huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5 (unofficial mirror, not RunwayML-affiliated); canonical weights now live at huggingface.co/sd-legacy/stable-diffusion-v1-5.
 
 ### Stable Diffusion 3.5 Large (Stability)
 - **Prompt style:** natural-language sentences (trained on natural language; handles them far better than SD1.5/SDXL).
 - **Structure:** Style, Subject + Action, Composition/Framing, Lighting/Color, Technical, Text integration, Negative; ~1MP, dimensions divisible by 64.
 - **Avoid:** keyword weighting and bracket/emphasis syntax do NOT work, write plain natural language.
-- **Settings:** steps 28 (official example; community up to ~40), guidance 3.5-4.5 (4.5 complex); SD3-family nodes; ~1MP divisible by 64.
+- **Settings:** steps 28 (official example; community up to ~40), guidance 3.5-4.5 (4.5 complex); max_sequence_length 512 for the long / quantized-prompt path; SD3-family nodes; ~1MP divisible by 64.
+- **Download:** GATED on HF, accept the license + use a token to download (Stability AI Community License form at huggingface.co/stabilityai/stable-diffusion-3.5-large before the weights are accessible). License: free for orgs / individuals under $1M annual revenue, enterprise license required above that.
 - **Source:** huggingface.co/stabilityai/stable-diffusion-3.5-large.
 
 ### HiDream-I1
@@ -138,6 +139,7 @@ FLUX prose will not help SDXL).
 - **Strengths:** state-of-the-art prompt adherence and quality (DPG-Bench 85.89, GenEval 0.83), good text rendering.
 - **Avoid:** negative-prompt support not documented; Full (CFG-guided) can use them, Dev/Fast run at guidance 0.0 so negatives are inert.
 - **Settings:** Full 50 steps guidance 5.0; Dev 28 steps guidance 0.0; Fast 16 steps guidance 0.0; ComfyUI HiDream sampler nodes.
+- **Setup:** requires Flash Attention installed (a hard dependency, not optional) + CUDA 12.4 recommended; inference auto-downloads `meta-llama/Meta-Llama-3.1-8B-Instruct` as the LLM text encoder, which needs a separate HF token with Meta Llama access approved at huggingface.co/meta-llama/Meta-Llama-3.1-8B-Instruct. License: MIT for the transformer weights; the Llama 3.1 Community License governs the text-encoder component.
 - **Source:** github.com/HiDream-ai/HiDream-I1 ; huggingface.co/HiDream-ai/HiDream-I1-Full.
 
 ## Image models (API / closed)
@@ -222,7 +224,7 @@ FLUX prose will not help SDXL).
 - **Strengths:** commercial-safe (licensed-data only), short 1-6 word text rendering, photorealism, prompt adherence.
 - **Avoid:** long text passages (optimized for 1-6 words). Negatives ARE supported (`negative_prompt`, active when guidance_scale > 1).
 - **Settings:** FlowMatchEulerDiscrete; guidance_scale 5.0; ~30-50 steps; 1024x1024; true CFG (not distilled); T5 precision-sensitive (bf16 + final layer fp32), VAE fp32; gated.
-- **Source:** huggingface.co/briaai/BRIA-3.2.
+- **Source:** huggingface.co/briaai/BRIA-3.2 (GATED - fill the form + `hf auth login` to download; commercial Bria license, free trial at bria.ai) ; github.com/Bria-AI/BRIA-3.2 (pipeline source + ComfyUI nodes + API) ; huggingface.co/docs/diffusers/api/pipelines/bria_3_2 (`BriaPipeline`, public, no gate - recipe verified here).
 
 ### OmniGen (v1 / v2) - unified gen + edit
 - **Prompt style:** instruction + inline image placeholders.
@@ -236,15 +238,17 @@ FLUX prose will not help SDXL).
 - **Structure:** descriptive sentence(s): subject, style, lighting, palette.
 - **Strengths:** Apache-2.0 open-weight 8.9B from FLUX.1-schnell; broad/less-censored aesthetic range; Chroma1-HD is the higher-quality variant.
 - **Avoid:** no official prompt-recipe doc (maker says users figure settings out), treat numbers as examples. Negatives supported (card example: "low quality, ugly, unfinished, out of focus, deformed, blurry, flat colors").
-- **Settings:** card example ~40 steps, CFG 3.0; ChromaPipeline; same optimizations as Flux.
+- **Settings:** card example ~40 steps, CFG 3.0, bfloat16; ChromaPipeline; same optimizations as Flux.
+- **ComfyUI setup:** put the checkpoint in `diffusion_models/` (NOT `checkpoints/`); needs a T5 XXL text encoder (`t5xxl_fp16.safetensors`) in `models/clip/` and the FLUX VAE (`ae.safetensors`) in `models/vae/` as separate downloads. Official workflow JSON: huggingface.co/lodestones/Chroma1-HD/resolve/main/ComfyUI_Chroma1-HD_T2I-workflow.json. Worked card example: "A high-fashion close-up portrait of a blonde woman in clear sunglasses ... bold teal and red color split ... designed for viewing with anaglyph 3D glasses." Sister model `Chroma1-Flash` is the fast CFG-baked variant if throughput matters.
 - **Source:** huggingface.co/lodestones/Chroma1-HD.
 
 ### Krea 1 (FLUX.1 Krea [dev])
 - **Prompt style:** natural-language, no weighting syntax.
-- **Structure:** subject + style + scene + lighting + colors ("A linocut illustration of a forest clearing at sunset, soft natural light, earthy tones"); short imaginative prompts work.
+- **Structure:** subject + style + scene + lighting + colors; short imaginative prompts work. Official card gallery prompts: "Astronaut in a jungle, cold color palette, muted colors, detailed, 8k" and "A frog holding a sign that says hello world".
 - **Strengths:** photorealism without the "AI look" (no plastic texture / blurred-bg artifacts); drop-in for FLUX.1 [dev].
 - **Avoid:** filler ("beautiful", "amazing"); ignores `(best quality:1.3)` / `[[masterpiece]]` brackets/colons; guidance-distilled so no true CFG/negative (like FLUX.1 [dev]).
 - **Settings:** guidance_scale 4.5 (official example); 1024x1024; FLUX.1 [dev] pipeline.
+- **Download / license:** GATED on HF, accept the license + use a token to download (must accept the FluxDev Non-Commercial License Agreement + Acceptable Use Policy on the model page first). License is NON-COMMERCIAL only (flux-1-dev-non-commercial-license).
 - **Source:** huggingface.co/black-forest-labs/FLUX.1-Krea-dev ; docs.krea.ai.
 
 ### Krea 2 (Krea AI, open weights)
@@ -256,6 +260,10 @@ FLUX prose will not help SDXL).
   medium, e.g. `stylized digital painting of a dark convertible on a winding coastal cliff road, high-angle
   perspective, blocky painterly brushstrokes, golden hour sunlight hitting rocky orange terrain and green
   vegetation, ... vibrant warm color palette, sharp graphic shadows`.
+- **Style-suffix pattern (from ~15 of the 20 official Raw/Turbo gallery prompts):** append a comma-separated style
+  tag at the END of the scene description to steer style: `<scene>, <style tag>`. Example tags from the cards:
+  `halftone texture`, `thermal imaging style`, `impressionist painting, visible brushstrokes`, `black and white
+  photography` (others in the galleries: low-poly 3D models, anime, vintage collage, dark fantasy concept art).
 - **Two models that pair:** **RAW** (base, undistilled, diverse and malleable) is for fine-tuning and LoRA training;
   **Turbo** (8-step distilled) is for fast inference. Train LoRAs on RAW, then apply them on Turbo (compatible).
 - **Strengths:** from-scratch MMDiT; the most aesthetic open-weight image model and the #1 text-to-image model from
@@ -266,9 +274,11 @@ FLUX prose will not help SDXL).
 - **Run it (ComfyUI, day-0 native, no custom nodes):** official template `image_krea2_turbo_t2i` in the Comfy-Org
   template library. Comfy-Org repackaged the weights at `huggingface.co/Comfy-Org/Krea-2`:
   `diffusion_models/krea2_turbo_fp8_scaled` (plus BF16 / NVFP4 variants), `text_encoders/qwen3vl_4b_fp8_scaled`,
-  `vae/qwen_image_vae`. Four official style LoRAs (`Comfy-Org/Krea-2/loras`) with auto-applied trigger words:
-  `krea2_coolblue` (teal watercolor, 0.8), `krea2_darkbrush` (monochrome ink wash, 1.0), `krea2_plasmoid` (ethereal
-  shimmering light, 0.8), `krea2_warmpastel` (muted minimalist sketch, 0.8).
+  `vae/qwen_image_vae`. NINE official style LoRAs (`Comfy-Org/Krea-2/loras`), each with its trigger word at strength
+  1.0 (put the trigger phrase in the prompt): `krea2_darkbrush` "monochrome ink wash style", `krea2_dotmatrix`
+  "monochrome stippling style", `krea2_kidsdrawing` "naive expressive sketch style", `krea2_neondrip` "textured abstract
+  style", `krea2_rainywindow` "rainy window style", `krea2_retroanime` "purple retro anime style", `krea2_softwatercolor`
+  "art deco watercolor style", `krea2_sunsetblur` "ethereal motion blur style", `krea2_vintagetarot` "vintage tarot style".
 - **License:** the code is Apache-2.0; the WEIGHTS use the Krea 2 Community License: commercial use needs a separate
   Enterprise License (community use is non-commercial), with acceptable-use / content-filter obligations.
 - **Source:** github.com/krea-ai/krea-2 (incl. `docs/prompting.md`) ; huggingface.co/Comfy-Org/Krea-2 (ComfyUI repackaged) ;
@@ -301,7 +311,8 @@ Qwen-Image-Edit, OmniGen (above), Seedream Edit, and Nano Banana edit, which are
 - **Structure:** CRITICAL text rule - enclose literal target text in quotes ('...' / "..."); a character-level encoder handles quoted content, unquoted text renders poorly. Edit instructions are direct ("turn the cat into a dog").
 - **Strengths:** multilingual text in images, photorealism, efficient (6B beats larger on several benchmarks).
 - **Avoid:** forgetting quotes around target text. Negative prompt can be empty.
-- **Settings (edit):** 50 steps, guidance_scale 4.5, bf16, ~18GB VRAM with CPU offload.
+- **Settings (T2I):** guidance_scale 4.0, 50 steps, 768x1344 canonical resolution, `enable_cfg_renorm=True`, `enable_prompt_rewrite=True` (LLM prompt-refine flag, improves quality), bf16, ~17GB VRAM with CPU offload.
+- **Settings (edit):** guidance_scale 4.5, 50 steps, bf16, ~18GB VRAM with CPU offload.
 - **Source:** huggingface.co/meituan-longcat/LongCat-Image-Edit ; huggingface.co/meituan-longcat/LongCat-Image.
 
 ### ChronoEdit (NVIDIA)
@@ -371,8 +382,9 @@ Qwen-Image-Edit, OmniGen (above), Seedream Edit, and Nano Banana edit, which are
   to download). Per the paper (arXiv 2604.11788, "HDR Video Generation via Latent Alignment with Logarithmic Encoding")
   a logarithmic encoding maps HDR into the model's latent so a light IC-LoRA adapts it without retraining the encoder.
   READY workflow ships in the pack: `ComfyUI-LTXVideo/example_workflows/2.3/LTX-2.3_ICLoRA_HDR_Distilled.json` (with the
-  `hdr.py` node + an `hdr_input_video.mp4` example); needs a CURRENT ComfyUI-LTXVideo (the `LTXICLoRALoaderModelOnly`
-  node, absent in older installs). Save to an HDR-capable format (EXR / 16-bit / HDR video), NOT 8-bit PNG. Source:
+  `hdr.py` node + an `hdr_input_video.mp4` example); needs a CURRENT ComfyUI-LTXVideo with BOTH required nodes,
+  `LTXICLoRALoaderModelOnly` (loads the LoRA + extracts the downscale factor) AND `LTXAddVideoICLoRAGuide` (adds the small
+  latent as a guide), both absent in older installs. Save to an HDR-capable format (EXR / 16-bit / HDR video), NOT 8-bit PNG. Source:
   huggingface.co/Lightricks/LTX-2.3-22b-IC-LoRA-HDR ; hdr-lumivid.github.io ; github.com/Lightricks/ComfyUI-LTXVideo.
 - **Water Simulation IC-LoRA (add water to a live shot):** `Lightricks/LTX-2.3-22b-IC-LoRA-Water-Simulation` (file
   `ltx-2.3-22b-ic-lora-water-simulation-0.9.safetensors`; gated LTX-2-community-license; v2v reference-conditioned).
@@ -448,7 +460,8 @@ Qwen-Image-Edit, OmniGen (above), Seedream Edit, and Nano Banana edit, which are
 - **Structure:** subject + appearance -> action/motion (speed/intensity) -> camera movement -> scene -> lighting/style.
 - **Strengths:** motion quality and physical realism, instruction following, subject consistency across camera moves.
 - **Avoid:** leans on positive description + Prompt Rewrite rather than negatives; FP8 the diffusion model if OOM.
-- **Settings (ComfyUI native T2V):** 1280x720x129f, 24 fps; steps ~20-30; sampler euler (default); scheduler simple; CFG ~6.0; denoise 1.0; encoders clip_l + llava_llama3 (fp8_scaled); VAE hunyuan_video_vae.
+- **Settings (ComfyUI native T2V):** 1280x720x129f, 24 fps; steps ~20-30; sampler euler (default); scheduler simple; CFG ~6.0; denoise 1.0; encoders clip_l + llava_llama3 (fp8_scaled); VAE hunyuan_video_vae; flow-shift 7.0 is the card's scheduler shift value when configuring advanced sampler nodes.
+- **VRAM floor (card):** 720p (720x1280x129f) needs ~60GB GPU memory, 540p (544x960x129f) needs ~45GB; a single consumer 24GB GPU CANNOT run 720p even with FP8 (FP8 saves only ~10GB) - use 540p or multi-GPU xDiT.
 - **Source:** huggingface.co/tencent/HunyuanVideo ; docs.comfy.org/tutorials/video/hunyuan/hunyuan-video.
 
 ### SVD (Stable Video Diffusion, Stability)
@@ -550,6 +563,7 @@ Qwen-Image-Edit, OmniGen (above), Seedream Edit, and Nano Banana edit, which are
 - **Strengths:** SFX, foley, ambiences, drum/instrument loops; precise BPM and instrument naming.
 - **Avoid:** vocals/singing, full songs, non-English prompts.
 - **Settings:** 44.1kHz stereo; max ~47s (default 47.6s via EmptyLatentAudio); steps in KSampler.
+- **Download / license:** GATED on HF, accept the license + use a token to download (requires an HF account + license-agreement form at huggingface.co/stabilityai/stable-audio-open-1.0 before the weights are accessible). License is NON-COMMERCIAL only (stable-audio-community); commercial use requires a separate license from stability.ai/license.
 - **Source:** huggingface.co/stabilityai/stable-audio-open-1.0 ; docs.comfy.org/tutorials/audio/stable-audio.
 
 ### ACE-Step
@@ -615,15 +629,22 @@ those); a few are thin on prompt specifics and say so.
 
 ### Image
 
-**Capybara** (unified image + video, gen + edit), Glanty / xgen-universe, built on HunyuanVideo-1.5: T2I, image edit
-(TI2I), T2V, I2V, video edit. Natural language for generation, imperative instruction for edits ("Change the time to
-night"); optional Qwen3-VL-8B auto-rewrite expands short prompts. Image 720p / 50 steps, video 480p / 50 steps
-(frames 81/101/121), guidance 4.0; FP8 available; negatives not documented. Source: huggingface.co/xgen-universe/Capybara.
+**Capybara** (unified image + video, gen + edit), Glanty / xgen-universe, built on HunyuanVideo-1.5. The card defines
+exactly four `--task_type` values: t2i, t2v, ti2i (instruction image edit), tv2v (instruction video edit); there is no
+I2V task. Natural language for generation, imperative instruction for edits ("Change the time to night"); optional
+Qwen3-VL-8B auto-rewrite expands short prompts (separate Qwen/Qwen3-VL-8B-Instruct download). Image 720p / 50 steps,
+video 480p / 50 steps (frames 81/101/121). guidance_scale default is 1.0 (the card's parameter-table default); the 4.0
+seen in the T2V/T2I example commands is a per-command override, not the default. FP8 available but requires NVIDIA
+compute capability >= 8.9 (Ada Lovelace / Hopper: RTX 4090 / L40 / H100), so an RTX 3090 (cc 8.6) cannot use FP8.
+Negatives not documented. Source: huggingface.co/xgen-universe/Capybara.
 
 **Bernini-R** (image/video relighting edit), ByteDance, Wan2.2-based (also a 1.3B Wan2.1 fine-tune ~2.6GB). No official
 prompt guide; prompt like a Wan/Qwen-edit relight: describe target lighting (direction, temperature, intensity, mood)
 + what to preserve ("keep subject and pose; relight as warm sunset key from camera-left"); use a reference image to
-carry lighting across a set. Treat steps/CFG like a Wan2.2 edit workflow. Source: huggingface.co/Comfy-Org/Bernini-R.
+carry lighting across a set. Treat steps/CFG like a Wan2.2 edit workflow. Quantized variants for VRAM-constrained
+setups (in the repo beyond the fp16 high/low-noise files): `wan2.2_bernini_r_high_noise_fp8_scaled.safetensors`,
+`wan2.2_bernini_r_high_noise_mxfp8.safetensors`, `wan2.2_bernini_r_low_noise_fp8_scaled.safetensors`,
+`wan2.2_bernini_r_low_noise_mxfp8.safetensors`. Source: huggingface.co/Comfy-Org/Bernini-R.
 
 **Anima** (anime t2i), CircleStone Labs, 2B (Qwen-3 0.6B encoder). Danbooru tags, natural language, or mix; order
 `[quality/meta/year/safety] [char count] [character] [series] [artist] [general]`; positive prefix `masterpiece,
@@ -712,7 +733,11 @@ upscale on a hero, frame interpolation on a clip, a depth map to drive ControlNe
   together). Target the short edge (default 1080); 3B (fast) vs 7B (quality); FP16/FP8/GGUF; batch follows the
   4n+1 rule (1,5,9,13,21...); ~8GB to 24GB+. Source: github.com/numz/ComfyUI-SeedVR2_VideoUpscaler.
 - **FlashVSR** (video super-res): one-step streaming diffusion, ~17 FPS at 768x1408 on an A100; designed for 4x SR
-  (use 4x for best stability); V1.1 recommended. Source: huggingface.co/JunhaoZhuang/FlashVSR.
+  (use 4x for best stability); V1.1 recommended. CAVEAT: needs the Block-Sparse Attention (LCSA) module
+  (`mit-han-lab/Block-Sparse-Attention`, a compile-and-install dependency, memory-intensive at build time); without it
+  ComfyUI and other third-party implementations fall back to DENSE attention with noticeable quality degradation at
+  higher resolutions (the card calls out early ComfyUI versions as affected). GPU compatibility confirmed on A100/A800
+  only; RTX 40/50 and H800 untested. Source: huggingface.co/JunhaoZhuang/FlashVSR.
 - **Z-Image-Turbo Fun-ControlNet-Tile** (diffusion tile SR): ControlNet-Tile super-res for the Z-Image-Turbo stack,
   trained to 2048x2048, 8-step distilled; tiled so structure holds while enlarging. Reuses the Z-Image loader
   (8 steps, low CFG), so no separate SR model stack. This is the IDENTITY-FAITHFUL path: unlike the Union
