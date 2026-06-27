@@ -279,6 +279,17 @@ FLUX prose will not help SDXL).
   "monochrome stippling style", `krea2_kidsdrawing` "naive expressive sketch style", `krea2_neondrip` "textured abstract
   style", `krea2_rainywindow` "rainy window style", `krea2_retroanime` "purple retro anime style", `krea2_softwatercolor`
   "art deco watercolor style", `krea2_sunsetblur` "ethereal motion blur style", `krea2_vintagetarot` "vintage tarot style".
+- **Community style LoRAs (fal, ~1503):** beyond the 9 official LoRAs, `ilkerzgi/fal-Krea-2-Style-LoRAs` indexes ~1503
+  community style LoRAs for Krea 2 Turbo (Krea-2 Community License), each its own repo (e.g. `ilkerzgi/krea-2-airy-porcelain-blue-lora`).
+  Put the style trigger at the END of the prompt, LoRA scale 1.0-1.25; run on fal `fal-ai/krea-2/turbo/lora` or download the individual LoRA.
+- **Weak VAE, better decode (community):** Krea 2 ships the Qwen-Image VAE, widely considered its weak link. For a cleaner
+  decode, swap in the WAN 2.1 VAE, or use **NVIDIA PiD** (Pixel Diffusion Decoder, `nvidia/PiD` / `nv-tlabs/PiD`; ComfyUI nodes
+  `tsolful/ComfyUI-PiD`, `Merserk/ComfyUI-PiD`) which replaces the VAE with a pixel-diffusion decoder (decode + super-res in one
+  pass). PiD officially targets FLUX / Z-Image / SD3, so Krea 2 is a community application (Reddit r/StableDiffusion, t.me/GreenNeuralRobots).
+- **Reference-image control (image+mask):** `ComfyUI-Krea2TextEncoder` (ethanfel, MIT) adds the `TextEncodeKrea2` node: it
+  forces the Krea2 descriptor template and pushes reference image+mask pairs through Krea 2's Qwen3-VL-4B vision path for
+  visually-aware conditioning (the core `TextEncodeQwenImageEdit` mis-handles this: its VAE input does nothing because Krea 2's
+  DiT has no reference-latent slot, and it falls back to the plain Qwen template instead of the Krea2 descriptor one).
 - **License:** the code is Apache-2.0; the WEIGHTS use the Krea 2 Community License: commercial use needs a separate
   Enterprise License (community use is non-commercial), with acceptable-use / content-filter obligations.
 - **Source:** github.com/krea-ai/krea-2 (incl. `docs/prompting.md`) ; huggingface.co/Comfy-Org/Krea-2 (ComfyUI repackaged) ;
@@ -410,6 +421,11 @@ Qwen-Image-Edit, OmniGen (above), Seedream Edit, and Nano Banana edit, which are
   two-stage with a NON-re-diffusing / identity-preserving upscaler (SeedVR2, a tile-GAN like 4x-UltraSharp, or SUPIR at
   low denoise). Resolution rises and the subject stays put. Source:
   huggingface.co/Lightricks/LTX-2.3-22b-IC-LoRA-Water-Simulation ; docs.ltx.video IC-LoRA guide ; github.com/Lightricks/ComfyUI-LTXVideo.
+- **3D render to photoreal (3DREAL IC-LoRA):** `fal/LTX-2.3-3DREAL-LoRA`, trigger `3DREAL` (license:other, base LTX-Video).
+  An in-context LoRA that turns a rough grey 3D viewport animation (Blender blockouts, game-engine viewports, CG / synthetic
+  renders) into photoreal cinematic video, with the 3D render as the reference. Run on fal `fal-ai/ltx-2.3-quality/render-to-real`
+  (LoRA built in), or load it as an LTX-2.3 V2V IC-LoRA. Built for CG / synthetic-data to photoreal and viewport-driven final renders.
+  Source: huggingface.co/fal/LTX-2.3-3DREAL-LoRA.
 - **Multi-shot / timeline direction (Prompt Relay + LTX Director 2.0):** several TIMED events in ONE clip without
   temporal entanglement (one paragraph for many events smears them). **Prompt Relay** (arXiv 2604.10030, S-Lab NTU)
   is a training-free, inference-time method: it routes each prompt to its time segment via a distance penalty in

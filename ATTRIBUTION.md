@@ -38,6 +38,10 @@ when you want those features. Credit and licenses:
 | ComfyUI-Frame-Interpolation (FILM / RIFE) | Fannovel16 | https://github.com/Fannovel16/ComfyUI-Frame-Interpolation | see repo |
 | comfyui-inpaint-cropandstitch (Flux.2 masked inpaint) | community | Comfy Registry: comfyui-inpaint-cropandstitch | see repo |
 | Smart Image Crop and Stitch (auto-sized high-res inpaint crop/stitch) | HallettVisual | https://github.com/HallettVisual/ComfyUI-Smart-Image-Crop-and-Stitch | Apache-2.0 |
+| fal Krea 2 Style LoRAs (~1503 community style LoRAs) | ilkerzgi / fal | https://huggingface.co/ilkerzgi/fal-Krea-2-Style-LoRAs | Krea 2 Community License |
+| LTX-2.3 3DREAL IC-LoRA (3D render to photoreal) | fal | https://huggingface.co/fal/LTX-2.3-3DREAL-LoRA | other |
+| ComfyUI-Krea2TextEncoder (Krea2 image+mask control) | ethanfel | https://github.com/ethanfel/ComfyUI-Krea2TextEncoder | MIT |
+| PiD / Pixel Diffusion Decoder (VAE-replacement decoder) | NVIDIA (nv-tlabs) | https://github.com/nv-tlabs/PiD | see repo |
 | GAP LTX 2.3 Motion (lipsync / storyboard) | GeekatplayStudio | https://github.com/GeekatplayStudio/LTX-2-3-LipSync | MIT |
 | ComfyUI-Flux2Klein-Enhancer (Flux.2 Klein identity-transfer suite) | capitan01R | https://github.com/capitan01R/ComfyUI-Flux2Klein-Enhancer | PolyForm Noncommercial 1.0.0 |
 

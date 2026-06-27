@@ -15,6 +15,12 @@ vx.y.z`), which can become a GitHub Release.
 ## [Unreleased]
 
 ### Added
+- **Krea 2 community ecosystem + LTX-2.3 3DREAL.** Enriched the Krea 2 entry: fal's ~1503 community style LoRAs
+  (`ilkerzgi/fal-Krea-2-Style-LoRAs`, trigger at prompt end, scale 1.0-1.25), the weak-VAE workaround (swap the
+  Qwen-Image VAE for the WAN 2.1 VAE or NVIDIA PiD / Pixel Diffusion Decoder, `nv-tlabs/PiD`), and reference image+mask
+  control via `ComfyUI-Krea2TextEncoder` (ethanfel, MIT, the `TextEncodeKrea2` node). Added `fal/LTX-2.3-3DREAL-LoRA`
+  (trigger `3DREAL`) to the LTX-2.3 IC-LoRA list: a 3D viewport / Blender render to photoreal video LoRA (run via fal
+  render-to-real or as an LTX V2V IC-LoRA). All read from the real cards / repos and credited in ATTRIBUTION.
 - **LTX-2.3 Water Simulation IC-LoRA.** Documented `Lightricks/LTX-2.3-22b-IC-LoRA-Water-Simulation` (file
   `ltx-2.3-22b-ic-lora-water-simulation-0.9.safetensors`, gated `license:other`, video-to-video, published
   2026-06-25) in the LTX-2.3 IC-LoRA list: adds realistic water / seawater to a clip. No dedicated workflow ships in
