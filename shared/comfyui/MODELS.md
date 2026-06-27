@@ -364,7 +364,12 @@ Qwen-Image-Edit, OmniGen (above), Seedream Edit, and Nano Banana edit, which are
   conditioning. Useful IC-LoRAs (into `models/loras`, run via the ic_lora workflow): **Ingredients** (official,
   cross-clip character/prop consistency; two-part prompt "Reference sheet: ... / Generated video: ...", strength
   ~1.4); **MotionDeblur** (oumoumad, community, KEY for RESTORATION: reduces/removes motion blur and reconstructs
-  sharper frames; file `ltx-2.3-22b-ic-lora-motiondeblur.safetensors`). Pair MotionDeblur with the LTX-2.3 restore
+  sharper frames; file `ltx-2.3-22b-ic-lora-motiondeblur.safetensors`); **Water Simulation** (official Lightricks,
+  `ltx-2.3-22b-ic-lora-water-simulation-0.9.safetensors`, gated `license:other`; video-to-video that adds realistic
+  water / seawater / wet dynamics to a clip - example pairs show hands in seawater, a dog in a marsh, goats by a
+  river; NEW 2026-06-25, no dedicated pack workflow yet, so run it through the generic
+  `LTX-2.3_V2V_ICLoRA_Single_Stage_Distilled.json` via `LTXICLoRALoaderModelOnly`; the gated model card holds the
+  exact trigger/strength). Pair MotionDeblur with the LTX-2.3 restore
   templates (restore_archival_footage, remove_watermark) and the SeedVR2/SUPIR upscalers for a restoration chain.
 - **HDR IC-LoRA (SDR -> HDR video):** `Lightricks/LTX-2.3-22b-IC-LoRA-HDR` (files `ltx-2.3-22b-ic-lora-hdr-0.9.safetensors`
   + `ltx-2.3-22b-ic-lora-hdr-scene-emb.safetensors`; `license:other`, GATED on HF, so accept the license + use a token

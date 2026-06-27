@@ -14,6 +14,14 @@ vx.y.z`), which can become a GitHub Release.
 
 ## [Unreleased]
 
+### Added
+- **LTX-2.3 Water Simulation IC-LoRA.** Documented `Lightricks/LTX-2.3-22b-IC-LoRA-Water-Simulation` (file
+  `ltx-2.3-22b-ic-lora-water-simulation-0.9.safetensors`, gated `license:other`, video-to-video, published
+  2026-06-25) in the LTX-2.3 IC-LoRA list: adds realistic water / seawater to a clip. No dedicated workflow ships in
+  ComfyUI-LTXVideo yet (pack last updated 2026-06-17), so it runs via the generic
+  `LTX-2.3_V2V_ICLoRA_Single_Stage_Distilled.json` + `LTXICLoRALoaderModelOnly`. Metadata confirmed via the HF API;
+  the model card is gated, so the exact trigger/strength is not captured yet.
+
 ## [1.5.0] - 2026-06-25
 
 ### Added
