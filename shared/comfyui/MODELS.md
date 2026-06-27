@@ -282,10 +282,12 @@ FLUX prose will not help SDXL).
 - **Community style LoRAs (fal, ~1503):** beyond the 9 official LoRAs, `ilkerzgi/fal-Krea-2-Style-LoRAs` indexes ~1503
   community style LoRAs for Krea 2 Turbo (Krea-2 Community License), each its own repo (e.g. `ilkerzgi/krea-2-airy-porcelain-blue-lora`).
   Put the style trigger at the END of the prompt, LoRA scale 1.0-1.25; run on fal `fal-ai/krea-2/turbo/lora` or download the individual LoRA.
-- **Weak VAE, better decode (community):** Krea 2 ships the Qwen-Image VAE, widely considered its weak link. For a cleaner
-  decode, swap in the WAN 2.1 VAE, or use **NVIDIA PiD** (Pixel Diffusion Decoder, `nvidia/PiD` / `nv-tlabs/PiD`; ComfyUI nodes
-  `tsolful/ComfyUI-PiD`, `Merserk/ComfyUI-PiD`) which replaces the VAE with a pixel-diffusion decoder (decode + super-res in one
-  pass). PiD officially targets FLUX / Z-Image / SD3, so Krea 2 is a community application (Reddit r/StableDiffusion, t.me/GreenNeuralRobots).
+- **Weak VAE, much better decode (RECOMMENDED, big quality jump):** Krea 2 ships the Qwen-Image VAE, which is its weak link;
+  swapping the decoder is a large, clearly visible quality jump (practitioner-confirmed, not subtle). Best result:
+  **NVIDIA PiD** (Pixel Diffusion Decoder, replaces the VAE with a pixel-diffusion decode + super-res in one pass;
+  `nvidia/PiD` / `nv-tlabs/PiD`, ComfyUI nodes `tsolful/ComfyUI-PiD`, `Merserk/ComfyUI-PiD`); or the simpler **WAN 2.1 VAE**
+  swap. PiD's official presets are FLUX / Z-Image / SD3, but it works very well on Krea 2 in practice. Sources: Reddit
+  r/StableDiffusion (thread 1ue8rns), t.me/GreenNeuralRobots/12656.
 - **Reference-image control (image+mask):** `ComfyUI-Krea2TextEncoder` (ethanfel, MIT) adds the `TextEncodeKrea2` node: it
   forces the Krea2 descriptor template and pushes reference image+mask pairs through Krea 2's Qwen3-VL-4B vision path for
   visually-aware conditioning (the core `TextEncodeQwenImageEdit` mis-handles this: its VAE input does nothing because Krea 2's
