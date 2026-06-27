@@ -325,6 +325,7 @@ Qwen-Image-Edit, OmniGen (above), Seedream Edit, and Nano Banana edit, which are
 - **Avoid:** no official CFG/negative/resolution spec; Lightning-8steps variant for speed.
 - **Settings:** sparse official numbers (~4.5s/sample, ~30GB VRAM optimized); official ComfyUI workflow + quantized weights (v1.0/v1.1).
 - **Source:** github.com/FireRedTeam/FireRed-Image-Edit.
+- **ComfyUI build:** official template `image_firered_image_edit1_1.json` (Comfy-Org template library).
 
 ### LongCat-Image / LongCat-Image-Edit (Meituan)
 - **Prompt style:** natural-language (T2I) / instruction (edit), bilingual; 6B.
@@ -342,6 +343,7 @@ Qwen-Image-Edit, OmniGen (above), Seedream Edit, and Nano Banana edit, which are
 - **Avoid:** gated card, sparse on CFG/negatives; use `--use-prompt-enhancer` for terse instructions.
 - **Settings:** RGB input recommended <=1024x1024; Upscaler LoRA published; ComfyUI + diffusers (nvidia/ChronoEdit-14B-Diffusers).
 - **Source:** github.com/nv-tlabs/ChronoEdit.
+- **ComfyUI build:** official template `image_chrono_edit_14B.json` (Comfy-Org template library) - open it and wire per the template-reading note in SKILL.md.
 
 ## Video models (open / local-runnable)
 
@@ -661,7 +663,7 @@ Qwen3-VL-8B auto-rewrite expands short prompts (separate Qwen/Qwen3-VL-8B-Instru
 video 480p / 50 steps (frames 81/101/121). guidance_scale default is 1.0 (the card's parameter-table default); the 4.0
 seen in the T2V/T2I example commands is a per-command override, not the default. FP8 available but requires NVIDIA
 compute capability >= 8.9 (Ada Lovelace / Hopper: RTX 4090 / L40 / H100), so an RTX 3090 (cc 8.6) cannot use FP8.
-Negatives not documented. Source: huggingface.co/xgen-universe/Capybara.
+Negatives not documented. Source: huggingface.co/xgen-universe/Capybara. **ComfyUI build:** official templates `Image_capybara_v0_1_image_edit.json` and `Image_capybara_v0_1_text_to_image.json` (Comfy-Org template library).
 
 **Bernini-R** (image/video relighting edit), ByteDance, Wan2.2-based (also a 1.3B Wan2.1 fine-tune ~2.6GB). No official
 prompt guide; prompt like a Wan/Qwen-edit relight: describe target lighting (direction, temperature, intensity, mood)
@@ -669,7 +671,7 @@ prompt guide; prompt like a Wan/Qwen-edit relight: describe target lighting (dir
 carry lighting across a set. Treat steps/CFG like a Wan2.2 edit workflow. Quantized variants for VRAM-constrained
 setups (in the repo beyond the fp16 high/low-noise files): `wan2.2_bernini_r_high_noise_fp8_scaled.safetensors`,
 `wan2.2_bernini_r_high_noise_mxfp8.safetensors`, `wan2.2_bernini_r_low_noise_fp8_scaled.safetensors`,
-`wan2.2_bernini_r_low_noise_mxfp8.safetensors`. Source: huggingface.co/Comfy-Org/Bernini-R.
+`wan2.2_bernini_r_low_noise_mxfp8.safetensors`. Source: huggingface.co/Comfy-Org/Bernini-R. **ComfyUI build:** official tutorial docs.comfy.org/tutorials/image/anima/anima; the Comfy-Org repack runs on the standard Wan2.2 graph (the high-noise / low-noise UNETLoader pair).
 
 **Anima** (anime t2i), CircleStone Labs, 2B (Qwen-3 0.6B encoder). Danbooru tags, natural language, or mix; order
 `[quality/meta/year/safety] [char count] [character] [series] [artist] [general]`; positive prefix `masterpiece,
@@ -722,12 +724,12 @@ Source: blog.comfy.org/p/happyhorse-11-is-now-available-in ; docs.comfy.org/tuto
 **HuMo**, ByteDance + Tsinghua, human-centric video (HuMo-1.7B in ComfyUI): lip-synced video from text + image +
 audio. Text describes appearance/action/scene, image conditions identity, audio drives lip-sync; modes Text+Image /
 Text+Audio / Text+Image+Audio (TIA = most control, best lip-sync). Up to 97 frames @ 25fps, 720p (~3.9s); TIA wants
->=24GB; negatives not documented. Source: github.com/Phantom-video/HuMo.
+>=24GB; negatives not documented. Source: github.com/Phantom-video/HuMo. **ComfyUI build:** HuMo-1.7B runs natively; for the audio-driven lip-sync add the `HuMoAudioAttentionControlV4` node from `ckinpdx/comfyui-humo-audio-motion` (patches the model with audio cross-attention; inputs `model` + `audio_blocks`). Open its example workflow for the full graph.
 
 **SCAIL-2**, zai-org (Zhipu/GLM), Wan-based end-to-end character animation: animates a reference character with a
 driving video (also replacement, multi-character), no pose maps/masks. Control by inputs, not text: 1 reference image
 + 1 driving video; tune `pose_strength` (exact-copy vs style adaptation); GGUF build for lower VRAM.
-Source: github.com/zai-org/SCAIL-2.
+Source: github.com/zai-org/SCAIL-2. **ComfyUI build:** community all-in-one node `collbroGTR/comfyui-scail2-infinity` (also `TTPlanetPig/comfyui_scail2_multi_cond`); open its example workflow and feed the reference image + driving video + `pose_strength`.
 
 ### Audio
 
@@ -762,7 +764,7 @@ upscale on a hero, frame interpolation on a clip, a depth map to drive ControlNe
   (`mit-han-lab/Block-Sparse-Attention`, a compile-and-install dependency, memory-intensive at build time); without it
   ComfyUI and other third-party implementations fall back to DENSE attention with noticeable quality degradation at
   higher resolutions (the card calls out early ComfyUI versions as affected). GPU compatibility confirmed on A100/A800
-  only; RTX 40/50 and H800 untested. Source: huggingface.co/JunhaoZhuang/FlashVSR.
+  only; RTX 40/50 and H800 untested. Source: huggingface.co/JunhaoZhuang/FlashVSR. **ComfyUI build:** runs through kijai `ComfyUI-WanVideoWrapper` (FlashVSR is a supported family there) - see KIJAI.md for the WanVideoWrapper loader / sampler nodes. (`OHLIA/flashvsr_mix_gui` is a standalone GUI, not a node pack.)
 - **Z-Image-Turbo Fun-ControlNet-Tile** (diffusion tile SR): ControlNet-Tile super-res for the Z-Image-Turbo stack,
   trained to 2048x2048, 8-step distilled; tiled so structure holds while enlarging. Reuses the Z-Image loader
   (8 steps, low CFG), so no separate SR model stack. This is the IDENTITY-FAITHFUL path: unlike the Union
@@ -822,7 +824,7 @@ make it small, then upscale the keeper (e.g. LTX-2.3 at 512 -> Real-ESRGAN x4 ->
 - **VOID** (video inpainting / object removal): Netflix open-source; removes a subject plus its shadows, reflections,
   and the motion it caused. Control is a 4-value greyscale "quadmask" (remove / overlap / physically-affected / keep),
   NOT a binary mask or text prompt. Two passes: Pass 1 base, Pass 2 optical-flow refinement for longer/textured clips.
-  Source: docs.comfy.org/tutorials/utility/void-video-inpainting.
+  Source: docs.comfy.org/tutorials/utility/void-video-inpainting. **ComfyUI build:** the linked tutorial IS the official Comfy-Org template - open it for the quadmask input node and the two-pass (generate + optical-flow refine) graph.
 
 ## Sources and provenance
 
