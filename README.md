@@ -200,6 +200,22 @@ approach; see [docs/MODEL_INDEX.md](docs/MODEL_INDEX.md) for the full per-varian
 
 ## Install
 
+### Claude Code: one-command plugin
+
+Claude Code users can add the kit straight from the marketplace, no clone needed:
+
+```
+/plugin marketplace add SlavaSexton/ComfyUI-Agent-Kit
+/plugin install comfyui@comfyui-agent-kit
+```
+
+That registers the local `comfyui-mcp` driver (launched with `npx`, no manual npm step) and loads the full
+`comfyui` skill (the 67-recipe brain + the docs). You still need a local ComfyUI on `http://127.0.0.1:8188`; the
+skill fills in your machine block on the first task. Plugins are Claude Code only, so for **Codex / Gemini CLI /
+Qwen Code** use the multi-agent installer below.
+
+### Every agent: the installer
+
 Windows (PowerShell):
 
 ```powershell

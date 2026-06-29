@@ -1,0 +1,16 @@
+{
+  "name": "comfyui-agent-kit",
+  "description": "Local-first ComfyUI skills + the comfyui-mcp connection for Claude Code. The plugin form of ComfyUI-Agent-Kit, the local-first counterpart to the Comfy Cloud MCP.",
+  "owner": {
+    "name": "AI VFX NEWS",
+    "url": "https://t.me/AI_VFX_NEWS"
+  },
+  "plugins": [
+    {
+      "name": "comfyui",
+      "source": "./claude-code",
+      "description": "Drive a LOCAL ComfyUI (your GPU, no cloud, no account) end to end: 67 model prompt recipes, hardware-aware model selection, workflow building, multi-shot video, the comfyui-mcp driver. The local-first counterpart to the Comfy Cloud MCP.",
+      "homepage": "https://github.com/SlavaSexton/ComfyUI-Agent-Kit"
+    }
+  ]
+}

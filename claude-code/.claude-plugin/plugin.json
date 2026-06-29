@@ -1,0 +1,10 @@
+{
+  "name": "comfyui",
+  "description": "Local-first ComfyUI for Claude Code: drive a local ComfyUI (your GPU, no account) end to end - 67 model prompt recipes, hardware-aware model selection, workflow building, multi-shot video, ControlNet/HDR, the local comfyui-mcp driver. The local-first counterpart to the Comfy Cloud MCP.",
+  "version": "1.9.0",
+  "author": {
+    "name": "AI VFX NEWS",
+    "url": "https://t.me/AI_VFX_NEWS"
+  },
+  "homepage": "https://github.com/SlavaSexton/ComfyUI-Agent-Kit"
+}

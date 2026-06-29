@@ -14,6 +14,17 @@ vx.y.z`), which can become a GitHub Release.
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-06-29
+
+### Added
+- **Claude Code plugin + marketplace.** The kit now installs as a Claude Code plugin:
+  `/plugin marketplace add SlavaSexton/ComfyUI-Agent-Kit` then `/plugin install comfyui@comfyui-agent-kit`. The
+  plugin (`claude-code/`) bundles the full `comfyui` skill + a `.mcp.json` that launches the local `comfyui-mcp`
+  driver via `npx` (no manual npm step, no setup hook needed - the skill self-bootstraps the machine block).
+  Additive: the multi-agent installer is unchanged and stays the path for Codex / Gemini CLI / Qwen Code (plugins
+  are Claude Code only). `tools/build_plugin.py` assembles the bundled skill from the canonical sources so it never
+  drifts. This is the local-first counterpart to the official Comfy Cloud MCP, installable the same way.
+
 ### Changed
 - **README repositioned** to lead with local-first / your-GPU / multi-agent / cloud-independent, framing the kit
   as the deliberate local counterpart to the official Comfy Cloud MCP (gracious, not a knock).
