@@ -14,6 +14,10 @@ vx.y.z`), which can become a GitHub Release.
 
 ## [Unreleased]
 
+### Changed
+- **README repositioned** to lead with local-first / your-GPU / multi-agent / cloud-independent, framing the kit
+  as the deliberate local counterpart to the official Comfy Cloud MCP (gracious, not a knock).
+
 ## [1.8.0] - 2026-06-29
 
 ### Added

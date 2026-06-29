@@ -4,13 +4,14 @@
 
 # ComfyUI-Agent-Kit
 
-**The signature ComfyUI skill for AI coding agents: Claude Code, Codex, Gemini CLI, and Qwen Code.**
+**Local-first ComfyUI for every AI coding agent (Claude Code, Codex, Gemini CLI, Qwen Code). Your GPU, your models, no cloud, no account.**
 
 **By [AI VFX NEWS](https://t.me/AI_VFX_NEWS).**
 
-Make your AI coding agent drive a local **ComfyUI** at full power, generate images, video, and audio, build and
-run workflows, and **show the graph live in your own ComfyUI canvas**, then hand the whole setup to someone else
-with one command.
+Make Claude Code, Codex, Gemini CLI, or Qwen Code drive **ComfyUI** at full power on your own machine - generate
+images, video, and audio, build and run workflows, pick the model variant that fits *your* hardware, and **show the
+graph live in your own ComfyUI canvas**. No hosted service, no per-generation billing: one installer wires the same
+stack into every agent you run, then you hand the whole setup to someone else with one command.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-FFD27D.svg)
 ![ComfyUI](https://img.shields.io/badge/ComfyUI-driven-5BAEE3.svg)
@@ -25,6 +26,11 @@ This is the portable, machine-independent, **multi-agent** version of a working 
 (the knowledge + the MCP driver) plus a thin adapter per agent. Clone it, run the installer, and each of your
 agents gets the same stack, wired to *your* hardware. GLM (z.ai) run through Claude Code is covered by the
 `claude` adapter. See **[docs/AGENTS.md](docs/AGENTS.md)** for how each agent connects.
+
+> **Local-first by design.** Prefer the cloud? The official **Comfy Cloud MCP** runs your workflows on Comfy's
+> GPUs, no local setup. This kit is the local-first counterpart: everything runs on hardware *you* control, with no
+> account and no per-generation cost, the model picker sizes each job to your VRAM, and it serves four agents, not
+> one. Use whichever fits the job.
 
 ## What it can do
 
