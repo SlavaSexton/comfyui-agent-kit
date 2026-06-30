@@ -29,24 +29,46 @@ Regenerate with `tools/node_inventory.py`.
 | VAEDecode | latent -> IMAGE (tiled / loop variants for big or video) |
 | SaveImage | write 8-bit sRGB PNG (output node) |
 
-### `color-and-transform.md` - color space + manual geometry
+### `color-and-transform.md` + `ocio.md` - color management + manual geometry
 | Entry | Purpose |
 |-------|---------|
 | TECHNIQUE: transform in log | do manual scale/distort/warp in log space to preserve detail (Nuke/OCIO practice) |
-| REDACTEDLogConvert | Linear<->Log (ACEScct), the node we already ship for the technique (confirmed) |
+| `ocio.md` - our ComfyUI-OCIO pack (Slava Sexton) | OCIO LogConvert + ColorSpace / Display / CDLTransform / FileTransform / LookTransform: the full Nuke OCIO set, runtime-verified |
 | SaveImageAdvanced / REDACTEDSave / LTXVHDRDecodePostprocess | native EXR / linear / HDR I/O (confirmed) |
 
 ### `custom-author.md` - non-core author packs used in our workflows (I/O confirmed 2026-06-30)
 | Pack | Nodes |
 |------|-------|
-| ComfyUI-REDACTED (owner's pack) | Load / ToTangent / SeedVR2 / FromTangent / Save / LogConvert |
+| ComfyUI-REDACTED (owner's pack) | Load / ToTangent / SeedVR2 / FromTangent / Save (LogConvert moved to ComfyUI-OCIO, see `ocio.md`) |
 | ComfyUI-LTXVideo (Lightricks) | HDRDecodePostprocess / AddVideoICLoRAGuide / ICLoRALoaderModelOnly / GemmaAPITextEncode |
 | missing: SimpleMath+ (ComfyUI_essentials) | used in 1 template, not installed - read source to document |
+
+## Category reference (full per-node coverage, 183 entries, I/O confirmed via get_node_info 2026-06-30)
+One file per category; every core node used across our workflows. Live I/O always from `get_node_info`.
+| File | Entries | Covers |
+|------|--------:|--------|
+| `loaders.md` | 11 | VAE / LoRA / ControlNet / CLIPVision / upscale / style / checkpoint loaders |
+| `samplers.md` | 17 | SamplerCustom(+Advanced), guiders, schedulers, noise, KSamplerAdvanced |
+| `conditioning-1.md` | 20 | ControlNet apply, inpaint, IP2P, SVD, LTXV, Hunyuan, AceStep conditioning |
+| `conditioning-2.md` | 17 | Wan I2V / FLF / VACE / camera / audio-driven video conditioning |
+| `latent.md` | 21 | empty latents (image/video/audio/3D), VAE encode/decode, latent ops |
+| `image-1.md` | 20 | scale / upscale / composite / outpaint / mask / batch / Canny |
+| `image-2.md` | 14 | load / preview / save (WEBP/SVG), resize, mask compositing |
+| `advanced.md` | 21 | UNET/CLIP loaders, Flux conditioning, ModelSampling, CFG/SLG patches |
+| `three-d.md` | 8 | gaussian splat, Load3D / Preview3D, SaveGLB, voxel to mesh |
+| `video.md` | 6 | Create / Save / Load / GetComponents / Slice / SaveWEBM |
+| `audio.md` | 5 | Load / Save (MP3/Opus) / Concat / Record |
+| `text.md` | 6 | string / regex / json helpers + local TextGenerate (LLM) |
+| `utilities.md` | 11 | primitives, math, switch, resolution, PreviewAny, SUPIRApply |
+| `experimental.md` | 6 | VAEDecodeTiled, DifferentialDiffusion, FluxKVCache, ManualSigmas |
+
+API / cloud-partner nodes (194 across 44 providers) are catalogued in `_INVENTORY.md`; per-node entries are the next wave.
 
 ## Reverse lookup (by task)
 - **Generate an image from text** -> the `core.md` graph.
 - **Apply a style / subject LoRA** -> LoraLoader (`core.md`).
-- **Preserve detail through a manual scale / distort / warp** -> log-space technique via `REDACTEDLogConvert` (`color-and-transform.md`).
+- **Preserve detail through a manual scale / distort / warp** -> log-space technique via `OCIO LogConvert` (`ocio.md`).
+- **Convert colorspace, or apply a LUT / CDL / display / look** -> the OCIO nodes (`ocio.md`).
 - **Save HDR / linear / EXR / 16-bit** -> SaveImageAdvanced (`color-and-transform.md`).
 - **Big image OOMs on decode** -> VAEDecodeTiled (noted under VAEDecode, `core.md`).
 - **Video loop seam artifacts on decode** -> VAEDecodeLoopKJ (noted under VAEDecode, `core.md`).

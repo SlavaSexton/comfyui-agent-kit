@@ -25,28 +25,16 @@ image ──▶ Linear→Log ──▶ [scale / transform / distort / warp / ske
 - **Anti-patterns:** do NOT run AI / diffusion / VAE steps in log (they expect linear or sRGB); do NOT
   round-trip at 8-bit (carry float); one wrap around the whole transform block, not per node.
 
-### REDACTEDLogConvert  (display: "REDACTED Linear <-> Log (ACEScct)")  -- the node we ship for this
-- **pack / source:** `ComfyUI-REDACTED` (the owner's own pack) | **category:** `REDACTED/color` | **I/O confirmed via get_node_info:** 2026-06-30
-- **purpose:** the Linear<->Log transfer that makes the technique above one node. Despite the pack name it is a
-  generic color node, not dome-specific.
-- **inputs:**
-  - `image` (IMAGE) - treated as LINEAR for `linear_to_log`; as ACEScct-log for `log_to_linear`.
-  - `operation` (combo: `linear_to_log` / `log_to_linear`) - `linear_to_log` before the transforms, `log_to_linear` after.
-- **outputs:** `image` (IMAGE) - converted, HDR range preserved (no [0,1] clip).
-- **how it works:** an ACEScct log transfer. Reversible to ~1e-14, so the wrap is lossless apart from the
-  transform itself.
-- **strengths:** HDR-safe (no clipping), reversible, one node per direction, no OCIO config / dependency.
-- **bugs / lags + fixes:** none known. It expects LINEAR in; feeding sRGB without linearizing first gives a
-  wrong curve (linearize sRGB -> `linear_to_log` -> transform -> `log_to_linear`).
-- **anti-patterns:** see the technique anti-patterns above. Not a tonemapper; it does not map HDR to SDR.
-- **placement:** wrap it tightly around the manual geometry: `linear_to_log` -> transform / scale / distort ->
-  `log_to_linear`. Author: `ComfyUI-REDACTED` (owner's pack).
+### OCIO LogConvert  (class `OCIOLogConvert`)  -- the node we ship for this
+We build and maintain this in our own **ComfyUI-OCIO** pack (Slava Sexton); full entry in `ocio.md`. It is the
+Linear<->Log transfer that makes the technique above one node: `operation` = `lin_to_log` before the manual
+transform, `log_to_lin` after. The default `method = acescct` is dependency-free (ACEScct transfer, verified
+round-trip error < 1e-6, HDR-safe, reversible), so it needs no OpenColorIO install; `method = ocio_config` uses
+an OCIO config's scene-linear <-> log instead.
 
-### OCIOColorConvert / OCIOLogConvert (Nuke origin, not installed here)
-The Nuke equivalent the practice comes from. *Inferred, not confirmed on this machine:* `get_node_info OCIO`
-returned nothing (no OCIO pack installed, 2026-06-30). You do not need it: `REDACTEDLogConvert` already
-provides the Linear<->Log transfer. If you ever want true OCIO config-driven conversion, `search_custom_nodes
-"OCIO" / "OpenColorIO"`, install, then confirm its real I/O via get_node_info before composing.
+This supersedes the earlier `REDACTEDLogConvert`, a generic color node that was mis-named inside
+`ComfyUI-REDACTED`; that node is being retired from REDACTED in favour of `ComfyUI-OCIO`. The other five Nuke
+OCIO nodes (ColorSpace, Display, CDLTransform, FileTransform, LookTransform) ship in the same pack, see `ocio.md`.
 
 ## Native linear / HDR / EXR I/O (confirmed)
 
@@ -63,6 +51,7 @@ You do not need OCIO to persist linear or HDR. Confirmed via get_node_info 2026-
   to protect.
 
 ## Status
-Technique: confirmed (Nuke / OCIO standard + owner pipeline). `REDACTEDLogConvert`, `SaveImageAdvanced`,
-`REDACTEDSave`, `LTXVHDRDecodePostprocess`: I/O confirmed via get_node_info 2026-06-30. OCIO node: inferred
-(not installed), and not needed.
+Technique: confirmed (Nuke / OCIO standard + owner pipeline). `OCIOLogConvert` (our ComfyUI-OCIO pack): the
+ACEScct path is verified by a round-trip test (2026-06-30); the OCIO-config paths need a runtime smoke test
+(see `ocio.md`). `SaveImageAdvanced`, `REDACTEDSave`, `LTXVHDRDecodePostprocess`: I/O confirmed via
+get_node_info 2026-06-30.

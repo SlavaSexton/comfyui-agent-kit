@@ -11,8 +11,9 @@ custom node used but NOT installed locally is `SimpleMath+` (from `ComfyUI_essen
 ---
 
 ## ComfyUI-REDACTED  (the owner's own pack; category `REDACTED/*`)
-A fisheye-dome pipeline: load -> reproject to flat tangent patches -> upscale -> reproject back -> save, with an
-HDR-safe log color node. Built for REDACTED dome masters; the color node is generic.
+A fisheye-dome pipeline: load -> reproject to flat tangent patches -> upscale -> reproject back -> save. Built
+for REDACTED dome masters. Its generic Linear<->Log color node has moved to the `ComfyUI-OCIO` pack as
+`OCIOLogConvert` (see `ocio.md`).
 
 ### REDACTEDLoad  (display: "REDACTED Load (video / image / folder)")
 - **category:** `REDACTED/io` | **purpose:** auto-detect a dome source and load it as an IMAGE batch.
@@ -49,9 +50,9 @@ HDR-safe log color node. Built for REDACTED dome masters; the color node is gene
 - **strengths:** ProRes 10-bit + EXR keep HDR headroom; the HDR-correct sink for dome work.
 - **anti-patterns:** `png_*` clips to 0..1 (loses HDR); use exr/tiff to preserve range.
 
-### REDACTEDLogConvert  (display: "REDACTED Linear <-> Log (ACEScct)")
-The Linear<->Log node for the log-space transform technique. **Full entry in `color-and-transform.md`.** Generic
-(not dome-specific): `linear_to_log` before manual transforms, `log_to_linear` after; HDR-safe, reversible.
+### REDACTEDLogConvert -- RETIRED, moved to ComfyUI-OCIO
+The generic Linear<->Log node has moved out of ComfyUI-REDACTED into our `ComfyUI-OCIO` pack as `OCIOLogConvert`
+(a correct name, and it joins the full OCIO set). Full entry in `ocio.md`; the technique in `color-and-transform.md`.
 
 ---
 
