@@ -21,10 +21,13 @@ vx.y.z`), which can become a GitHub Release.
   360 projection tool, not a model-specific pack - and referenced from BOTH recipes. (1) **Flux.2 Klein 360
   IMAGE** (under FLUX.2 in MODELS.md): nomadoor's 360-ERP-outpaint LoRAs (`flux-2-klein-4B-...` apache-2.0,
   `...-9B-...` license:other). (2) **LTX-2.3 360 VIDEO** (under LTX-2.3): text-to-360 via the public CivitAI LoRA
-  `360-degree panoramic shot - LTX-2.3` (`civitai.com/models/2327337`, direct download
-  `api/download/models/2816797?fileId=2702793`, commercial-OK) - the LoRA the Floyo template wraps, which
-  CORRECTS the prior "source unconfirmed" note - and flat-to-360 outpaint via
-  `TheBurgstall/VR-360-Outpaint-LTX2.3-IC-LoRA` (`cc-by-nc-4.0`, v0.1 POC). The Flux (image) and LTX (video)
+  `360-degree panoramic shot - LTX-2.3` by Ragamuffin20 / Aitrepreneur (`civitai.com/models/2327337`, direct
+  download `api/download/models/2816797?fileId=2702793`) - the LoRA the Floyo template wraps, which CORRECTS the
+  prior "source unconfirmed" note - and flat-to-360 outpaint via `TheBurgstall/VR-360-Outpaint-LTX2.3-IC-LoRA`
+  (`cc-by-nc-4.0`, v0.1 POC). Full card detail folded in from the CivitAI page: License **LTXV2** (not the blanket
+  "commercial-OK" I first wrote), trigger `A 360-degree panoramic video`, weight 0.6-1, aspect 2:1, the wrap-seam
+  artifact the author reports fixed (civitai article 25291), plus true-VR finishing steps (mono->stereo via
+  `SamSeenX/ComfyUI_SSStereoscope`, VR metadata via Google `spatial-media`). The Flux (image) and LTX (video)
   routes are unrelated and kept in their own model sections; neither cross-references the other for the pack.
 - **Flux2-Klein-9B-True-V3 (community fine-tune) recipe.** A wikeeyang aesthetics / composition fine-tune of
   FLUX.2 [Klein] 9B (text-to-image + prompt-only instruct edit + LoRA face-swap / try-on + Mask+LoRA regional

@@ -504,19 +504,28 @@ Qwen-Image-Edit, OmniGen (above), Seedream Edit, and Nano Banana edit, which are
     clip first. Status: community-endorsed (widely used in production), NOT independently benchmarked by this kit.
   - **Text / footage to 360 VR video (equirectangular panorama):** LTX-2.3 renders a full 360 equirectangular
     video (2:1, look-around VR) with synced audio. Two community routes, NEITHER official Lightricks: (a) **text
-    -> 360** via the public CivitAI LoRA **`360-degree panoramic shot - LTX-2.3`** (`civitai.com/models/2327337`;
-    direct file download `civitai.com/api/download/models/2816797?fileId=2702793`; type LoRA, commercial use
-    allowed on CivitAI) at strength ~0.6 over the base t2v graph, stacked with the
-    distilled speed LoRA (~0.5); a ready graph `LTX-2.3_360vr_distilled_3stage.json` ships in the panorama-stickers
-    repo, and this CivitAI LoRA is what the public Floyo template wraps (corrects my earlier "source unconfirmed"
-    note - the canonical public source is this CivitAI LoRA, not a Floyo-only file). (b) **flat footage -> 360
-    outpaint** via `TheBurgstall/VR-360-Outpaint-LTX2.3-IC-LoRA` (public, `cc-by-nc-4.0`, **v0.1 proof-of-concept**,
-    file `ltx-2.3-22b-ic-lora-360-equirect-poc-step3500.safetensors`): an IC-LoRA that takes a flat 2.39:1 clip +
-    a masked equirect reference and fills the unknown regions into a plausible 360 sphere (ready graphs
+    -> 360** via the public CivitAI LoRA **`360-degree panoramic shot - LTX-2.3`** by Ragamuffin20 / Aitrepreneur
+    (`civitai.com/models/2327337`, version 2816797, 643 MB; direct file
+    `civitai.com/api/download/models/2816797?fileId=2702793`; base LTXV 2.3; **License: LTXV2** - Lightricks' LTX-2
+    license governs, so verify it for your use; the uploader's CivitAI flags separately allow image / rent / sell).
+    Trigger phrase **"A 360-degree panoramic video"**, weight **0.6-1** (even ~0.2 can work), aspect **2:1**, over
+    the base t2v graph, optionally stacked with the distilled speed LoRA. A ready graph
+    `LTX-2.3_360vr_distilled_3stage.json` ships in the panorama-stickers repo; this CivitAI LoRA is the one the
+    public Floyo template wraps (corrects my earlier "source unconfirmed" note). KNOWN ISSUE: early versions left a
+    visible vertical SEAM where the sphere wraps - the author reports it FIXED (civitai.com/articles/25291), and
+    panorama-stickers' Seam Prep node is the in-graph fallback. (b) **flat footage -> 360 outpaint** via
+    `TheBurgstall/VR-360-Outpaint-LTX2.3-IC-LoRA` (public, `cc-by-nc-4.0`, **v0.1 proof-of-concept**, file
+    `ltx-2.3-22b-ic-lora-360-equirect-poc-step3500.safetensors`): an IC-LoRA that takes a flat 2.39:1 clip + a
+    masked equirect reference and fills the unknown regions into a plausible 360 sphere (ready graphs
     `Equirect-Outpaint.json` / `Burgstall-VR-Outpaint.json` in the repo); rough edges outside its sweet spot,
-    noncommercial only. Preview either in-canvas with the **`panorama-stickers`** pack's Panorama Preview node
-    (nomadoor, MIT; model-agnostic 360 tool, its four nodes are in `NODE_LIBRARY/custom-author.md`). Prompt a "seamless
-    equirectangular 2:1 360 panorama"; keep width/height divisible by 32. Source: civitai.com/models/2327337 ;
+    noncommercial only. Preview either in-canvas with the **`panorama-stickers`** pack (nomadoor, MIT;
+    model-agnostic 360 tool, its four nodes are in `NODE_LIBRARY/custom-author.md`); prompt a "seamless
+    equirectangular 2:1 360 panorama", keep width/height divisible by 32. **True-VR finishing (both routes,
+    optional):** the raw output is MONO 360 - it plays in any 360 / VR player as-is, but for real depth add
+    stereoscopic 3D with **`SamSeenX/ComfyUI_SSStereoscope`** (mono equirect -> stereo VR; CAVEAT: it has an upload
+    size limit, ~500 MB clips fail, so split or downstream-process long shots), then inject VR metadata so headsets
+    auto-detect it with Google's free Spatial Media tool (`github.com/google/spatial-media`). Source:
+    civitai.com/models/2327337 ; github.com/SamSeenX/ComfyUI_SSStereoscope ; github.com/google/spatial-media ;
     github.com/nomadoor/ComfyUI-Panorama-Stickers ; huggingface.co/TheBurgstall/VR-360-Outpaint-LTX2.3-IC-LoRA.
 - **Train a custom LTX-2 LoRA (own character / style / motion / control):** that is the official Lightricks trainer
   (`Lightricks/LTX-2`, `packages/ltx-trainer`) + their `train-model` Claude skill, NOT ComfyUI; the trained
