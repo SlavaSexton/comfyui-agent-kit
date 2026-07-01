@@ -14,6 +14,12 @@ vx.y.z`), which can become a GitHub Release.
 
 ## [Unreleased]
 
+### Fixed
+- **Claude Code plugin bundle is now truly self-contained.** `tools/build_plugin.py` copied only nine core files, so `/plugin install comfyui@comfyui-agent-kit` shipped without the node library, the node-building guide, and most routed docs, the exact knowledge v2.0.0 added. The builder now mirrors the full installed-skill layout: every doc `SKILL.md` routes to (`BUILDING_NODES.md`, `EXAMPLE_WORKFLOWS.md`, `NODES.md`, `LAYERS.md`, `BOOTSTRAP.md`, `AGENTS.md`, `UPDATING.md`), `workflow_layout.py`, and the whole `NODE_LIBRARY/` directory (incl. `ocio.md`) as a subdir. The bundle went from 9 files to 17 files plus `NODE_LIBRARY/` (21 files).
+
+### Changed
+- README tagline split across two lines: the local-first / every-agent line, then "Your GPU, your models, no cloud, no account."
+
 ## [2.0.0] - 2026-06-30
 
 Mega release. The kit grows from a local-first ComfyUI driver into a driver **plus** a documented node library, a

@@ -4,7 +4,9 @@
 
 # ComfyUI-Agent-Kit
 
-**Local-first ComfyUI for every AI coding agent (Claude Code, Codex, Gemini CLI, Qwen Code). Your GPU, your models, no cloud, no account.**
+**Local-first ComfyUI for every AI coding agent (Claude Code, Codex, Gemini CLI, Qwen Code).**
+<br>
+**Your GPU, your models, no cloud, no account.**
 
 **By [AI VFX NEWS](https://t.me/AI_VFX_NEWS).**
 

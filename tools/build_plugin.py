@@ -22,12 +22,26 @@ FILES = {
     "shared/comfyui/SKILL.md": "SKILL.md",
     "shared/comfyui/MODELS.md": "MODELS.md",
     "shared/comfyui/comfy_client.py": "comfy_client.py",
+    "shared/comfyui/workflow_layout.py": "workflow_layout.py",
     "docs/MODEL_INDEX.md": "MODEL_INDEX.md",
     "docs/ADVANCED.md": "ADVANCED.md",
     "docs/KIJAI.md": "KIJAI.md",
     "docs/KNOWN_ISSUES.md": "KNOWN_ISSUES.md",
     "docs/LTX2_TRAINING.md": "LTX2_TRAINING.md",
     "docs/TASKS.md": "TASKS.md",
+    "docs/BUILDING_NODES.md": "BUILDING_NODES.md",
+    "docs/EXAMPLE_WORKFLOWS.md": "EXAMPLE_WORKFLOWS.md",
+    "docs/NODES.md": "NODES.md",
+    "docs/LAYERS.md": "LAYERS.md",
+    "docs/BOOTSTRAP.md": "BOOTSTRAP.md",
+    "docs/AGENTS.md": "AGENTS.md",
+    "docs/UPDATING.md": "UPDATING.md",
+}
+
+# Whole directories the SKILL routes into, kept as a subdir (matching the installed-skill layout, so a
+# `docs/NODE_LIBRARY/ocio.md` reference resolves to `NODE_LIBRARY/ocio.md` next to SKILL.md in the bundle).
+DIRS = {
+    "docs/NODE_LIBRARY": "NODE_LIBRARY",
 }
 
 os.makedirs(DST, exist_ok=True)
@@ -40,4 +54,15 @@ for src_rel, name in FILES.items():
     shutil.copyfile(src, os.path.join(DST, name))
     copied.append(name)
 
-print(f"built claude-code/skills/comfyui/ : {len(copied)} files -> {', '.join(copied)}")
+for src_rel, name in DIRS.items():
+    src = os.path.join(ROOT, src_rel)
+    if not os.path.isdir(src):
+        print(f"  MISSING dir, skipped: {src_rel}")
+        continue
+    dstdir = os.path.join(DST, name)
+    if os.path.isdir(dstdir):
+        shutil.rmtree(dstdir)
+    shutil.copytree(src, dstdir)
+    copied.append(f"{name}/ ({len(os.listdir(dstdir))} files)")
+
+print(f"built claude-code/skills/comfyui/ : {len(copied)} items -> {', '.join(copied)}")
