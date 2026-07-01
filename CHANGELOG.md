@@ -14,6 +14,11 @@ vx.y.z`), which can become a GitHub Release.
 
 ## [Unreleased]
 
+## [2.1.2] - 2026-07-01
+
+### Fixed
+- **Windows installer no longer aborts on a harmless npm warning.** With `$ErrorActionPreference = "Stop"`, PowerShell 5.1 turns a native command's stderr (piped as `2>&1 | Out-Null`) into a terminating `NativeCommandError`. So a non-fatal npm deprecation warning (`prebuild-install@7.1.3 deprecated`) during `npm install -g comfyui-mcp` aborted the whole install. `shared/install_shared.ps1` now runs npm / git / python through a `Native` helper that drops `$ErrorActionPreference` to `Continue` for the call and gates success on the real exit code (so genuine failures still stop the install), and passes npm `--loglevel=error`. Reproduced on PowerShell 5.1 (`& ... 1>&2 ... 2>&1 | Out-Null` under Stop threw `NativeCommandError`) and confirmed the fix tolerates the warning while still catching a non-zero exit. Reported by an installing user.
+
 ## [2.1.1] - 2026-06-30
 
 ### Fixed
