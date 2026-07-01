@@ -19,6 +19,9 @@ vx.y.z`), which can become a GitHub Release.
 ### Fixed
 - **Corrected the Gemini Omni Flash entry - v2.1.0 described the integration wrong.** v2.1.0 claimed there was no official Comfy partner node or template for Gemini Omni Flash. That was wrong: it leaned on a stale local server (ComfyUI 0.25.1, which does not have the node yet) plus a *summarized* read of the templates index instead of the raw JSON. A direct read of `Comfy-Org/workflow_templates` confirms the official partner node **`GeminiVideoOmni`** with three shipped templates (`api_google_gemini_omni_flash_t2v` / `_i2v` / `_video_edit`). MODELS.md now documents the real buildable graphs (node I/O, up to 3 reference images for I2V, a source video for edits); MODEL_INDEX reflects it. Recipe count corrected **67 -> 68** (it is a buildable official recipe), and the modality chart was re-rendered. The "replaces Veo entirely" note stands - Veo templates (`api_veo2_i2v`, `api_veo3`) are still shipped, so that launch claim remains overstated.
 
+### Changed
+- **Cover banner surfaces breadth, not just recipes.** The chip now reads `149 models · 68 recipes` (was `68 model recipes`), so the header reflects the full official model library the kit routes to, not only the hand-written prompt recipes. The kijai ecosystem (62 packs, `KIJAI.md`) stays documented separately to avoid double-counting models it wraps; private / client-trained models are intentionally not counted in the public number.
+
 ## [2.1.0] - 2026-06-30
 
 ### Added
