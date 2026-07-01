@@ -14,6 +14,14 @@ vx.y.z`), which can become a GitHub Release.
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-06-30
+
+### Added
+- **Gemini Omni Flash (Google) documented.** Google's any-to-any generative video model (text-to-video, image-to-video, conversational video editing, native audio; model card 2026-05-19). Added a MODELS.md recipe entry and a MODEL_INDEX row. Grounded in the DeepMind model card plus a live ComfyUI 0.25.1 `/object_info` check and the Comfy-Org/workflow_templates `index.json`: there is NO official Comfy Google partner node or local template for it, so the entry says so plainly and points to the real routes (Comfy Cloud, or the third-party `Anil-matcha/gemini-omni-comfyui` pack via muapi.ai). The recipe count is unchanged (67), since this is a cloud / third-party model, not a buildable local recipe.
+
+### Changed
+- **Corrected the "replaces Veo entirely" launch claim.** Google's own model card lists Veo and Gemini Omni Flash as separate models, and ComfyUI's Veo 2 / Veo 3 partner nodes are live and not deprecated (confirmed via `/object_info`). The kit documents Omni Flash as an addition, not a Veo replacement.
+
 ## [2.0.1] - 2026-06-30
 
 ### Fixed

@@ -72,6 +72,7 @@ template-only · plus text encoders / inference providers that are not generativ
 |---|---|---|
 | Kling | Kling 1.6, 2.0, 2.6, 3.0, O1, O3 | API |
 | Veo | Veo 3 / 3.1 | API |
+| Gemini Omni Flash (Google) | any-to-any video + conversational edit, audio-native; NOT in official templates - Comfy Cloud or third-party muapi only | API |
 | Sora | Sora 2 | API |
 | Seedance | Seedance 1.0 Pro, 1.5 Pro, 2.0 (4K) | API |
 | Luma | Luma Ray, UNI-1 | API |
