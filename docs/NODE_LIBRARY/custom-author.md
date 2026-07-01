@@ -5,9 +5,10 @@ template bundles + our saved workflows). Derived from the live inventory (`_INVE
 get_node_info on 2026-06-30** (ComfyUI 0.25.1). kijai's packs (KJNodes etc.) are documented separately in
 `docs/KIJAI.md` and are not duplicated here.
 
-The get_node_info-confirmed pack here is **ComfyUI-LTXVideo** (Lightricks). Also documented, from its README
+The get_node_info-confirmed pack here is **ComfyUI-LTXVideo** (Lightricks). Also documented, from their READMEs
 (not installed locally, I/O unconfirmed): **ComfyUI-Panorama-Stickers** (nomadoor), the model-agnostic 360 tool
-the Flux.2 Klein and LTX-2.3 panorama recipes share. The only custom node used but NOT installed locally is
+the Flux.2 Klein and LTX-2.3 panorama recipes share, and **ComfyUI_Gear** (oumad), the LogC3/LogC4 HDR-EXR decode
++ grade side of the LumiPic SDR->HDR LoRAs. The only custom node used but NOT installed locally is
 `SimpleMath+` (from `ComfyUI_essentials`, cubiq); see the end.
 
 ---
@@ -64,6 +65,32 @@ lock exact sockets before wiring).
 v1.3.0 added video + 180-panorama support. Companion outpaint LoRAs the pack was built around (nomadoor):
 Flux.2 Klein 360 ERP outpaint (`flux-2-klein-4B-...` apache-2.0 / `-9B-...` license:other). Source:
 github.com/nomadoor/ComfyUI-Panorama-Stickers ; comfyui.nomadoor.net/en/notes/panorama-stickers.
+
+---
+
+## ComfyUI_Gear  (oumad / oumoumad; MIT; category `Gear/*`)
+VFX HDR-EXR nodes - the ComfyUI decode side of the **LumiPic** SDR->HDR LoRAs (see MODELS.md, Qwen-Image-Edit).
+**NOT installed locally:** node names + I/O are from the pack README (2026-07-01), not get_node_info-confirmed;
+needs `>= v0.2.0` for the LogC4 node. Three nodes:
+
+- **Gear · LogC3 Decode + Save EXR** - inverse-LogC3 a `[0,1]` LoRA output to scene-linear HDR + write a float16
+  EXR. Ceiling ~55 linear (~8.3 stops above 0.18 mid-gray). Input `image` (IMAGE, the log-compressed LoRA output).
+  Outputs `hdr_linear` (scene-linear HDR, values > 1), `tonemapped_preview` (Reinhard at a `preview_ev`),
+  `exr_paths` (newline-joined saved paths). `filename_prefix` takes ComfyUI tokens; EXRs auto-counter-suffixed.
+  Also decodes the **LTX-2 HDR IC-LoRA** output (the README lists it as a valid LogC3 input).
+- **Gear · LogC4 Decode + Save EXR** - identical I/O, ARRI LogC4, ceiling ~470 linear (~11.3 stops, ~3 extra
+  highlight stops); for LoRAs trained on LogC4 targets (LumiPic V10 `*_logc4_*`). NEVER mix curves - the wrong
+  node is silently wrong absolute linear.
+- **Gear · Color Grade (exr-viewer)** - a full ACEScct grade panel as a pop-up modal (color wheels,
+  lift/gamma/gain/offset, scopes, an A|B wipe vs an optional `sdr_reference`, batch scrubber, AgX / ACES Fitted /
+  Hable / Reinhard tonemappers, `.cube` LUTs), powered by an embedded `exr-viewer` SPA. Wire `hdr_linear` in;
+  outputs `graded_display` (display sRGB 0..1) and `graded_linear` (scene-linear HDR, pipe back to an EXR writer
+  to bake the grade). Grade math is a mirrored GLSL shader (live preview) + torch port (backend).
+
+RELATION TO OUR ComfyUI-OCIO (honest): Gear decodes LogC3/LogC4 -> linear and writes EXR but keeps the SOURCE
+primaries (no gamut convert); for a true ACEScg master, decode LogC3 with our `OCIOLogConvert(logc3)` then
+`OCIOColorSpace(Rec.709 -> ACEScg)` -> `OCIO Write`. Gear's edge is LogC4 (a curve our OCIO does NOT have yet) plus
+the grade panel. Source: github.com/oumad/ComfyUI_Gear.
 
 ---
 

@@ -14,6 +14,27 @@ vx.y.z`), which can become a GitHub Release.
 
 ## [Unreleased]
 
+### Added
+- **LumiPic - single-image SDR -> HDR LoRA.** Documented `oumoumad/LumiPic` (MIT) under Qwen-Image-Edit in
+  MODELS.md: the IMAGE analog of the LTX-2.3 HDR IC-LoRA (same LumiVid paper, arXiv 2604.11788), a LoRA that emits
+  an ARRI-Log-encoded frame decoding to scene-linear HDR EXR. Covered the three bases (Qwen-Image-Edit-2511
+  mature; Flux.2 Klein 4B / 9B alpha), the LogC3 (ceiling ~55) vs LogC4 (V10 alpha, ceiling ~470) curves and which
+  checkpoints to pick, the ComfyUI route (ready HF graphs + the ComfyUI_Gear decode node), and the honest V10
+  caveat (Qwen V10 gain shows in diffusers but not yet in ComfyUI; `klein4b_v10_logc4_step1500` is the one that
+  holds up). Cross-linked from the LTX-2.3 HDR entry and ADVANCED.md.
+- **ComfyUI_Gear (oumad) node pack.** Added to `NODE_LIBRARY/custom-author.md`: LogC3 / LogC4 Decode + Save EXR
+  (also decodes our LTX-2 HDR IC-LoRA) and a full ACEScct Color Grade panel. Flagged the honest relation to our
+  ComfyUI-OCIO - Gear decodes but keeps the source primaries, so for an ACEScg master use our OCIO's
+  `OCIOLogConvert(logc3)` + `OCIOColorSpace(Rec.709 -> ACEScg)`; Gear's edge is LogC4 (a curve our OCIO lacks) plus
+  the grade panel.
+- **Nano Banana 2 Lite (variant).** Added to the Nano Banana 2 entry in MODELS.md: the fast / cheap tier, with the
+  official Comfy API nodes `api_nano_banana_2_lite_t2i` / `_image_edit` (confirmed in the Comfy-Org templates
+  index, not just the launch post). Vendor speed / price claims marked as marketing; cloud / paid.
+
+Recipe / model counts unchanged (68 recipes / 149 models): LumiPic is a community LoRA + a tool on already-counted
+bases (Qwen-Image-Edit, Flux.2 Klein), and Nano Banana 2 Lite is a variant of the already-documented Nano Banana 2
+family - no new counted recipe or official model.
+
 ## [2.1.4] - 2026-07-01
 
 ### Added

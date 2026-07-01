@@ -132,6 +132,24 @@ FLUX prose will not help SDXL).
 - **Strengths:** add/remove/replace, background swap, style transfer, bilingual text editing, portrait/pose edits, multi-image fusion, old-photo restoration.
 - **Avoid:** negative prompts NOT supported (use a single space if a field is required); no mask inpainting/outpainting.
 - **Settings:** true_cfg_scale 4.0 (4-5), num_inference_steps 50 (20-30 previews), guidance_scale 1.0; node TextEncodeQwenImageEdit + official edit workflow.
+- **SDR -> HDR (single image): LumiPic** (`oumoumad/LumiPic`, MIT) - a LoRA that turns any SDR image into a
+  scene-linear HDR EXR, the IMAGE analog of the LTX-2.3 HDR IC-LoRA (SAME LumiVid paper, arXiv 2604.11788; see the
+  LTX-2.3 HDR entry): the DiT is trained to output an ARRI-LogC-encoded `[0,1]` frame through a frozen VAE, which
+  is then inverse-LogC'd to linear HDR (values well past 1.0). Base-model-agnostic; three bases -
+  **Qwen-Image-Edit-2511** (mature, production default, 563 MB LoRA, ~54 GB base; default `v5b_step2000`,
+  natural-photo alt `v9_step1500`), **FLUX.2 [Klein] 4B** (alpha, 88 MB, apache-2.0 base, fastest;
+  `klein4b_alpha_step1750`) and **9B** (alpha, 158 MB, gated base; `klein9b_alpha_step2000`, sweet spot
+  `step1250`). Two curves: **LogC3** (stable, linear ceiling ~55, ~8.3 stops) and **LogC4** (V10 alpha, ceiling
+  ~470, ~3 extra highlight stops - the `*_logc4_*` files). ComfyUI: ready graphs on the HF repo
+  (`SDR_To_HDR_{QE11,klein4b,klein9b,logc4_klein9b}.json`), drop the LoRA in `models/loras/{qwen,flux-2}/hdr/`,
+  install **`ComfyUI_Gear`** >= v0.2.0 (its LogC3 / LogC4 Decode + Save EXR node writes the EXR - see
+  `NODE_LIBRARY/custom-author.md`), prompt "Convert this image to HDR". MATCH the decode node to the LoRA curve
+  (`_logc4_*` -> LogC4 node, everything else -> LogC3) or the absolute luminance is silently wrong. HONEST CAVEAT
+  (from the card): V10 LogC4 is alpha - the Qwen V10 gain shows in diffusers but NOT yet in ComfyUI (looks weaker
+  than V9); `klein4b_v10_logc4_step1500` is the LogC4 checkpoint that holds up in ComfyUI. For an ACEScg pipeline,
+  decode LogC3 with our OCIO `OCIOLogConvert(logc3)` then `OCIOColorSpace(Rec.709 -> ACEScg)` (Gear keeps the
+  source primaries; ADVANCED.md has the tie-in). Source: huggingface.co/oumoumad/LumiPic ;
+  github.com/oumad/LumiPic ; github.com/oumad/ComfyUI_Gear.
 - **Source:** docs.comfy.org/tutorials/image/qwen/qwen-image-edit ; node template `qwen_edit.md`.
 
 ### SDXL (Stability)
@@ -198,6 +216,12 @@ FLUX prose will not help SDXL).
 - **Structure:** six elements - subject, composition/camera, action, aspect ratio (state when non-standard), lighting (photographic terms), style; exact text in quotes; label refs; request resolution above default 1K.
 - **Strengths:** fast iteration, extended ratios (1:4, 4:1, 1:8, 8:1), tiers 0.5K/1K/2K/4K, web+image Search grounding, up to 14 refs, 360-degree character sheets.
 - **Avoid:** keyword dumps, bracket templates, negative phrasing, temperature below 1.0 (loops). Small CJK text and data-viz error-prone; knowledge cutoff Jan 2025 (use grounding).
+- **Nano Banana 2 Lite (variant):** the fastest / cheapest Nano Banana 2 tier. Official Comfy partner API nodes
+  `api_nano_banana_2_lite_t2i` (text-to-image) and `api_nano_banana_2_lite_image_edit` (edit), templates of the
+  same names (confirmed in the Comfy-Org/workflow_templates index; a sibling `api_google_nano_banana2_image_edit`
+  also ships). Vendor claims from the ComfyUI launch post (treat as marketing): ~4 s per image, ~$0.034 per 1K
+  images - built for high-volume iteration / batch variations. Same prompt style as Nano Banana 2, a lower quality
+  ceiling. Cloud / paid API (Comfy Cloud or a Gemini API key), not a local model.
 - **Source:** ai.google.dev/gemini-api/docs/image-generation.
 
 ### Seedream 4.0 / 4.5 (ByteDance)
@@ -442,7 +466,8 @@ Qwen-Image-Edit, OmniGen (above), Seedream Edit, and Nano Banana edit, which are
   READY workflow ships in the pack: `ComfyUI-LTXVideo/example_workflows/2.3/LTX-2.3_ICLoRA_HDR_Distilled.json` (with the
   `hdr.py` node + an `hdr_input_video.mp4` example); needs a CURRENT ComfyUI-LTXVideo with BOTH required nodes,
   `LTXICLoRALoaderModelOnly` (loads the LoRA + extracts the downscale factor) AND `LTXAddVideoICLoRAGuide` (adds the small
-  latent as a guide), both absent in older installs. Save to an HDR-capable format (EXR / 16-bit / HDR video), NOT 8-bit PNG. Source:
+  latent as a guide), both absent in older installs. Save to an HDR-capable format (EXR / 16-bit / HDR video), NOT 8-bit PNG.
+  The single-IMAGE analog of this (same LumiVid paper) is **LumiPic** on Qwen-Image-Edit / Flux.2 Klein - see the Qwen-Image-Edit section. Source:
   huggingface.co/Lightricks/LTX-2.3-22b-IC-LoRA-HDR ; hdr-lumivid.github.io ; github.com/Lightricks/ComfyUI-LTXVideo.
 - **Water Simulation IC-LoRA (add water to a live shot):** `Lightricks/LTX-2.3-22b-IC-LoRA-Water-Simulation` (file
   `ltx-2.3-22b-ic-lora-water-simulation-0.9.safetensors`; gated LTX-2-community-license; v2v reference-conditioned).
